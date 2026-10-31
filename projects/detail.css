@@ -1,0 +1,42 @@
+/* Detail pages: the same system as the main site (css/site.css): Inter, neutral greys, one orange accent. (Pages still set --sky1/--sky2 inline; unused.) */
+:root { --ink:#18181b; --muted:#52525b; --paper:#f3f3f1; --line:#e4e4e7; --accent:#c2410c;
+        --font:"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--paper); color:var(--ink); font:17px/1.65 var(--font); -webkit-font-smoothing:antialiased; }
+a { color:var(--accent); text-underline-offset:3px; }
+:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+.hero, .hero.night { background:#fff; color:var(--ink); border-bottom:1px solid var(--line); padding:20px 16px 56px; }
+.hero.night a.back { color:var(--ink); }
+.wrap { max-width:880px; margin:0 auto; }
+a.back { display:inline-block; font:500 14px var(--font); color:var(--ink); text-decoration:none; border:1px solid var(--line); border-radius:8px; padding:6px 14px; margin-bottom:48px; }
+a.back:hover { border-color:var(--ink); }
+.eyebrow { font:600 12px/1.3 var(--font); letter-spacing:.1em; text-transform:uppercase; color:var(--accent); }
+h1 { font:600 clamp(32px,5vw,52px)/1.1 var(--font); letter-spacing:-.025em; margin:12px 0 16px; text-wrap:balance; }
+h1 i, h2 i { font-style:normal; }
+.lede { font-size:clamp(18px,2vw,20px); color:var(--muted); max-width:62ch; margin:0; }
+.nums { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-top:32px; }
+.nums div { background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+.nums b { display:block; font:600 32px/1 var(--font); letter-spacing:-.02em; margin-bottom:6px; }
+.nums span { font-size:14px; color:var(--muted); }
+main { padding:48px 16px 24px; }
+section { margin:0 0 48px; }
+h2 { font:600 clamp(24px,3vw,30px)/1.2 var(--font); letter-spacing:-.015em; margin:0 0 12px; }
+p { margin:0 0 14px; max-width:65ch; }
+.sub { color:var(--muted); font-size:15px; }
+figure { margin:20px 0 0; background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px; }
+figure img { display:block; width:100%; height:auto; border-radius:6px; }
+figcaption { font-size:14px; color:var(--muted); margin-top:10px; }
+ol.checks { padding-left:20px; }
+ol.checks li { margin-bottom:8px; }
+dl.facts { display:grid; grid-template-columns:max-content 1fr; gap:6px 18px; margin:20px 0 0; }
+dl.facts dt { font-weight:600; }
+dl.facts dd { margin:0; color:var(--muted); }
+.tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+.tags span { background:#fff; border:1px solid var(--line); border-radius:999px; padding:3px 12px; font-size:14px; }
+.shots { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+.shots figure { margin:0; }
+.placeholder { border:2px dashed var(--line); border-radius:10px; padding:28px 16px; text-align:center; color:var(--muted); background:#fff; }
+.illustrative { display:inline-block; font-size:13px; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:1px 10px; margin-bottom:12px; }
+footer { padding:24px 16px 64px; border-top:1px solid var(--line); }
+footer .wrap { display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:center; }
+footer a { font-weight:500; text-decoration:none; }

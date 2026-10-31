@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"><meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Rebuy & retention · Florian Haberhauer</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta name="description" content="Analytics case study: rebuy timing, lapsed customers and spare-parts orders across 20,000 consumer orders.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="case.css?v=2">
+<link rel="stylesheet" href="bridge.css?v=2">
+
+<main>
+<header class="journey-bar" style="--sky1:#7fb0d8;--sky2:#eef2f4"><a href="../index.html#projects">← Back to the projects</a></header>
+<section class="chapter" id="rebuy">
+  <div class="wrap grid flip">
+    <div>
+      <h1>Do customers come <em>back?</em></h1>
+      <p class="body">About 20,000 consumer orders across two brands, one row per product. The questions: how long until a customer buys again, what they buy next, and who has quietly stopped. About 85% buy only once, and those who come back take around eight months. I built the analysis as reusable SQL views in SQLite, split every result by brand and sales channel, and wrote up the findings for the business. Most of the work was deciding which rows to trust.</p>
+      <p class="illus">Illustrative figures throughout: the method is real, the numbers are changed and rounded.</p>
+    </div>
+    <figure class="chart-card" style="margin:0">
+      <h2>Customers by time since last order</h2>
+      <p class="sub">Share of all customers. Illustrative: the shape of the real result.</p>
+      <ul class="rules" aria-label="Customers by time since last order">
+        <li><span>Active, under 12 months</span><span class="track"><span class="fill" style="--v:35%"></span></span><b>~35%</b></li>
+        <li class="hot"><span>12 to 24 months</span><span class="track"><span class="fill" style="--v:30%"></span></span><b>~30%</b></li>
+        <li class="noise"><span>24 to 36 months</span><span class="track"><span class="fill" style="--v:20%"></span></span><b>~20%</b></li>
+        <li class="noise"><span>Over 36 months</span><span class="track"><span class="fill" style="--v:15%"></span></span><b>~15%</b></li>
+      </ul>
+      <p class="rules-note hot-note">The 12 to 24 month group is the best target: lapsed, but recent enough to still know the brand.</p>
+    </figure>
+  </div>
+  <div class="wrap">
+    <div class="rebuy-viz">
+      <figure class="flow" aria-labelledby="clean-title">
+        <figcaption>
+          <h2 id="clean-title">From raw rows to rebuys you can trust</h2>
+          <p class="sub">Each cut came from questioning a result that looked too good, or simply odd</p>
+        </figcaption>
+        <ol class="funnel">
+          <li style="--w:100%"><span class="bar"><b>~32k</b></span><span class="lbl"><strong>Product lines</strong>One row per product, each carrying the whole order's amount</span></li>
+          <li style="--w:62%"><span class="bar"><b>~20k</b></span><span class="lbl"><strong>Orders</strong>Lines collapsed. Amounts proved unreliable, so revenue was dropped and only orders counted</span></li>
+          <li style="--w:58%"><span class="bar"><b>~19k</b></span><span class="lbl"><strong>Consumer orders</strong>Accounts with more than six orders removed: opticians ordering through the consumer channel</span></li>
+          <li style="--w:46%"><span class="bar"><b>~15k</b></span><span class="lbl"><strong>Customers</strong>Split by brand and sales channel from here on</span></li>
+          <li class="last" style="--w:9%"><span class="bar"><b>~2.5k</b></span><span class="lbl"><strong>Real rebuys</strong>Second orders within 30 days removed: corrections and colour swaps</span></li>
+        </ol>
+      </figure>
+      <figure class="flow" aria-labelledby="time-title">
+        <figcaption>
+          <h2 id="time-title">One customer, after the first purchase</h2>
+          <p class="sub">The rules and the typical timings on one axis</p>
+        </figcaption>
+        <div class="rtl" role="img" aria-label="Timeline of 14 months after a frame purchase. The first 30 days are excluded as corrections. A typical rebuy comes at about 8 months, a spare-parts order at about 10 months. After 12 months without an order a customer counts as lapsed.">
+          <div class="tl-zone"></div>
+          <div class="tl-lapsed"></div>
+          <div class="tl-axis"></div>
+          <div class="tl-mark up" style="--x:0%"><i></i><span><strong>Frames bought</strong>Day 0</span></div>
+          <div class="tl-mark down zone-lbl" style="--x:0%"><span><strong>Not a rebuy</strong>First 30 days</span></div>
+          <div class="tl-mark up left" style="--x:57%"><i></i><span><strong>Typical rebuy</strong>~8 months</span></div>
+          <div class="tl-mark down hot" style="--x:71%"><i></i><span><strong>Spare parts</strong>~10 months</span></div>
+          <div class="tl-mark up lapse" style="--x:86%"><i></i><span><strong>Lapsed</strong>12+ months</span></div>
+          <div class="tl-ticks" aria-hidden="true"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10</span><span>12</span><span>14 mo</span></div>
+        </div>
+        <p class="flow-out">Finding worth acting on: a frame purchase is often followed by a spare-parts order about ten months later. That gap is a predictable moment for a reminder.</p>
+      </figure>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- p. 13 back cover -->
+<footer class="journey-foot"><a href="../index.html#projects">← Back to the projects</a><a href="../Florian-Haberhauer-CV.pdf" download>Download the CV</a><a href="mailto:haberhauer34@gmail.com?subject=Hello%20Florian">Get in touch →</a></footer>
+<script src="case.js?v=2" defer></script>
