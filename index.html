@@ -32,7 +32,7 @@
 </style>
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }</script>
 <!-- Bump ?v= on the CSS and JS links whenever they change, so browsers don't keep running an old copy. -->
-<script type="module">if (!document.documentElement.classList.contains('text')) import('./journey/walk.js?v=3').catch(() => document.documentElement.classList.add('text'));</script>
+<script type="module">if (!document.documentElement.classList.contains('text')) import('./journey/walk.js?v=9').catch(() => document.documentElement.classList.add('text'));</script>
 <noscript><style>.full { position: static !important; width: auto !important; height: auto !important; margin: 0 !important; clip: auto !important; clip-path: none !important; white-space: normal !important; overflow: visible !important; } svg.draw, .veil, #stage { display: none !important; }</style></noscript>
 </head>
 <body>
@@ -261,6 +261,6 @@
     if (id !== 'journey') history.replaceState(null, '', '#' + id);
   }), { rootMargin: '-45% 0px -50% 0px' }).observe(document.getElementById(id)));
 </script>
-<script src="journey/line.js?v=1" defer></script>
+<script src="journey/line.js?v=3" defer></script>
 </body>
 </html>

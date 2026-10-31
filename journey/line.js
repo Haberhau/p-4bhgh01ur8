@@ -94,10 +94,10 @@ function a11y(vh) {
 // Anything the reader does (wheel, touch, keys, a click, dragging the scrollbar) stops it; played from the end it starts again at the top.
 const play = document.querySelector('.play');
 let playing = false, py = 0, plast = 0;
-const PLAY_SECONDS = 140, PLAY_PACE = { knee: .7, engine: .8, next: .85, end: .7 };   // slower where he acts: the fall, the laps, the evening desk, the invitation
+const PLAY_SECONDS = 50, PLAY_PACE = { hi: 1.5, knee: .8, engine: .85, next: .9, end: .8 };   // slower where he acts: the fall, the laps, the evening desk, the invitation
 function playEnd() { return Math.max(0, document.querySelector('.ask').getBoundingClientRect().top + scrollY - innerHeight * .3); }
 function setPlay(on) {
-  playing = on; play.setAttribute('aria-pressed', on); play.textContent = on ? '❚❚ Pause' : '▶ Play';
+  playing = window.__playing = on; play.setAttribute('aria-pressed', on); play.textContent = on ? '❚❚ Pause' : '▶ Play';
   if (on) { if (scrollY >= playEnd() - 40) scrollTo(0, 0); py = scrollY; plast = 0; requestAnimationFrame(playTick); }
 }
 function playTick(ts) {

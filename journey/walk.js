@@ -133,7 +133,7 @@ const FRAME = {
   court: [.3, [0, .7, 0], 1.25, Math.PI / 2],
   team: [.62, [0, 1.5, -.5], 1.2],
   down: [.2, [1.5, .3, .55], 1.9],
-  up: [.47, [2.2, 1.3, -.9], 1.5],
+  up: [.5, [2.2, 1.3, -1.2], 1.25],
   dealer: [.5, [-.3, 1.0, .4], 1.15],
   kufstein: [.4, [0, 1.2, -.9], 1.2],
   doors: [.58, [0, 1.2, -.3], 1.2],
@@ -381,7 +381,9 @@ function run() {
     k.box(.5, .04, .5, 'metal', -2.9, .1, 2.2); [[-.22, -.22], [.22, -.22], [-.22, .22], [.22, .22]].forEach(([lx, lz]) => k.box(.02, .7, .02, 'metal', -2.9 + lx, 0, 2.2 + lz, true));
     for (let i = 0; i < 9; i++) k.ball(.1, i % 2 ? 'gold' : 'team1', -3.04 + (i % 3) * .14, .24 + Math.floor(i / 3) * .17, 2.12 + (i % 2) * .14);
     k.person('roof', 2.9, 2.3, .58, { ry: -2.4 });   // the coach
-    [[-.9, -1.0], [-.9, 1.0], [-2.4, -.2], [.9, .9]].forEach(([x, z], n) => k.person(n === 3 ? 'team2' : 'team1', x, z, .62, { pose: 'ready', ry: n === 3 ? -Math.PI / 2 : Math.PI / 2 }));
+    // Six a side, as in volleyball: three at the net, three at the back. I am the sixth on the right-hand side, so five stand here for that team.
+    [[-.6, -1.1], [-.6, 0], [-.6, 1.1], [-2.5, -1.1], [-2.6, 0], [-2.5, 1.1]].forEach(([x, z], n) => k.person(n === 4 ? 'gold' : 'team1', x, z, .62, { pose: 'ready', ry: Math.PI / 2 }));
+    [[.6, -1.1], [.6, 1.1], [2.5, -1.1], [2.6, 0], [2.5, 1.1]].forEach(([x, z]) => k.person('team2', x, z, .62, { pose: 'ready', ry: -Math.PI / 2, legs: 'line' }));
   });
   // --- Discipline, moment 1b: the hall arrives round the same court: stands, back wall, scoreboard, flag, ad boards, benches ---
   prop(ON('team'), k => {
@@ -415,10 +417,7 @@ function run() {
     // Spectators in the stands, some cheering.
     [0, 1, 2].forEach(r => { for (let i = 0; i < 20; i++) if (i !== 10 && (i * 7 + r * 3) % 5 < 4) k.person(['team1', 'team2', 'accent', 'leaf', 'wall2', 'roof'][(i + r) % 6], -4.0 + i * .4, -3.25 - r * .62, .42,
       (i + r) % 4 ? { pose: 'sit', y: .3 * (r + 1) - .14, legs: 'roof' } : { pose: 'cheer', y: .3 * (r + 1) }); });
-    // Two teams in their positions (me among them), a libero, both referees, line judges with flags, the coaches, the substitutes on the benches.
-    [[-.6, -1.1], [-.6, 0], [-.6, 1.1], [-2.5, -1.1], [-2.6, 0], [-2.5, 1.1]].forEach(([x, z], n) => k.person(n === 4 ? 'gold' : 'team1', x, z, .62, { pose: 'ready', ry: Math.PI / 2 }));
-    [[.6, -1.1], [.6, 1.1], [2.5, -1.1], [2.9, .1]].forEach(([x, z]) => k.person('team2', x, z, .62, { pose: 'ready', ry: -Math.PI / 2, legs: 'line' }));
-    k.person('team2', 3.9, 1.3, .62, { ry: -Math.PI / 2, legs: 'line' });
+    // Both referees, line judges with flags, the coaches, the substitutes on the benches (the six a side are in the court prop above).
     k.person('ink', 0, -2.6, .55, { y: .55 }); k.person('ink', .2, 2.5, .55, { ry: Math.PI });
     [[-3.75, -1.95, .8], [3.75, 1.95, -2.3]].forEach(([x, z, ry]) => { k.person('ink', x, z, .5, { ry }); k.box(.015, .42, .015, 'metal', x + .17, .2, z, true); k.box(.17, .12, .02, 'flag', x + .25, .5, z); });
     [[-3.1, 3.15], [-2.6, 3.15], [-2.1, 3.15], [2.3, 3.15], [2.8, 3.15]].forEach(([x, z], n) => k.person(n > 2 ? 'team2' : 'team1', x, z, .55, { pose: 'sit', ry: Math.PI, y: .22, legs: n > 2 ? 'line' : 'ink' }));
@@ -433,14 +432,25 @@ function run() {
   prop(ON('down'), k => { [2.0, 2.13].forEach(x => { const c = k.box(.035, .7, .035, 'metal', x, 0, 2.98); c.rotation.x = .35; });
     k.box(.4, .22, .26, 'flag', 2.45, 0, .9); k.box(.08, .03, .28, 'line', 2.45, .22, .9, true);
     k.person('wall', 2.0, .2, .6, { pose: 'kneel', ry: -Math.PI / 2 }); k.person('team2', .9, -.75, .62, { ry: .6, legs: 'line' }); k.person('team2', 2.5, -.55, .62, { ry: -.7, legs: 'line' }); k.person('roof', .6, .75, .62, { ry: 1.4 }); });
-  // Moment 2b: a door of warm light at the back of the dark floor, facing the reader; a soft glow on the ground in front of it.
+  // Moment 2b, "something next": the hall is dark. A wall across the back has one wide gate, and through it a sunrise. A path of light runs from the gate to my feet,
+  // and once I am up I walk along it, towards the light. Big, simple and warm against the dark, so it reads at a glance.
   const doorGlow = [];
-  const glowTex = (() => { const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d'), gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
-    gr.addColorStop(0, 'rgba(255, 214, 150, .95)'); gr.addColorStop(.45, 'rgba(255, 196, 120, .35)'); gr.addColorStop(1, 'rgba(255, 196, 120, 0)'); g.fillStyle = gr; g.fillRect(0, 0, 128, 128);
-    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t; })();
-  prop(ON('up'), k => { k.box(1.1, 2.3, .1, '*door', 2.6, 0, -2.6); k.box(1.3, .06, .3, 'line', 2.6, 0, -2.5, true);
-    const mk = (w, h, x, y, z, rx) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: glowTex, transparent: true, depthWrite: false, opacity: 0 })); m.position.set(x, y, z); m.rotation.x = rx; m.userData.live = true; k.group(0, 0, 0)[1].add(m); doorGlow.push(m.material); };
-    mk(3.4, 4.2, 2.6, 1.3, -2.45, 0); mk(3.6, 3.6, 2.6, .03, -1.6, -Math.PI / 2); }, false);
+  const paint = (w, h, draw) => { const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t; };
+  const sunriseTex = paint(256, 256, (g, w, h) => {
+    const sky = g.createLinearGradient(0, 0, 0, h * .68); sky.addColorStop(0, '#fff7e4'); sky.addColorStop(1, '#ffd8a6'); g.fillStyle = sky; g.fillRect(0, 0, w, h);
+    const halo = g.createRadialGradient(w / 2, h * .68, 0, w / 2, h * .68, w * .55); halo.addColorStop(0, 'rgba(255,140,60,.75)'); halo.addColorStop(1, 'rgba(255,140,60,0)'); g.fillStyle = halo; g.fillRect(0, 0, w, h);
+    g.fillStyle = '#ff7a2e'; g.beginPath(); g.arc(w / 2, h * .68, w * .15, Math.PI, 0); g.fill();   // the sun, half up
+    g.fillStyle = '#f2cfa0'; g.beginPath(); g.moveTo(0, h * .72); g.bezierCurveTo(w * .25, h * .6, w * .4, h * .66, w * .55, h * .7); g.bezierCurveTo(w * .75, h * .62, w * .9, h * .66, w, h * .68); g.lineTo(w, h); g.lineTo(0, h); g.fill();   // the far hills
+    g.fillStyle = '#ecc08a'; g.fillRect(0, h * .78, w, h * .22); });
+  const pathTex = paint(128, 256, (g, w, h) => {
+    const f = g.createLinearGradient(0, 0, 0, h); f.addColorStop(0, 'rgba(255,184,100,1)'); f.addColorStop(.6, 'rgba(255,200,130,.55)'); f.addColorStop(1, 'rgba(255,200,130,0)'); g.fillStyle = f;
+    g.beginPath(); g.moveTo(w * .3, 0); g.lineTo(w * .7, 0); g.lineTo(w, h); g.lineTo(0, h); g.fill(); });
+  prop(ON('up'), k => {
+    k.box(3.6, 3.4, .3, 'wall', -1.4, 0, -3.3); k.box(1.2, 3.4, .3, 'wall', 4.6, 0, -3.3); k.box(3.6, .5, .3, 'wall', 2.2, 2.9, -3.3);   // the wall and its gate (x .4 to 4.0, 2.9 high)
+    [.4, 4.0].forEach(x => k.box(.12, 2.9, .36, 'wall2', x, 0, -3.3));
+    const mk = (w, h, x, y, z, rx, tex) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, opacity: 0 })); m.position.set(x, y, z); m.rotation.x = rx; m.userData.live = true; m.renderOrder = 4; k.group(0, 0, 0)[1].add(m); doorGlow.push(m.material); };
+    mk(3.6, 2.9, 2.2, 1.45, -3.42, 0, sunriseTex);             // the sunrise, seen through the gate
+    mk(4.4, 5.6, 2.2, .08, -.4, -Math.PI / 2, pathTex); }, false);   // the path of light, narrow at the gate and wide at my feet
   const kneeStar = prop(ON('down'), k => { k.ball(.1, '*gold', 1.55, .5, .3); }, false);   // the pain, on my knee (placed each frame)
 
   // --- The fork: Amstetten's dealership on the left, the road to Kufstein, its fortress, old town and the Inn, the Kaiser mountains with a cable car and a summit cross; a ferry for Riga ---
@@ -976,8 +986,10 @@ function run() {
       if (id === 'byhand') { const lap = seg(k, .08, .92) * 4, tri = Math.abs((lap % 1) * 2 - 1); x = reduce ? -.9 : lerp(-.9, 1.5, tri); z = 2.1; FACE = Math.PI; }   // laps between the desk and the printer
       if (id === 'auto') { x = -.9; z = 2.1; FACE = Math.PI; }
       if (id === 'evenings') { x = 0; z = 1.42; FACE = Math.PI; SEAT = true; }
+      if (id === 'up') z = lerp(z, -2.4, smooth(seg(k, .58, .97)));   // up on my feet, then along the path of light to the gate
       // The camera travels with the walk from the last scene's framing to this one's.
-      const fa = FRAME[prev], fb = FRAME[id], fw = reduce ? (w > .5 ? 1 : 0) : w, fd = lerp(fa[0], fb[0], fw), fh = lerp(fa[2] ?? 1, fb[2] ?? 1, fw), fyaw = lerp(fa[3] ?? 0, fb[3] ?? 0, fw);
+      const fa = FRAME[prev], fb = FRAME[id], fw = reduce ? (w > .5 ? 1 : 0) : w, fd = lerp(fa[0], fb[0], fw) * (innerWidth / innerHeight < .8 ? 1 + .18 * lerp(prev === 'up' ? 1 : 0, id === 'up' ? 1 : 0, fw) : 1),   // phones: the gate scene steps back so the wall stays inside the screen
+      fh = lerp(fa[2] ?? 1, fb[2] ?? 1, fw), fyaw = lerp(fa[3] ?? 0, fb[3] ?? 0, fw);
       look.set(...fa[1]).lerp(lookB.set(...fb[1]), fw);
       if (it !== null) {   // in from the left at the front edge, a wave, then back to my spot as the scene rises
         const walkIn = reduce ? 1 : smooth(seg(it, 0, 1.5)), walkOn = reduce ? 0 : smooth(seg(it, PULL + .1, INTRO_END - .4));
@@ -1068,7 +1080,7 @@ function journey({ beats, render, s }) {
     const vh = innerHeight, intro = document.body.classList.contains('intro'), P = phone();
     // The scene's own life (sway, waving, the crane, the packets) runs only while the reader is active, and stops five seconds after the last input.
     const dt = lastNow ? Math.min(.1, (now - lastNow) / 1000) : 0; lastNow = now;
-    const idle = now - lastAct > 5000 && !intro && !window.__manual;
+    const idle = now - lastAct > 5000 && !intro && !window.__manual && !window.__playing;   // Play counts as the reader being there: slow autoplay moves under a pixel a frame and must still redraw every frame
     if (idle && Math.abs(scrollY - lastY) < 1) return;
     lastY = scrollY; if (!idle && !reduce) clock += dt;
     const time = reduce ? 0 : clock;
