@@ -398,8 +398,8 @@ const play=document.querySelector('#screenPlay');
 let locked=true, openedAt=performance.now(), timed=null;
 history.scrollRestoration='manual';scrollTo(0,0);
 const autoButton=document.querySelector('#auto');
-let auto=false, captionAt=0, drifted=-1;
-function setAuto(on){auto=on;drifted=-1;autoButton.textContent=on?'❚❚ Pause':'▶ Autoplay';autoButton.setAttribute('aria-pressed',on)}
+let auto=false, captionAt=0;
+function setAuto(on){auto=on;autoButton.textContent=on?'❚❚ Pause':'▶ Autoplay';autoButton.setAttribute('aria-pressed',on)}
 function resetIntro(){
   timed=null;locked=true;openedAt=performance.now();setAuto(false);
   document.body.classList.add('intro');scrollTo(0,0);
@@ -419,11 +419,12 @@ autoButton.onclick=()=>setAuto(!auto);
 // Scrolling, keys or a click on the scene take over from the camera; the control buttons do not.
 function interruptTravel(e){if(e.target?.closest?.('button'))return;timed=null;setAuto(false)}
 for(const event of ['wheel','touchstart','keydown','pointerdown'])addEventListener(event,interruptTravel,{passive:true});
-function go(i){
+// Autoplay moves take 1.3 s longer than a click on Next, since they carry the reading time.
+function go(i,autoplay=false){
   if(i===0){resetIntro();return}
   const from=scrollY/range()*stops.at(-1);
   if(reduced.matches){scrollTo({top:range()*stops[i]/stops.at(-1),behavior:'instant'});return}
-  travel(from,stops[i],i===stops.length-1?9000:900+Math.abs(stops[i]-from)*1000)}
+  travel(from,stops[i],i===stops.length-1?9000:(autoplay?2200:900)+Math.abs(stops[i]-from)*1000)}
 // A link to the projects, CV or contact (in the URL or the header) skips the intro instead of being locked behind it.
 function unlock(){locked=false;play.hidden=true;document.body.classList.remove('intro')}
 addEventListener('click',e=>{const a=e.target.closest?.('a[href^="#"]');if(a&&locked&&a.getAttribute('href')!=='#journey')unlock()});
@@ -443,17 +444,11 @@ if(timed){
 }
 const raw=locked?0:driven??Math.min(stops.at(-1),Math.max(0,scrollY/range()*stops.at(-1)));const i=cuts.findLastIndex(c=>raw>=c);const s=reduced.matches?stops[i]:raw;
 if(current!==i){current=i;const [label,title,voice,next,badge]=captions[i];const promoted=document.querySelector('#badge');promoted.hidden=!badge;promoted.textContent=badge||'';autoButton.hidden=i===captions.length-1;document.querySelector('#number').textContent=label;document.querySelector('#title').textContent=title;document.querySelector('#voice').textContent=voice;document.querySelector('#advance').textContent=next+' →';document.querySelector('#back').disabled=i===0;document.querySelector('#destinations').hidden=i!==captions.length-1;document.querySelector('.hint').hidden=i===captions.length-1;captionAt=now}
-// Autoplay never stands still: while the caption is read (about 300 words a minute, counted from when it appeared)
-// the camera creeps a little way toward the next scene, then carries on.
+// Autoplay never pauses: the next camera move starts the moment one ends, and the moves are long enough to read the
+// caption on the way. With reduced motion the steps jump instead of moving, so each one holds for 4 s.
 if(auto&&!timed&&!locked){
-  const [,title,voice]=captions[current],words=(title+' '+voice).split(/\s+/).length,left=300+words*190-(now-captionAt);
-  const waiting=left>0;
   if(current===stops.length-1)setAuto(false);
-  else if(!waiting)go(current+1);
-  else if(drifted!==current&&!reduced.matches){
-    drifted=current;const from=scrollY/range()*stops.at(-1);
-    travel(from,from+(cuts[current+1]-from)*.3,left);
-  }
+  else if(!reduced.matches||now-captionAt>4000)go(current+1,true);
 }
 if(width!==stage.clientWidth||height!==stage.clientHeight){width=stage.clientWidth;height=stage.clientHeight;renderer.setSize(width,height,false);camera.aspect=width/height;camera.fov=width<620?46:33;camera.updateProjectionMatrix()}
 // On the way back the line's tip folds each scene flat just as it reaches it.
