@@ -1,6 +1,7 @@
 // journey/journey.js · the drawn journey at the top of the page (from mockups/7-drawn-opening-fixes.html).
 // A desk, the court drawn on its screen, then one model the camera travels along as the reader scrolls #journey.
 // The page around it (header, projects, CV, contact) is plain HTML in index.html; ?nogl or a failure here shows the text version.
+// The ending: two helpers with the Claude and Codex marks as faces sweep the scenes back into the monitor (built from mockups/8-ai-helpers.js).
 async function start(){
 const THREE=await import('three');
 const {RoundedBoxGeometry}=await import('three/addons/geometries/RoundedBoxGeometry.js');
@@ -294,14 +295,124 @@ const linePoints=memoryPath.getSpacedPoints(400);
 function lineAt(x,z){let best=0,dist=Infinity;linePoints.forEach((p,i)=>{const d=(p.x-x)**2+(p.z-z)**2;if(d<dist){dist=d;best=i}});return best/400}
 const foldAt={court:lineAt(0,-.5),bench:lineAt(2.5,2.95),dealer:lineAt(11,1),studio:lineAt(21,-3),city:lineAt(26,-12),workshop:lineAt(17,-16),
   trail:careerPoints.slice(1).map(([,x,z],i)=>lineAt((x+careerPoints[i][1])/2,(z+careerPoints[i][2])/2))};
-const lineBack=s=>progress(s,12.95,13.5);
+// The new ending, in timeline units: helpers run in from both sides, sweep the scenes up, sweep the stack and the court
+// into the monitor, then run off, one to the left and one to the right, before the question.
+const ENTER=[12.7,12.98],COLLECT=[12.98,14.0],FLY=[14.0,14.25],PUSH=[14.25,14.62],EXIT=[14.62,14.86],ASK=[14.78,15.0];
+const lineBack=s=>progress(s,...COLLECT);
+const uStart=.985,uStop=foldAt.bench-.015,pathLength=memoryPath.getLength();
+const helperU=s=>THREE.MathUtils.lerp(uStart,uStop,lineBack(s));
 function recallJourney(s){
   const back=lineBack(s);
-  const drawn=back>0?1-back:progress(s,11.88,12.77);
+  // The helpers reel the line in as they go, and the last of it follows the stack into the screen.
+  const drawn=back>0?helperU(s)*(1-progress(s,...FLY)):progress(s,11.88,12.77);
   memoryLine.visible=drawn>0;
   memoryLine.geometry.setDrawRange(0,Math.floor(drawn*memorySegments)*36);
-  lightTip.visible=drawn>0&&(drawn<1||back>0);
+  lightTip.visible=drawn>0&&drawn<1&&back===0;
   if(lightTip.visible)memoryPath.getPointAt(drawn,lightTip.position);
+}
+// --- The helpers --------------------------------------------------------------------------------------------------
+// Stand-in marks drawn on canvas: the Claude spark (cream rays on terracotta) and a Codex prompt (>_ on black).
+// Swap in the real logo files for a final version.
+function faceTexture(draw){
+  const c=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d');draw(g);
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;
+}
+const claudeFace=faceTexture(g=>{
+  g.fillStyle='#d97757';g.fillRect(0,0,256,256);g.strokeStyle='#fbf3ea';g.lineCap='round';
+  for(let k=0;k<12;k++){const a=k*Math.PI/6+.13*Math.sin(k*2.3),r=k%2?70:92;g.lineWidth=k%2?15:19;
+    g.beginPath();g.moveTo(128,128);g.lineTo(128+Math.cos(a)*r,128+Math.sin(a)*r);g.stroke()}
+});
+const codexFace=faceTexture(g=>{
+  g.fillStyle='#16181a';g.fillRect(0,0,256,256);g.fillStyle='#f4f4f2';g.font='bold 104px monospace';
+  g.textAlign='center';g.textBaseline='middle';g.fillText('>_',128,134);
+});
+function helper(face,rim){
+  const f=figure('white');f.head.children[1].visible=false;   // no hair: the face is the mark
+  const rimMat=new THREE.MeshStandardMaterial({color:rim,roughness:.5});
+  const coin=new THREE.Mesh(new THREE.CylinderGeometry(.215,.215,.05,40),rimMat);coin.rotation.x=Math.PI/2;coin.position.set(0,.3,.29);f.head.add(coin);
+  const mark=new THREE.Mesh(new THREE.CircleGeometry(.2,40),new THREE.MeshBasicMaterial({map:face,toneMapped:false}));mark.position.set(0,.3,.317);f.head.add(mark);
+  // A broom in the body's own space; holdBroom() places it each frame and points the arms at it.
+  const stick=new THREE.Mesh(new THREE.CylinderGeometry(.024,.024,1,8),material(color.wood)),brush=new THREE.Mesh(rbox(.52,.11,.16,.03),material(0xc9a25f));
+  stick.castShadow=brush.castShadow=true;f.body.add(stick,brush);f.broom={stick,brush};
+  f.root.visible=false;scene.add(f.root);return f;
+}
+const helpers=[{f:helper(claudeFace,0xc4643f),side:-1},{f:helper(codexFace,0x2a2c2e),side:1}];
+// The folded scenes become cards on a stack the helpers push ahead of them.
+const stack=group(scene);stack.visible=false;
+const cards=[['workshop','HOME DESK'],['city','BARCELONA'],['studio','SILHOUETTE'],['dealer','AMSTETTEN · KUFSTEIN'],['bench','THE BENCH']].map(([key,label],j)=>{
+  const card=group(stack,0,.035+j*.062,0);card.rotation.y=.12*Math.sin(j*2.1);
+  box(card,.78,.05,.54,color.paper,0,0,0,.012);
+  printSurface(card,.74,.5,0,.027,0,(ctx,w,h)=>{ctx.fillStyle='#f6f3e8';ctx.fillRect(0,0,w,h);ctx.fillStyle='#c95b2d';ctx.fillRect(40,h-70,w-80,10);
+    ctx.fillStyle='#3e443f';ctx.font='bold 54px monospace';ctx.textAlign='center';ctx.fillText(label,w/2,h/2,w-60)}).rotation.x=-Math.PI/2;
+  return {card,key};
+});
+const helperMid=V(0,0,0);
+const along=u=>{const p=memoryPath.getPointAt(u);p.y=0;const t=memoryPath.getTangentAt(u).negate();t.y=0;t.normalize();return {p,t}};
+// Holding the broom: the stick runs from T (top) to B (brush on the floor), in body units. Each arm is pointed at the
+// point of the stick it can just reach (arm length .56 from the shoulder), so the hands stay on the stick.
+const SHOULDER={l:V(.36,1.18,0),r:V(-.36,1.18,0)},ARM=.56;
+function grip(f,side,T,B,upper){
+  const S=SHOULDER[side],d=B.clone().sub(T),m=T.clone().sub(S),a=d.dot(d),b=2*m.dot(d),c=m.dot(m)-ARM*ARM,disc=b*b-4*a*c;
+  let t=disc>=0?(upper?(-b-Math.sqrt(disc)):(-b+Math.sqrt(disc)))/(2*a):-b/(2*a);t=Math.min(1,Math.max(0,t));
+  const dir=T.clone().addScaledVector(d,t).sub(S).normalize();
+  (side==='l'?f.la:f.ra).rotation.set(Math.atan2(-dir.z,-dir.y),0,Math.asin(Math.max(-1,Math.min(1,dir.x))));
+}
+function holdBroom(f,T,B,both){
+  const {stick,brush}=f.broom,d=B.clone().sub(T),top=T.clone().addScaledVector(d,-.07/d.length());
+  stick.position.copy(top).add(B).multiplyScalar(.5);stick.scale.y=top.distanceTo(B);
+  stick.quaternion.setFromUnitVectors(V(0,1,0),B.clone().sub(top).normalize());
+  brush.position.copy(B);brush.rotation.set(0,Math.atan2(d.x,d.z),0);
+  grip(f,'r',T,B,false);if(both)grip(f,'l',T,B,true);
+}
+// Found by search: both hands reach the stick ~20 cm apart through the whole swing, and it clears body and head.
+const SWEEP_T=V(-.1,1.2,.3),SWEEP_B=V(-.7,.06,.9),CARRY_T=V(-.5,1.2,.12),CARRY_B=V(-.5,.06,.2);
+const sweepB=(time,side)=>SWEEP_T.clone().add(SWEEP_B.clone().sub(SWEEP_T).applyAxisAngle(V(0,1,0),.45*Math.sin(time*9+side*1.3)));
+function placeHelpers(s,time,keep){
+  const enter=progress(s,...ENTER),back=lineBack(s),fly=progress(s,...FLY),push=progress(s,...PUSH),exit=progress(s,...EXIT);
+  stack.visible=false;
+  for(const {f,side} of helpers){
+    f.root.visible=s>=ENTER[0]&&exit<1;if(!f.root.visible)continue;
+    if(fly===0&&back===0){
+      // Run in from either side of the frame to the end of the line, broom carried upright, then turn to face the way back.
+      const {p,t}=along(helperU(s)),n=V(t.z,0,-t.x),slot=p.clone().addScaledVector(n,side*.4);
+      f.root.position.copy(slot).addScaledVector(n,side*4.4*(1-smooth(enter)));
+      const inward=Math.atan2(-n.x*side,-n.z*side),onward=Math.atan2(t.x,t.z),turn=progress(enter,.75,1);
+      f.root.rotation.y=inward+(((onward-inward+3*Math.PI)%(2*Math.PI))-Math.PI)*turn;
+      if(turn<1){pose(f,P.walk(enter*18+side));holdBroom(f,CARRY_T,CARRY_B,false)}
+      else{pose(f,{spine:.08});holdBroom(f,SWEEP_T,SWEEP_B,true)}
+    }else if(fly===0){
+      // Sweep back along the line, side by side, reeling the line in; each scene folds into a card as they reach it.
+      const {p,t}=along(helperU(s)),n=V(t.z,0,-t.x);
+      f.root.position.copy(p).addScaledVector(n,side*.45);f.root.rotation.y=Math.atan2(t.x,t.z);
+      pose(f,{...P.walk(helperU(s)*pathLength*3.2+side),spine:.08});holdBroom(f,SWEEP_T,sweepB(time,side),true);
+    }else if(push===0){
+      // One big flick sends the stack into the monitor, then they trot round to the court's far edge.
+      const {p,t}=along(uStop),n=V(t.z,0,-t.x),from=p.clone().addScaledVector(n,side*.45),to=V(side*.7,0,4.0);
+      const go=progress(fly,.45,1);f.root.position.copy(from).lerp(to,go);
+      f.root.rotation.y=go>0?THREE.MathUtils.lerp(Math.atan2(t.x,t.z),Math.PI,go):Math.atan2(t.x,t.z);
+      if(go>0){pose(f,P.walk(go*14+side));holdBroom(f,CARRY_T,CARRY_B,false)}
+      else{const lift=-1.1*Math.sin(Math.PI*Math.min(1,fly/.45));pose(f,{spine:-.1*Math.sin(Math.PI*Math.min(1,fly/.45)),head:-.3});
+        holdBroom(f,SWEEP_T,SWEEP_T.clone().add(SWEEP_B.clone().sub(SWEEP_T).applyAxisAngle(V(1,0,0),lift)),true)}
+    }else if(exit===0){
+      // Sweep the court back into the monitor like a rug.
+      const edge=-4.464+8.02*(1-push);f.root.position.set(side*.7,0,Math.max(-2.95,edge+.6));f.root.rotation.y=Math.PI;
+      pose(f,{...P.walk(push*22+side),spine:.08});holdBroom(f,SWEEP_T,sweepB(time,side),true);
+    }else{
+      // Done: one runs off to the left, one to the right, broom carried.
+      f.root.position.lerpVectors(V(side*.7,0,-2.95),V(side*7.5,0,-2.3),progress(exit,.12,1));
+      f.root.rotation.y=THREE.MathUtils.lerp(Math.PI,side*Math.PI/2,progress(exit,0,.15));
+      pose(f,P.walk(exit*26+side));holdBroom(f,CARRY_T,CARRY_B,false);
+    }
+  }
+  helperMid.copy(helpers[0].f.root.position).add(helpers[1].f.root.position).multiplyScalar(.5);
+  // The stack: a card joins as each scene folds; it slides ahead of the brooms, then flies into the screen.
+  let count=0;for(const {card,key} of cards){const k=keep(foldAt[key]);card.visible=k<.5;card.scale.setScalar(Math.max(.001,1-Math.max(0,k)*1.6));if(card.visible)count++}
+  if(count&&fly<1&&back>0){
+    stack.visible=true;
+    const {p,t}=along(fly>0?uStop:helperU(s));const ahead=p.addScaledVector(t,1.25);
+    stack.position.copy(ahead).lerp(V(0,2.39,-4.42),fly);stack.position.y+=2.2*Math.sin(Math.PI*fly);
+    stack.rotation.y=Math.atan2(t.x,t.z)*(1-fly)+.25*Math.sin(time*9)*(1-fly)*(fly>0?0:1);stack.scale.setScalar(Math.max(.001,1-.88*fly));
+  }
 }
 const daylight=new THREE.Color(0xebe8de), dusk=new THREE.Color(0x8f969f);
 function updateCareer(s,time){
@@ -363,8 +474,8 @@ const captions=[
 ['AFTER HOURS  /  INDEPENDENT ANALYSIS','Some evenings start with a question.','Did Austria’s KlimaTicket change how people travelled? What happened to rents under Barcelona’s cap? I use public data to practise answering questions outside work.','Bring it all home'],
 ['YOUR MOVE','Are you ready to be part of my journey?','','Replay']
 ];
-const stops=[0,1.45,2.65,3.7,4.95,5.57,5.99,6.55,7.36,7.78,8.44,9.31,10.49,11.45,14.25];
-const cuts=[0,1.15,2.14,3.31,4.38,5.33,5.84,6.16,6.98,7.57,8.04,8.91,9.96,10.92,13.92];
+const stops=[0,1.45,2.65,3.7,4.95,5.57,5.99,6.55,7.36,7.78,8.44,9.31,10.49,11.45,15.0];
+const cuts=[0,1.15,2.14,3.31,4.38,5.33,5.84,6.16,6.98,7.57,8.04,8.91,9.96,10.92,14.6];
 const shots=[
 [0,[0,2.39,.09],[0,2.39,-4.46]],
 [.42,[0,2.50,.74],[0,2.39,-4.46]],
@@ -386,10 +497,11 @@ const shots=[
 [10.49,[19.41,2.19,-12.91],[17.1,1.13,-15.76]],
 [11.45,[18.72,1.98,-13.39],[17.13,1.32,-16.03]],
 [12.32,[23.0,16.8,21.1],[13,.32,-6.1]],
-[13.25,[23.0,16.8,21.1],[13,.32,-6.1]],
-[13.6,[4.2,4.6,6.4],[0,1.4,-2.5]],
-[14.0,[0,2.39,.09],[0,2.39,-4.46]],
-[14.25,[0,2.39,.09],[0,2.39,-4.46]]
+[12.95,[23.0,16.8,21.1],[13,.32,-6.1]],
+[14.05,[3.4,3.6,8.6],[.4,1.0,.6]],
+[14.55,[2.6,3.0,5.2],[0,1.35,-2.6]],
+[14.85,[0,2.39,.09],[0,2.39,-4.46]],
+[15.0,[0,2.39,.09],[0,2.39,-4.46]]
 ];
 let reduced=matchMedia('(prefers-reduced-motion: reduce)'), current=-1;
 const track=document.querySelector('#journey'),stage=track.querySelector('.stage');
@@ -404,8 +516,8 @@ function resetIntro(){
   timed=null;locked=true;openedAt=performance.now();setAuto(false);
   document.body.classList.add('intro');scrollTo(0,0);
 }
-function travel(from,to,duration){
-  timed={from,to,duration,at:performance.now()};
+function travel(from,to,duration,linear=false){
+  timed={from,to,duration,linear,at:performance.now()};
 }
 function begin(){
   locked=false;play.hidden=true;document.body.classList.remove('intro');
@@ -424,7 +536,8 @@ function go(i,autoplay=false){
   if(i===0){resetIntro();return}
   const from=scrollY/range()*stops.at(-1);
   if(reduced.matches){scrollTo({top:range()*stops[i]/stops.at(-1),behavior:'instant'});return}
-  travel(from,stops[i],i===stops.length-1?9000:(autoplay?2200:900)+Math.abs(stops[i]-from)*1000)}
+  if(i===stops.length-1){travel(from,stops[i],16000,true);return}   // the helpers' ending runs at an even pace
+  travel(from,stops[i],(autoplay?2200:900)+Math.abs(stops[i]-from)*1000)}
 // A link to the projects, CV or contact (in the URL or the header) skips the intro instead of being locked behind it.
 function unlock(){locked=false;play.hidden=true;document.body.classList.remove('intro')}
 addEventListener('click',e=>{const a=e.target.closest?.('a[href^="#"]');if(a&&locked&&a.getAttribute('href')!=='#journey')unlock()});
@@ -438,7 +551,7 @@ if(!timed&&track.getBoundingClientRect().bottom<0)return;   // below the journey
 let driven=null;
 if(timed){
   const elapsed=Math.min(1,Math.max(0,(now-timed.at)/timed.duration));
-  driven=THREE.MathUtils.lerp(timed.from,timed.to,smooth(elapsed));
+  driven=THREE.MathUtils.lerp(timed.from,timed.to,timed.linear?elapsed:smooth(elapsed));
   scrollTo(0,range()*driven/stops.at(-1));
   if(elapsed===1)timed=null;
 }
@@ -451,11 +564,11 @@ if(auto&&!timed&&!locked){
   else if(!reduced.matches||now-captionAt>4000)go(current+1,true);
 }
 if(width!==stage.clientWidth||height!==stage.clientHeight){width=stage.clientWidth;height=stage.clientHeight;renderer.setSize(width,height,false);camera.aspect=width/height;camera.fov=width<620?46:33;camera.updateProjectionMatrix()}
-// On the way back the line's tip folds each scene flat just as it reaches it.
-const back=lineBack(s),keep=u=>back>0?smooth((1-back-u)/.05):1;
-const keepCourt=keep(foldAt.court),keepBench=keep(foldAt.bench),keepDealer=keep(foldAt.dealer);
+// On the way back each scene folds flat just as the helpers reach it; the net folds as they push the court in.
+const back=lineBack(s),hu=helperU(s),keep=u=>back>0?smooth((hu-u)/.05+1-smooth(back/.08)):1;   // eases in, so the home desk doesn't snap
+const keepCourt=1-progress(s,PUSH[0]+.12,PUSH[0]+.22),keepBench=keep(foldAt.bench),keepDealer=keep(foldAt.dealer);
 const sketch=progress(s,.02,.42);if(sketch!==previousSketch){drawCourt(sketch);previousSketch=sketch}
-const roll=progress(s,.42,1.2)*(1-progress(s,13.4,13.8));if(roll!==previousSheet){unroll(roll);previousSheet=roll}
+const roll=progress(s,.42,1.2)*(1-progress(s,...PUSH));if(roll!==previousSheet){unroll(roll);previousSheet=roll}
 const build=progress(s,.8,1.3);net.visible=build*keepCourt>0;net.scale.y=Math.max(.001,build*keepCourt);
 bench.visible=s>1.55&&keepBench>0;bench.scale.setScalar(Math.max(.001,progress(s,1.55,1.98)*keepBench));
 dealer.visible=s>2.9&&keepDealer>0;dealer.scale.y=Math.max(.001,keepDealer);alpine.visible=s>3.98;
@@ -479,9 +592,10 @@ updateCareer(s,time);
 for(const [place,at] of [[studio,foldAt.studio],[city,foldAt.city],[workshop,foldAt.workshop]]){const k=keep(at);place.scale.y=Math.max(.001,place.scale.y*k);place.visible&&=k>0}
 const keepHome=keep(foldAt.workshop);protagonist.root.scale.multiplyScalar(Math.max(.001,keepHome));protagonist.root.visible&&=keepHome>0;
 trail.children.forEach((section,n)=>{const k=keep(foldAt.trail[n]);section.scale.z=Math.max(.001,section.scale.z*k);section.visible&&=k>0});
+placeHelpers(s,time,keep);
 const flip=progress(s,6.28,6.52);promoCard.rotation.y=Math.PI*flip;promoCard.position.y=.105+.12*Math.sin(Math.PI*flip);
 // The sheet rolls back into the monitor, then the question fades in over the court.
-welcome.visible=locked;invitation.visible=s>=13.8;invitation.material.opacity=progress(s,13.8,14.1);
+welcome.visible=locked;invitation.visible=s>=ASK[0];invitation.material.opacity=progress(s,...ASK);
 document.body.classList.toggle('closing',invitation.visible);
 document.body.classList.toggle('gathering',s>11.78&&!invitation.visible);
 const end=shots.findIndex(k=>k[0]>s);const a=shots[end<0?shots.length-1:Math.max(0,end-1)],b=shots[end<0?shots.length-1:end];const u=a===b?0:progress(s,a[0],b[0]);
@@ -489,9 +603,16 @@ const target=V(...a[2]).lerp(V(...b[2]),u);camera.position.copy(V(...a[1])).lerp
 if(camera.aspect<1){
   camera.position.sub(target).multiplyScalar(1.44).add(target);
   // Look down the long axis of the model on a tall screen.
-  const wideView=progress(s,11.55,12.32)*(1-progress(s,13.25,13.7));
+  const wideView=progress(s,11.55,12.32)*(1-progress(s,12.95,13.2));
   camera.position.lerp(V(-11,24,17),wideView);
   target.lerp(V(12,.6,-6.5),wideView);
+}
+// While they collect, the camera runs ahead of the helpers, high and looking back, so their faces and the stack show.
+const follow=progress(s,ENTER[0],ENTER[0]+.22)*(1-progress(s,COLLECT[1]-.2,COLLECT[1]+.05));
+if(follow>0){
+  const {t}=along(helperU(s)),n=V(t.z,0,-t.x);
+  camera.position.lerp(helperMid.clone().addScaledVector(t,5.2).addScaledVector(n,1.8).add(V(0,4.2,0)),follow);
+  target.lerp(helperMid.clone().addScaledVector(t,.6).add(V(0,.7,0)),follow);
 }
 const screenDistance=camera.aspect<1?4.25/camera.aspect:4.55;
 if(locked){
@@ -506,7 +627,7 @@ if(!locked&&s<.42){
 }
 if(invitation.visible&&camera.aspect<1)camera.position.set(0,2.39,-4.46+screenDistance);
 camera.lookAt(target);
-const offset=locked?0:height*.058*progress(s,0,.4)*(1-progress(s,13.3,13.9));
+const offset=locked?0:height*.058*progress(s,0,.4)*(1-progress(s,14.5,14.9));
 camera.setViewOffset(width,height,0,offset,width,height);
 camera.updateMatrixWorld();
 if(locked&&!play.hidden){
