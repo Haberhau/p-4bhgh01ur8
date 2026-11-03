@@ -5,168 +5,65 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Florian Haberhauer · Data Analyst</title>
 <meta name="description" content="Florian Haberhauer, data analyst in B2C reporting and CRM analytics who builds his own tools with AI. Journey, projects, CV and contact.">
-<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://haberhau.github.io/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#f3f3f1">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://haberhau.github.io/p-4bhgh01ur8/">
+<meta property="og:url" content="https://haberhau.github.io/">
 <meta property="og:title" content="Florian Haberhauer · Data Analyst">
 <meta property="og:description" content="I read the numbers, then build the tool. Data analyst in B2C reporting and CRM analytics who builds his own tools with AI. Scroll through the journey, then the projects.">
-<meta property="og:image" content="https://haberhau.github.io/p-4bhgh01ur8/img/share.jpg?v=2">
+<meta property="og:image" content="https://haberhau.github.io/img/share.jpg?v=2">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Florian Haberhauer, in light type, with the line: I read the numbers. Then I build the tool. Beside it a small white model of his hometown with Florian as the one orange figure.">
 <meta name="twitter:card" content="summary_large_image">
 <script>
   history.scrollRestoration = 'manual';   // the URL hash decides where we start, not the browser
-  window.startHash = location.hash;       // kept before the header starts rewriting the hash, for the journey to open that step
+  window.startHash = location.hash;       // kept before the header starts rewriting the hash; a link to #projects etc. skips the journey's intro
+  if (!/^#(projects|cv|contact)$/.test(location.hash)) document.documentElement.classList.add('injourney');
   // The text version: ?nogl, or no WebGL, or the 3D engine failing to load. The same page, with the full sentences and no animation.
   if (/[?&]nogl\b/.test(location.search)) document.documentElement.classList.add('text');
   if (/[?&]still\b/.test(location.search)) document.documentElement.classList.add('still');   // ?still previews reduced motion
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/site.css?v=3">
-<link rel="stylesheet" href="journey/walk.css?v=2">
+<link rel="stylesheet" href="css/site.css?v=4">
+<link rel="stylesheet" href="journey/journey.css?v=4">
 <style>
   .topbar { position: fixed; left: 0; right: 0; }
 </style>
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }</script>
 <!-- Bump ?v= on the CSS and JS links whenever they change, so browsers don't keep running an old copy. -->
-<script type="module">if (!document.documentElement.classList.contains('text')) import('./journey/walk.js?v=9').catch(() => document.documentElement.classList.add('text'));</script>
-<noscript><style>.full { position: static !important; width: auto !important; height: auto !important; margin: 0 !important; clip: auto !important; clip-path: none !important; white-space: normal !important; overflow: visible !important; } svg.draw, .veil, #stage { display: none !important; }</style></noscript>
+<script type="module">if (!document.documentElement.classList.contains('text')) import('./journey/journey.js?v=1').catch(() => document.documentElement.classList.add('text'));</script>
+<noscript><style>body.intro { overflow: auto; } #journey { height: auto; } #journey .stage { display: none; } #fallback { display: block; }</style></noscript>
 </head>
-<body>
+<body class="intro">
 <a class="skip" href="?nogl">Skip to the text version</a>
 <a class="skip" href="#projects">Skip to the projects</a>
 <header class="topbar">
   <div class="wrap bar">
     <a class="brand" href="#journey">Florian Haberhauer</a>
+    <div id="controls"><button id="back" type="button">← Back</button><nav id="destinations" aria-label="Explore my portfolio" hidden><a href="#projects">Projects</a><a href="Florian-Haberhauer-CV.pdf">CV</a><a href="#contact">Contact</a></nav><span class="hint">Scroll to explore</span><button id="advance" type="button">Enter the court →</button><button id="auto" type="button" aria-pressed="false">▶ Autoplay</button></div>
     <nav aria-label="Main"><a href="#journey" data-nav="journey">Journey</a><a href="#projects" data-nav="projects">Projects</a><a href="#cv" data-nav="cv">CV</a><a href="#contact" data-nav="contact">Contact</a></nav>
     <a class="btn small" href="Florian-Haberhauer-CV.pdf" download>Download CV</a>
   </div>
 </header>
 
-<nav class="rail" aria-label="Steps of the journey"><a href="#hi" aria-label="Hello"><span aria-hidden="true">Hello</span></a><a href="#court" aria-label="Discipline"><span aria-hidden="true">Discipline</span></a><a href="#knee" aria-label="The knee"><span aria-hidden="true">The knee</span></a><a href="#fork" aria-label="The fork"><span aria-hidden="true">The fork</span></a><a href="#spark" aria-label="The spark"><span aria-hidden="true">The spark</span></a><a href="#engine" aria-label="The engine"><span aria-hidden="true">The engine</span></a><a href="#double" aria-label="Double shift"><span aria-hidden="true">Double shift</span></a><a href="#trusted" aria-label="Trusted"><span aria-hidden="true">Trusted</span></a><a href="#next" aria-label="Next"><span aria-hidden="true">Next</span></a><a href="#end" aria-label="Your move"><span aria-hidden="true">Your move</span></a></nav>
-<button class="play" type="button" aria-pressed="false">▶ Play</button>
-<div id="live" class="sr" aria-live="polite" aria-atomic="true"></div>
-<div id="stage" aria-hidden="true"><canvas></canvas></div>
-<div class="veil" aria-hidden="true"></div>
 
 <main>
 <div id="journey" role="region" aria-label="Florian Haberhauer: the journey">
-  <a class="btn ghost textback" href="./">Back to the animated journey</a>
-  <div class="tags" aria-hidden="true"></div>
-  <svg class="link" aria-hidden="true"><path d=""/></svg>
-  <div class="bubble" aria-hidden="true" hidden></div>
-  <button class="skip-intro" type="button">Skip intro</button>
-  <section class="hero" id="hi">
-    <div class="words">
-      
-      <h1>Florian Haberhauer</h1>
-      <p class="capline">I read the numbers. Then I build the tool.</p>
-      <p class="meta">Data analyst · builds with AI</p>
-    </div>
-    <div class="full"><p>Data analyst. I read the numbers, then I build the tool. Three years of B2C reporting and CRM analytics, a master's in big data, and tools I built myself. It starts on a volleyball court.</p></div>
-  </section>
-
-  <section class="step" id="court" data-w="2.5">
-    <div class="full"><h2>1 · Discipline (2010–2018, VCA Amstetten)</h2><p>From age ten, volleyball was my life: my club, and Austria's youth and junior national teams. Nine years of training for one thing.</p></div>
-    <div class="cap" aria-hidden="true"><div><p class="eyebrow">1 / 9 · Discipline</p><div class="caps"><h2 data-p="0">Volleyball from age ten. Up to the junior national team.</h2></div></div></div>
-    <svg class="draw" viewBox="0 0 600 700" aria-hidden="true">
-      <line class="net" x1="300" y1="40" x2="300" y2="600"/>
-      <path class="ink main" d="M300,0 C330,40 360,80 300,120 C240,160 210,200 300,240 C390,290 420,340 300,380 C180,430 150,480 300,520 C450,570 500,620 300,660 V700"/>
-      <text class="tag" x="352" y="30">VCA Amstetten · 2010–2018</text><text class="tag opt" x="440" y="640">junior national team</text>
-      <circle class="dot" r="7"/></svg>
-  </section>
-
-  <section class="step" id="knee" data-w="2.5">
-    <div class="full"><h2>2 · The knee (2018)</h2><p>Right after school, my knee gave out. No more volleyball. The lowest point I've had. What I kept: however bad it gets, there's something next. Go and find it.</p></div>
-    <div class="cap" aria-hidden="true"><div><p class="eyebrow">2 / 9 · The knee</p><div class="caps"><h2 data-p="0">At 18, my knee gave out. Volleyball was over.</h2><p data-p=".6">However bad it gets, there's something next.</p></div></div></div>
-    <svg class="draw" viewBox="0 0 600 800" aria-hidden="true">
-      <path class="ghost" data-win=".2,.4" d="M300,120 C360,70 420,40 470,20"/>
-      <path class="ink main" data-hold="M300,0 V120 L322,150 L268,190 L314,228 L236,520" d="M300,0 V120 L322,150 L268,190 L314,228 L236,520 C236,640 300,690 300,800"/>
-      <text class="tag" x="250" y="560">2018</text>
-      <circle class="dot" r="7"/></svg>
-  </section>
-
-  <section class="step" id="fork" data-w="3">
-    <div class="full"><h2>3 · The fork (Autohaus Haberhauer; FH Kufstein, 2020–2023)</h2><p>Our family ran a VW and Audi dealership for 60 years. The keys were mine to take. At business school in the mountains I realised I didn't want them. I wanted to build something big, in a big company. Marketing, I thought.</p></div>
-    <div class="cap" aria-hidden="true"><div><p class="eyebrow">3 / 9 · The fork</p><div class="caps"><h2 data-p="0">60 years of family business. The keys were mine.</h2><p data-p=".55">I didn't want them. I wanted to build something big.</p></div></div></div>
-    <svg class="draw" viewBox="0 0 600 900" aria-hidden="true">
-      <path class="grey" data-win=".15,.5" d="M300,160 C230,220 160,300 170,380 A70,70 0 1 1 170,520 A70,70 0 1 1 170,380"/>
-      <path class="ink main" d="M300,0 V160 C380,240 420,320 440,380 L470,330 L500,380 L530,300 L560,360 C560,500 420,600 360,700 C320,760 300,820 300,900"/>
-      <text class="tag" x="70" y="570">Autohaus Haberhauer · 60 years</text><text class="tag opt" x="470" y="285">FH Kufstein</text>
-      <circle class="dot" r="7"/></svg>
-  </section>
-
-  <section class="step" id="spark" data-w="3.5">
-    <div class="full"><h2>4 · The spark (2023, Silhouette, Digital Business)</h2><p>I came to Silhouette for marketing. I got an internship in Digital Business instead. A boss who let me try everything. I got stuck at the data part: a pile of numbers in, one clear recommendation out. I was hooked.</p></div>
-    <div class="cap" aria-hidden="true"><div><p class="eyebrow">4 / 9 · The spark</p><div class="caps"><h2 data-p="0">Came for marketing. Got stuck at the data part.</h2><p data-p=".6">Numbers in, one clear recommendation out. Hooked.</p></div></div></div>
-    <svg class="draw" viewBox="0 0 600 800" aria-hidden="true">
-      <g class="pile"></g>
-      <path class="ink main" d="M300,0 V100 C300,160 200,200 230,260 S400,300 330,340 S220,400 300,430 V800"/>
-      <text class="tag opt" x="380" y="120">Silhouette · Digital Business</text>
-      <circle class="dot" r="7"/></svg>
-  </section>
-
-  <section class="step" id="engine" data-w="4">
-    <div class="full"><h2>5 · The engine (2023–2024, intern to data analyst)</h2><p>Still an intern, I took over the B2C reporting and the Salesforce Service Cloud rollout. Every week for six months I updated the sales reports by hand. Then I automated them: manual work down 90%, updates daily instead of weekly. In March 2024 I became a data analyst. Almost all of it self-taught: Excel, Looker Studio, Google Analytics, Power Automate.</p></div>
-    <div class="cap" aria-hidden="true"><div><p class="eyebrow">5 / 9 · The engine</p><div class="caps"><h2 data-p="0">Six months of reports by hand, every week.</h2><p data-p=".62">Then I automated them. Manual work down 90%.</p><p data-p=".86">March 2024: data analyst.</p></div></div></div>
-    <svg class="draw" viewBox="0 0 600 1000" aria-hidden="true">
-      <path class="ink main coil" d=""/>
-      <text class="tag" x="436" y="260">26 weeks by hand</text><text class="tag opt" x="470" y="660">runs daily</text>
-      <text class="big" data-on=".8" x="20" y="880">90%</text>
-      <circle class="dot" r="7"/></svg>
-  </section>
-
-  <section class="step" id="double" data-w="4.5">
-    <div class="full"><h2>6 · Double shift (2025–2026, EAE Business School, Barcelona)</h2><p>An MSc in Big Data & Analytics, in a city where I knew no one. I worked 25 hours a week by day and went to university every evening. One year later: 9.23 out of 10, and the top grade for our thesis.</p></div>
-    <div class="cap" aria-hidden="true"><div><p class="eyebrow">6 / 9 · Double shift</p><div class="caps"><h2 data-p="0">Barcelona. Work by day, master's by night. Knew no one.</h2><p data-p=".5">9.23 out of 10. Top grade for the thesis.</p></div></div></div>
-    <svg class="draw" viewBox="0 0 600 900" aria-hidden="true">
-      <rect x="0" y="0" width="300" height="900" fill="#18181b" opacity=".06"/>
-      <path class="ink main" d="M300,0 C300,80 560,60 540,180 C520,300 180,240 170,360 C160,480 540,420 540,540 C540,660 180,600 180,720 C180,800 300,820 300,900"/>
-      <text class="tag" x="590" y="300" text-anchor="end">work by day · 25 h a week</text>
-      <text class="tag opt" x="20" y="130">university every evening</text><text class="tag opt" x="20" y="160">EAE Business School</text>
-      <text class="big" data-on=".55" x="330" y="760">9.23</text>
-      <circle class="dot" r="7"/></svg>
-  </section>
-
-  <section class="step" id="trusted" data-w="5">
-    <div class="full"><h2>7 · Trusted (now, Silhouette)</h2><p>Back full time, with a lot more on my desk: the B2C reporting and Salesforce Service Cloud, and Scrum Master on two company projects. What I build with AI now runs in Operations, E-commerce, Customer service and Sales.</p></div>
-    <div class="cap" aria-hidden="true"><div><p class="eyebrow">7 / 9 · Trusted</p><div class="caps"><h2 data-p="0">Back full time, a lot more on my desk.</h2><p data-p=".5">What I build with AI runs in four teams.</p></div></div></div>
-    <svg class="draw" viewBox="0 0 600 800" aria-hidden="true">
-      <path class="ink fan" data-win=".32,.42" d="M300,200 L80,400"/><path class="ink fan" data-win=".38,.48" d="M300,200 L210,470"/>
-      <path class="ink fan" data-win=".44,.54" d="M300,200 L390,470"/><path class="ink fan" data-win=".5,.6" d="M300,200 L520,400"/>
-      <path class="ink main" d="M300,0 V800"/>
-      <circle class="node" cx="300" cy="200" r="10"/>
-      <text class="lab" x="80" y="430">Operations</text><text class="lab" x="210" y="500">E-commerce</text><text class="lab" x="412" y="500">Customer service</text><text class="lab" x="520" y="430">Sales</text>
-      <text class="tag opt" x="320" y="640">Scrum Master · 2 company projects</text>
-      <circle class="dot" r="7"/></svg>
-  </section>
-
-  <section class="step" id="next" data-w="5.5">
-    <div class="full"><h2>8 · Next</h2><p>In the evenings I build automations, apps and tools with AI coding agents: the things I used to wait for someone else to make. The next step is a career in data and AI.</p></div>
-    <div class="cap" aria-hidden="true"><div><p class="eyebrow">8 / 9 · Next</p><div class="caps"><h2 data-p="0">Evenings: automations, apps and tools with AI agents.</h2><p data-p=".6">Things I used to wait for someone else to make.</p></div></div></div>
-    <svg class="draw" viewBox="0 0 600 900" aria-hidden="true">
-      <rect class="fill" data-on=".26" x="180" y="100" width="120" height="100"/>
-      <rect class="fill" data-on=".5" x="140" y="280" width="160" height="120"/>
-      <rect class="fill" data-on=".78" x="100" y="480" width="200" height="160"/>
-      <path class="ink main" d="M300,0 V100 H180 V200 H300 V280 H140 V400 H300 V480 H100 V640 H300 V900"/>
-      <text class="tag" x="320" y="120">evenings</text>
-      <circle class="dot" r="7"/></svg>
-  </section>
-
-  <section class="step" id="end" data-w="6">
-    <div class="cap" aria-hidden="true"><div><p class="eyebrow">9 / 9 · Your move</p></div></div>
-    <svg class="draw" viewBox="0 0 600 320" aria-hidden="true">
-      <path class="ink" data-win=".1,.4" d="M300,20 C250,20 210,50 210,95"/>
-      <path class="ink main" d="M300,0 V20 C360,20 400,50 400,100 C400,170 300,160 300,210 V255"/>
-      <circle class="dot" r="7"/></svg>
-  </section>
-  <div class="ask">
-    <h2>Are you ready to be part of my next chapter?</h2>
-    <div><p class="meta">Open to relocation</p><div class="actions"><a class="btn" href="#projects">See the projects</a><a class="btn ghost" href="Florian-Haberhauer-CV.pdf" download>CV</a><a class="btn ghost" href="#projects">Get in touch</a></div></div>
+  <div class="stage">
+    <canvas id="film" aria-label="A model of my story: the volleyball court, the family dealership, Kufstein, Silhouette, Barcelona and my desk at home"></canvas>
+    <div id="screenPlay" hidden><button id="start" type="button">▶ &nbsp;Start my journey</button><button id="autoStart" type="button">Autoplay</button></div>
+    <article aria-live="polite"><span id="badge" hidden></span><span id="number">PROLOGUE</span><h1 id="title">Before the numbers.</h1><p id="voice">My story starts on a volleyball court.</p></article>
   </div>
+  <section id="fallback">
+    <h2>My journey</h2>
+    <p>I played volleyball from age ten until a knee injury ended my career. I chose business school in Kufstein over taking on our family dealership.</p>
+    <p>As a Digital Business Intern at Silhouette, I built dashboards and forecasting models, established the CRM data structure and helped test Salesforce. As Data Analyst, I owned B2C reporting, led the business side of the Salesforce rollouts and became technical system owner.</p>
+    <p>In Barcelona I continued as a Data Analyst for 25 hours a week. One of my assignments was to act as Scrum Master while we brought B2C fulfilment in-house. In the evenings I studied Big Data &amp; Analytics at EAE.</p>
+    <p>At my desk I build apps and plugins with AI and practise independent analysis on public data. Are you ready to be part of my journey?</p>
+    <div class="actions"><a class="btn" href="#projects">See the projects</a><a class="btn ghost" href="Florian-Haberhauer-CV.pdf" download>CV</a><a class="btn ghost" href="#contact">Get in touch</a></div>
+  </section>
 </div>
 
 <section class="band" id="projects" aria-labelledby="projects-h">
@@ -258,9 +155,9 @@
   ['journey', 'projects', 'cv', 'contact'].forEach(id => new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
     navLinks.forEach(a => a.setAttribute('aria-current', a.dataset.nav === id));
+    document.documentElement.classList.toggle('injourney', id === 'journey');   // the header carries the journey controls only there
     if (id !== 'journey') history.replaceState(null, '', '#' + id);
   }), { rootMargin: '-45% 0px -50% 0px' }).observe(document.getElementById(id)));
 </script>
-<script src="journey/line.js?v=3" defer></script>
 </body>
 </html>
