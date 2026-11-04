@@ -1,8 +1,48 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>sprintkit · Florian Haberhauer</title><meta name="description" content="An open-source Claude Code plugin that gives solo projects tickets, stages and quality gates. You choose who runs each stage: shipped agents, your skills, a shell command or yourself."><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="project.css?v=1"><script src="project.js?v=1" defer></script></head>
-<body><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a class="wordmark" href="../index.html">Florian Haberhauer<span> / Selected projects</span></a><a href="../index.html#projects">All projects ↗</a></header>
-<main id="main"><div class="project-hero"><div class="project-index"><a href="../index.html#projects">← Projects</a><span>06 / 06</span></div><p class="eyebrow">Developer tool / Open source</p><p class="project-name">sprintkit</p><h1>A team’s process.<br>A team of one.</h1><p class="lede">An open-source Claude Code plugin that gives solo projects tickets, stages and quality gates. You choose who runs each stage: shipped agents, your skills, a shell command or yourself.</p><a class="button" href="https://github.com/Haberhau/sprintkit">View on GitHub <span aria-hidden="true">↗</span></a><dl class="metrics"><div><dt>7</dt><dd>stages, end to end</dd></div><div><dt>3</dt><dd>quality gates: build, review, QA</dd></div><div><dt>Your choice</dt><dd>manual or autopilot</dd></div></dl></div>
-<div class="project-story"><section class="story-section" id=evidence><div class="section-label">01 / The workflow</div><div class="section-body"><h2>Make the next step explicit.</h2><p>Move an example ticket through the process. This is an interactive illustration of the workflow, not a connected sprintkit session.</p><div class="workflow"><div class="demo-heading"><span>EXAMPLE / APP-14</span><button id="advance-ticket" type="button">Advance ticket →</button></div><h3>Users can switch to dark mode</h3><ol class="stage-list"><li aria-current=step>Backlog</li><li >Refine</li><li >Build</li><li >Review</li><li >QA</li><li >Done</li><li >Release</li></ol><p id="ticket-status" role="status">Backlog · The ticket is ready to be refined.</p></div></div></section><section class="story-section" ><div class="section-label">02 / The process</div><div class="section-body"><h2>Structure without a fixed cast.</h2><p>sprintkit owns the process: refine, build, review, QA, release and retro. Stage execution can be handed to the shipped agents, your own skills, a shell command or yourself.</p><p>Build, review and QA gates make checks part of the workflow. A live board shows tickets moving as stages run, with manual and autopilot modes.</p></div></section><section class="story-section" ><div class="section-label">03 / Get started</div><div class="section-body"><h2>Bring a ticket.</h2><p>Install the plugin in Claude Code, then create your first story.</p><div class="code-heading"><span>CLAUDE CODE</span><button id="copy-install" type="button">Copy commands</button></div><pre><code id="install-commands">/plugin marketplace add Haberhau/sprintkit
+<title>sprintkit · Florian Haberhauer</title><meta name="description" content="An open-source Claude Code plugin that gives solo projects tickets, stages and quality gates. You choose who runs each stage: shipped agents, your skills, a shell command or yourself."><link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="project.css?v=6"><link rel="stylesheet" href="theme-sprintkit.css?v=19"><script src="project.js?v=2" defer></script></head>
+<body class="theme-sprintkit"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a class="wordmark" href="../index.html">Florian Haberhauer<span> / Selected projects</span></a><a href="../index.html#projects">All projects</a></header>
+<main id="main">
+<div class="project-hero">
+  <div class="project-index"><a href="../index.html#projects">← Projects</a></div>
+  <h1>A team’s process.<br>A team of <em>one.</em></h1><p class="meta"><b>sprintkit</b> · Claude Code plugin · open source</p>
+  <p class="lede">An open-source Claude Code plugin that gives solo projects tickets, stages and quality gates. You choose who runs each stage: shipped agents, your skills, a shell command or yourself.</p>
+  <a class="button" href="https://github.com/Haberhau/sprintkit">View on GitHub</a>
+  
+</div>
+<div class="project-story">
+  <section class="story-section">
+    <h2>Watch a sprint <em>run itself.</em></h2>
+    <p>The live board opens in the browser and follows the work: tickets move from the backlog through refine, build, review and QA to done as each stage runs. When a gate isn’t passed, the ticket goes back a step.</p>
+    <figure class="board-demo">
+      <div class="window"><div class="window-bar"><i></i><i></i><i></i><span>sprintkit board</span></div>
+        <div class="window-scroll"><img src="img/sprintkit/demo.gif" width="1140" height="380" alt="A sprint on the sprintkit board: tickets move from backlog through refine, build, review and QA to done; one bounces back from review"></div></div>
+      <figcaption>A sprint on the board, recorded from the plugin. One ticket bounces back from review.</figcaption>
+    </figure>
+  </section>
+  <section class="story-section">
+    <h2>Structure, <em>without a fixed cast.</em></h2>
+    <p>sprintkit owns the process; you decide who does each step. A stage can run on the agents it ships with, on your own skills, on a shell command, or on you.</p>
+    <ol class="stages">
+      <li>Refine<small>clear requirement, acceptance criteria</small></li>
+      <li class="gate">Build<small>build gate</small></li>
+      <li class="gate">Review<small>review gate</small></li>
+      <li class="gate">QA<small>QA gate</small></li>
+      <li>Done<small>merged</small></li>
+      <li>Release<small>changelog, tag</small></li>
+      <li>Retro<small>one process change</small></li>
+    </ol>
+    <p>The three gates make the checks part of the work instead of an afterthought. Run one ticket by hand, or let the autopilot work through the sprint queue.</p>
+  </section>
+  <section class="story-section">
+    <h2>Bring <em>a ticket.</em></h2>
+    <p>Install the plugin in Claude Code, then create your first story.</p>
+    <div class="code-heading"><span>CLAUDE CODE</span><button id="copy-install" type="button">Copy commands</button></div><pre><code id="install-commands">/plugin marketplace add Haberhau/sprintkit
 /plugin install sprintkit@sprintkit
-/sprintkit:ticket story Users can switch to dark mode</code></pre><p id="copy-status" class="caption" role="status"></p></div></section></div><a class="next-project" href="thesis.html"><span>Next project</span><strong>Spain’s fashion split</strong><span aria-hidden="true">→</span></a></main><footer class="site-footer"><span>Florian Haberhauer</span><a href="../Florian-Haberhauer-CV.pdf" download>Download CV ↓</a><a href="mailto:haberhauer34@gmail.com">Get in touch ↗</a></footer></body></html>
+/sprintkit:ticket story Users can switch to dark mode</code></pre><p id="copy-status" class="caption" role="status"></p>
+  </section>
+</div>
+<a class="next-project" href="thesis.html"><span>Next project</span><strong>Spain’s fashion split</strong><span aria-hidden="true">→</span></a>
+</main>
+<footer class="site-footer"><span>Florian Haberhauer</span><a href="../Florian-Haberhauer-CV.pdf" download>Download CV</a><a href="mailto:haberhauer34@gmail.com">Get in touch</a></footer>
+</body></html>

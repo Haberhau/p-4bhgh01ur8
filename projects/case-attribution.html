@@ -4,14 +4,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<title>Lens attribution · Florian Haberhauer</title>
+<title>Click &amp; collect glazing · Florian Haberhauer</title>
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<meta name="description" content="Analytics case study: how many click & collect frames get the manufacturer's own lenses.">
+<meta name="description" content="How CRM appointments, click &amp; collect orders, lab orders and net sales were linked into one attribution model, and what each system made difficult.">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="case.css?v=2">
+<link rel="stylesheet" href="case.css?v=3">
 <link rel="stylesheet" href="bridge.css?v=2">
+<link rel="stylesheet" href="process.css?v=7">
 
 <main>
 <header class="journey-bar" style="--sky1:#7fb0d8;--sky2:#eef2f4"><a href="../index.html#projects">← Back to the projects</a></header>
@@ -19,58 +20,50 @@
   <div class="wrap attr-head">
     <h1>How many click &amp; collect frames get <em>our</em> lenses?</h1>
     <div>
-      <p class="body">At a premium eyewear manufacturer, customers reserve up to three frames online and try them on at a local optician. Nobody tracked whether the frame they kept was then glazed with the company's own lenses. I linked CRM appointments, order items, lab orders and actual net sales into one attribution model, then measured how much of the answer was noise.</p>
-      <p class="illus">Illustrative figures throughout: the method is real, the numbers are changed and rounded.</p>
+      <p class="body">At Silhouette, customers can reserve up to three frames online and try them on at a local optician. Nobody tracked whether the frame they kept was then glazed with our own lenses. The answer sat in three systems that were never built to talk to each other. I linked CRM appointments, order items, lab orders and actual net sales into one attribution model, and built in checks for how much of any match was just noise.</p>
+      <p class="internal">Company-internal project: this page shows how I worked, not the results.</p>
     </div>
   </div>
   <div class="wrap">
     <figure class="flow" aria-labelledby="flow-title">
       <figcaption>
-        <h2 id="flow-title">How the sources connect</h2>
-        <p class="sub">Four exports from three systems, linked into one row per ordered frame</p>
+        <h2 id="flow-title">Three systems, one row per frame</h2>
+        <p class="sub">Exports from three systems that were never built to talk to each other</p>
       </figcaption>
-      <div class="chain">
-        <div class="node n1"><small>CRM</small><b>Appointments</b><span>Optician, date of the try-on</span></div>
-        <div class="edge e1"><span>order ID</span></div>
-        <div class="node n2"><small>CRM</small><b>C&amp;C orders</b><span>Optician account, up to 3 frames</span></div>
-        <div class="edge e2"><span>line items</span></div>
-        <div class="node n3 hub"><small>Model</small><b>Ordered frames</b><span>One row per frame, the unit of analysis</span></div>
-        <div class="edge e3"><span>same optician + same frame + −1 to +60 days</span></div>
-        <div class="node n4"><small>Lab system</small><b>Lab orders</b><span>Lens orders with the frame they're for</span></div>
-        <div class="edge e5 up"><span>account + SKU → kept or returned</span></div>
-        <div class="node n5"><small>Sales report</small><b>Net sales</b><span>Gross minus returns per optician and frame</span></div>
-      </div>
-      <ol class="checks">
-        <li><b>Deduplicate</b><span>A lab order counts for one frame only, the one with the closest appointment.</span></li>
-        <li><b>Check coverage</b><span>Count an order only if its whole window is inside the lab data. Report brand and period gaps instead of hiding them.</span></li>
-        <li><b>Test against a baseline</b><span>How often do the same opticians order lenses in a random window? That's the noise floor.</span></li>
-        <li><b>Use real net sales</b><span>Kept frames come from the sales report, not from an assumed return rate.</span></li>
-      </ol>
-      <p class="flow-out">Output: a Python pipeline and a Streamlit dashboard, one filter per market, that answers a single question: what share of kept click &amp; collect frames get our lenses.</p>
+      <div data-diagram="sources" role="img" aria-label="Appointments and orders from the CRM, lens orders from the lab system and net sales from the sales report all feed one row per ordered frame, which feeds a dashboard with one filter per market."></div>
+    </figure>
+    <figure class="flow" aria-labelledby="window-title">
+      <figcaption>
+        <h2 id="window-title">When could a lens order belong to a click &amp; collect?</h2>
+        <p class="sub">The matching window around the appointment date</p>
+      </figcaption>
+      <div data-diagram="window" role="img" aria-label="A timeline of days around the appointment date. Lens orders from two days before to five days after the appointment, for the same optician and the same frame, could belong to the click and collect order. Earlier or later ones cannot."></div>
     </figure>
   </div>
-  <div class="wrap grid attr-result flip">
-    <figure class="chart-card" style="margin:0">
-      <h2>Matched C&amp;C orders by matching rule</h2>
-      <p class="sub">Share of orders with a lab order in the window. Illustrative: the shape of the real result.</p>
-      <ul class="rules" aria-label="Matched orders by matching rule">
-        <li><span>Exact frame SKU</span><span class="track"><span class="fill" style="--v:0%"></span><span class="base"></span></span><b>0%</b></li>
-        <li><span>Model, colour, size</span><span class="track"><span class="fill" style="--v:1%"></span><span class="base"></span></span><b>~1%</b></li>
-        <li><span>Model, colour</span><span class="track"><span class="fill" style="--v:1%"></span><span class="base"></span></span><b>~1%</b></li>
-        <li><span>Model only</span><span class="track"><span class="fill" style="--v:2%"></span><span class="base"></span></span><b>~2%</b></li>
-        <li class="noise"><span>Same optician, any frame</span><span class="track"><span class="fill" style="--v:50%"></span><span class="base"></span></span><b>~50%</b></li>
-      </ul>
-      <p class="rules-note">Baseline: the same opticians on a random day, ~65%. Matching on the account alone lands below it, so it carries no signal.</p>
+  <div class="wrap">
+    <figure class="flow" aria-labelledby="process-title">
+      <figcaption>
+        <h2 id="process-title">The process, step by step</h2>
+        <p class="sub">What the team did, what I did, and where each system made it hard</p>
+        <div class="legend"><span><i></i>Team</span><span><i class="me"></i>Me</span><span><i class="snag-key"></i>Snag in the data</span></div>
+      </figcaption>
+      <ol class="process">
+        <li><span class="who">Team</span><div class="step"><b>The question</b><span>Of the click &amp; collect frames customers keep, how many are glazed with our lenses? Click &amp; collect was meant to bring lens sales too, but nobody could see whether it did.</span></div><div></div></li>
+        <li><span class="who me">Me</span><div class="step"><b>Pull four exports from three systems</b><span>Appointments and click &amp; collect orders from the CRM, lens orders from the lab system, net sales from the sales report.</span></div><p class="snag"><strong>CRM</strong>The appointment and the order are separate records, linked only by the order ID, and one order holds up to three frames.</p></li>
+        <li><span class="who me">Me</span><div class="step"><b>One row per ordered frame</b><span>Split every order into its frames, so each frame can be followed on its own. This is the unit everything else is counted in.</span></div><div></div></li>
+        <li><span class="who me">Me</span><div class="step"><b>Match lens orders to frames</b><span>Same optician, same frame, from two days before to five days after the appointment date the customer gave.</span></div><p class="snag"><strong>Lab system</strong>The lab doesn't record the frame the way the CRM does. I tested matching rules from the exact frame code down to model, colour and size, model only, and the optician alone.</p></li>
+        <li><span class="who me">Me</span><div class="step"><b>Deduplicate</b><span>A lens order counts for one frame only: the one with the closest appointment.</span></div><div></div></li>
+        <li><span class="who me">Me</span><div class="step"><b>Check coverage</b><span>Count an order only if its whole matching window lies inside the lab data, and report the gaps instead of hiding them.</span></div><p class="snag"><strong>Lab system</strong>The lab data didn't cover every brand and period, which would have quietly pulled the answer down.</p></li>
+        <li><span class="who me">Me</span><div class="step"><b>Test against a baseline</b><span>How often do the same opticians order lenses in a random window? A match only means something if it beats that.</span></div><p class="snag"><strong>Opticians</strong>Opticians order lenses all the time, so a lens order near a try-on proves nothing on its own.</p></li>
+        <li><span class="who me">Me</span><div class="step"><b>Count kept frames from real net sales</b><span>Kept versus returned comes from the sales report, not from an assumed return rate.</span></div><p class="snag"><strong>Sales report</strong>Returns don't show on the order; they only appear in net sales per optician and frame.</p></li>
+        <li><span class="who me">Me</span><div class="step"><b>Build the pipeline and dashboard</b><span>A Python pipeline that rebuilds the model from fresh exports, and a Streamlit dashboard with one filter per market.</span></div><div></div></li>
+        <li><span class="who">Team</span><div class="step"><b>Review and fix the sources</b><span>We went through the findings together; the data gaps were named and the exports fixed.</span></div><div></div></li>
+      </ol>
     </figure>
-    <div>
-      <h2 class="result-h">What the numbers said</h2>
-      <p class="body">Matching on the optician alone finds a lens order for about half of all click &amp; collect orders. That looks like a result until you check the baseline: the same opticians order lenses in two out of three random windows. Only matching on the frame carries signal, and it lands at about 2% of kept frames.</p>
-      <dl class="facts">
-        <div><dt>Match</dt><dd>Account, frame, −1 to +60 days</dd></div>
-        <div><dt>Denominator</dt><dd>Actual net sales, not estimates</dd></div>
-        <div><dt>Outcome</dt><dd>Data gaps named, exports fixed</dd></div>
-      </dl>
-    </div>
+    <figure class="flow" aria-labelledby="tools-title">
+      <figcaption><h2 id="tools-title">Tools</h2></figcaption>
+      <div class="tags"><span>Python</span><span>Streamlit</span><span>CRM exports</span><span>Lab system exports</span><span>Sales report</span></div>
+    </figure>
   </div>
 </section>
 </main>
@@ -78,3 +71,4 @@
 <!-- p. 13 back cover -->
 <footer class="journey-foot"><a href="../index.html#projects">← Back to the projects</a><a href="../Florian-Haberhauer-CV.pdf" download>Download the CV</a><a href="mailto:haberhauer34@gmail.com?subject=Hello%20Florian">Get in touch →</a></footer>
 <script src="case.js?v=2" defer></script>
+<script src="diagrams.js?v=9" defer></script>

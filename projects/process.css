@@ -1,0 +1,98 @@
+/* Process charts for the work case pages (reporting, click & collect glazing, rebuy): how the work was done, no results.
+   Builds on case.css + bridge.css (their --ink, --muted, --rule, --sky-soft, --mark, .node, .flow). */
+
+/* A pipeline of systems and steps, left to right, top to bottom on phones */
+.pipe { list-style: none; margin: 26px 0 0; padding: 0; display: flex; align-items: stretch; gap: 0; }
+.pipe > li { flex: 1 1 0; min-width: 0; display: flex; align-items: stretch; }
+.pipe > li + li::before { content: "→"; flex: none; align-self: center; width: 30px; text-align: center; font: 600 16px var(--f); color: var(--ink); }
+.pipe .node { flex: 1; align-content: start; }
+.pipe .node.me { background: var(--paper); border: 2px solid var(--mark); }
+.pipe .node.me small { color: var(--mark); }
+.pipe .fork { flex: 1; display: grid; gap: 8px; }
+@media (max-width: 880px) {
+  .pipe { flex-direction: column; max-width: 440px; }
+  .pipe > li { flex-direction: column; }
+  .pipe > li + li::before { content: "↓"; width: auto; padding: 6px 0 6px 18px; text-align: left; align-self: flex-start; }
+}
+
+/* Numbered process with who did each step, and the snags each system threw up */
+.process { list-style: none; counter-reset: p; margin: 26px 0 0; padding: 0; }
+.process > li { counter-increment: p; display: grid; grid-template-columns: 5.5em minmax(0, 1.1fr) minmax(0, 1fr); gap: 6px 28px; padding: 16px 0; border-top: 1px solid var(--rule); align-items: start; }
+.process > li:last-child { border-bottom: 1px solid var(--rule); }
+.who { justify-self: start; font: 600 12px/1 var(--f); padding: 6px 9px; border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
+.who::before { content: counter(p) "  "; }
+.who.me { background: var(--ink); border-color: var(--ink); color: #fff; }
+.step b { display: block; font: 700 15px/1.3 var(--f); }
+.step span { display: block; margin-top: 4px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.snag { font-size: 13.5px; line-height: 1.5; color: var(--muted); padding: 10px 12px; border-radius: 6px; background: #fbeee6; }
+.snag strong { display: block; font: 700 12px/1.4 var(--f); color: var(--mark); letter-spacing: .02em; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 12px; font-size: 13px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 8px; }
+.legend i { display: inline-block; width: 12px; height: 12px; border: 1px solid var(--rule); }
+.legend i.me { background: var(--ink); border-color: var(--ink); }
+.legend i.snag-key { border: 0; background: #fbeee6; box-shadow: inset 0 0 0 1px #f0c9b0; }
+@media (max-width: 880px) { .process > li { grid-template-columns: minmax(0, 1fr); } }
+
+/* Cleaning steps as a column of states, each arrow carrying the rule that was applied */
+.stack { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 0; max-width: 640px; }
+.stack .node { display: grid; grid-template-columns: minmax(0, 12em) minmax(0, 1fr); gap: 4px 16px; align-items: baseline; }
+.stack .node b { font: 700 15px/1.3 var(--f); }
+.stack .rule { position: relative; padding: 12px 0 12px 44px; font-size: 13.5px; line-height: 1.45; color: var(--muted); }
+.stack .rule::before { content: ""; position: absolute; left: 22px; top: 4px; bottom: 4px; border-left: 1.5px solid var(--ink); }
+.stack .rule::after { content: ""; position: absolute; left: 18.5px; bottom: 4px; width: 7px; height: 7px; border: solid var(--ink); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+.stack .rule strong { color: var(--ink); }
+.stack .sources { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+.stack .sources .node { grid-template-columns: minmax(0, 1fr); align-content: start; }
+@media (max-width: 520px) { .stack .node { grid-template-columns: minmax(0, 1fr); } .stack .sources { grid-template-columns: minmax(0, 1fr); } }
+
+/* "Internal project" note, in place of the old "illustrative figures" line */
+.internal { display: inline-block; margin-top: 20px; font: 600 13px/1.4 var(--f); color: var(--ink); background: var(--sky-soft); padding: 6px 10px; }
+.questions { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 0; }
+.questions li { padding: 14px 0; border-top: 1px solid var(--rule); font: 600 17px/1.35 var(--f); }
+.questions li:last-child { border-bottom: 1px solid var(--rule); }
+.questions li span { display: block; margin-top: 4px; font: 400 14px/1.5 var(--f); color: var(--muted); }
+
+/* Drawn diagrams (diagrams.js): reporting mail flow, glazing sources and window, rebuy sieve and customer timeline */
+[data-diagram] { margin-top: 22px; max-width: 1040px; }
+[data-diagram] svg { display: block; height: auto; overflow: visible; font-family: var(--f); }
+[data-diagram] text { fill: var(--ink); }
+.dg-line { fill: none; stroke: var(--ink); stroke-opacity: .22; stroke-width: 1.5; }
+.dg-line.strong { stroke-opacity: .45; stroke-width: 2; }
+.dg-thick { fill: none; stroke: var(--ink); stroke-width: 6; stroke-linecap: round; }
+.dg-pipe { fill: none; stroke: var(--sky); stroke-width: 22; stroke-linecap: round; }
+.dg-pipe.thin { stroke-width: 12; }
+.dg-mail rect { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; }
+.dg-mail path { fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-linejoin: round; }
+.dg-dot { fill: var(--mark); }
+.dg-dot.grey { fill: #a1a1aa; }
+.dg-dot.ink { fill: var(--ink); }
+.dg-card rect { fill: #fff; stroke: var(--rule); stroke-width: 1.5; }
+.dg-hub rect { fill: var(--ink); }
+.dg-tray rect { fill: var(--sky-soft); stroke: #a1a1aa; stroke-width: 1.5; stroke-dasharray: 5 4; }
+.dg-bar { fill: var(--sky); }
+.dg-bar:last-of-type { fill: var(--mark); }
+[data-diagram] .dg-b { font-weight: 700; }
+[data-diagram] .dg-s, [data-diagram] .dg-tick { fill: var(--muted); }
+[data-diagram] .dg-cap, [data-diagram] .dg-key { font-weight: 600; fill: var(--muted); }
+[data-diagram] .dg-key.in, [data-diagram] .dg-b.mark { fill: var(--mark); }
+[data-diagram] .on { fill: #fff; }
+[data-diagram] .dg-s.on { fill: #d4d4d8; }
+.dg-glasses circle, .dg-glasses path { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linecap: round; }
+.dg-glasses.on circle, .dg-glasses.on path { stroke: #fff; }
+.dg-window { fill: var(--sky-soft); stroke: var(--mark); stroke-width: 1.5; stroke-dasharray: 6 4; }
+.dg-axis { stroke: var(--ink); stroke-width: 2; }
+.dg-day0 { stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 3 4; }
+.dg-lens { fill: #d4d4d8; stroke: #a1a1aa; stroke-width: 1.5; }
+.dg-lens.in { fill: var(--mark); stroke: var(--mark); }
+.dg-lapse { fill: var(--paper); stroke: #a1a1aa; stroke-width: 2.5; }
+.dg-shine { fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; opacity: .8; }
+.dg-drop { animation: dg-drop .7s cubic-bezier(.16, 1, .3, 1) both; }
+@keyframes dg-drop { from { transform: translateY(-46px); opacity: 0; } }
+.dg-gate { stroke: var(--ink); stroke-width: 3; stroke-dasharray: 2 5; stroke-linecap: round; }
+.dg-hatch { fill: var(--sky); opacity: .7; }
+.dg-x { stroke: #a1a1aa; stroke-width: 2.5; stroke-linecap: round; }
+.dg-span { stroke: #a1a1aa; stroke-width: 1.5; stroke-dasharray: 4 5; }
+.dg-seg.a { fill: var(--ink); } .dg-seg.b { fill: #52525b; } .dg-seg.c { fill: #a1a1aa; } .dg-seg.d { fill: var(--sky); }
+[data-diagram] .dg-seglbl { font-weight: 600; fill: #fff; }
+[data-diagram] .dg-seglbl:last-of-type { fill: var(--ink); }
+.checks.plain b::before { content: none; }   /* points that are not a sequence get no numbers */

@@ -2,7 +2,7 @@ const confirms = [...document.querySelectorAll('.confirm')];
 confirms.forEach(button => {
   button.dataset.label = button.textContent;
   button.addEventListener('click', () => {
-    button.textContent = 'Added ✓'; button.disabled = true;
+    button.textContent = 'Added'; button.disabled = true;
     document.querySelector('#demo-status').textContent = `${confirms.filter(b => b.disabled).length} of 2 suggestions added in this example.`;
   });
 });

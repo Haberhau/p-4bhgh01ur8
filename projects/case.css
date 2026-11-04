@@ -323,29 +323,8 @@ p { margin: 0; }
 .funnel li.last .bar b { color: #fff; }   /* white on the orange accent: 5.2:1 */
 .funnel .lbl { font-size: 13px; line-height: 1.45; color: var(--muted); }
 .funnel .lbl strong { display: block; font: 700 14px var(--f); color: var(--ink); }
-.rtl { position: relative; height: 230px; margin: 18px 4px 0 4px; }
-.tl-axis { position: absolute; left: 0; right: 0; top: 50%; border-top: 2px solid var(--ink); }
-.tl-zone { position: absolute; left: 0; width: 7%; top: calc(50% - 16px); height: 32px; background: repeating-linear-gradient(135deg, var(--sky) 0 3px, transparent 3px 7px); }
-.tl-lapsed { position: absolute; left: 86%; right: 0; top: calc(50% - 16px); height: 32px; background: var(--sky-soft); }
-.tl-mark { position: absolute; left: var(--x); top: 50%; width: 0; }
-.tl-mark i { position: absolute; left: -6px; top: -6px; width: 12px; height: 12px; border-radius: 50%; background: var(--blue); border: 2px solid var(--paper); }
-.tl-mark.hot i { background: var(--mark); }
-.tl-mark.lapse i { background: var(--sky); }
-.tl-mark span { position: absolute; left: -1px; width: max-content; max-width: 9.5em; padding-left: 8px; border-left: 1px solid var(--rule); font-size: 12.5px; line-height: 1.35; color: var(--muted); }
-.tl-mark span strong { display: block; font: 700 13px var(--f); color: var(--ink); }
-.tl-mark.up span { bottom: 14px; padding-bottom: 10px; }
-.tl-mark.down span { top: 14px; padding-top: 10px; }
-.tl-mark.left span { left: auto; right: -1px; padding: 0 8px 10px 0; border-left: 0; border-right: 1px solid var(--rule); text-align: right; }
-.tl-mark.lapse span { max-width: none; }
-.zone-lbl span { top: 22px; }
-.tl-ticks { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; font: 600 12px var(--f); color: var(--muted); }
-.tl-ticks span { width: 0; display: flex; justify-content: center; white-space: nowrap; }
-.tl-ticks span:last-child { justify-content: flex-end; }
 @media (max-width: 520px) {
   .funnel li { grid-template-columns: minmax(0, 1fr); gap: 6px; }
-  .tl-mark span { max-width: 7.5em; }
-  .tl-mark.lapse span { left: auto; right: -1px; padding: 0 8px 10px 0; border-left: 0; border-right: 1px solid var(--rule); text-align: right; }
-  .tl-ticks span:nth-child(even) { visibility: hidden; }
 }
 
 .frag { display: flex; align-items: flex-start; gap: clamp(14px, 3vw, 36px); margin-top: 26px; }

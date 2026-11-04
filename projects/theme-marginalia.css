@@ -1,0 +1,76 @@
+/* Marginalia page in the app's own design language ("Commonplace Book", thought-dump/SPEC-visual-identity.md + Theme.swift):
+   ivory paper, stacked index cards, ink-brown serif headers (New York on Apple devices), system sans for controls,
+   terracotta for tasks and actions, ink-blue for events, sage for confirmed, annotation underlines in the note. */
+body.theme-marginalia {
+  --ink: #362b20; --muted: #6e624f; --paper: #f5eee0; --line: #e2d5b9; --accent: #bc5a34;
+  --card: #ece2cc; --card-back: #e2d5b9; --calm: #46647a; --sage: #6e8566;
+  --serif: ui-serif, "New York", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+}
+.theme-marginalia h1, .theme-marginalia h2, .theme-marginalia .project-name, .theme-marginalia .next-project strong, .theme-marginalia .metrics dt, .theme-marginalia blockquote, .theme-marginalia .suggestion h3 { font-family: var(--serif); }
+.theme-marginalia h1 { font-weight: 500; letter-spacing: -.025em; }
+.theme-marginalia h2 { font-weight: 500; letter-spacing: -.02em; }
+.theme-marginalia h1 em, .theme-marginalia h2 em { font-style: italic; color: var(--accent); }
+.theme-marginalia .project-name { font-size: 22px; font-style: italic; }
+/* masthead: title left, a terracotta flourish, meta right */
+.theme-marginalia .site-header { border-bottom: 2px solid var(--ink); }
+.theme-marginalia .wordmark { font-family: var(--serif); font-size: 15px; }
+.theme-marginalia .wordmark::after { content: ""; display: inline-block; width: 26px; height: 2px; background: var(--accent); margin-left: 12px; vertical-align: 4px; }
+.theme-marginalia .eyebrow { color: var(--accent); }
+/* index cards: the card face (::after) with a slightly turned card behind it (::before), both under the content */
+.theme-marginalia .notebook, .theme-marginalia .suggestion, .theme-marginalia .launch { --face: var(--card); position: relative; isolation: isolate; background: transparent; border: 0; border-radius: 12px; }
+.theme-marginalia .notebook::before, .theme-marginalia .suggestion::before, .theme-marginalia .launch::before { content: ""; position: absolute; inset: 0; background: var(--card-back); border-radius: inherit; transform: rotate(-1.4deg) translate(3px, 4px); z-index: -2; }
+.theme-marginalia .notebook::after, .theme-marginalia .suggestion::after, .theme-marginalia .launch::after { content: ""; position: absolute; inset: 0; background: var(--face); border-radius: inherit; z-index: -1; }
+.theme-marginalia .notebook { --face: #fbf6ec; }
+.theme-marginalia .notebook::before { transform: rotate(-.8deg) translate(4px, 6px); }
+.theme-marginalia blockquote { font-size: 25px; }
+.theme-marginalia mark { background: none; color: inherit; text-decoration: underline 2.5px; text-underline-offset: 6px; }
+.theme-marginalia mark.event { text-decoration-color: var(--calm); }
+.theme-marginalia mark.task { text-decoration-color: var(--accent); }
+.theme-marginalia .suggestion { padding: 18px 20px; margin: 0 0 16px; border-top: 0; }
+.theme-marginalia .suggestion:nth-of-type(even)::before { transform: rotate(1.2deg) translate(-3px, 4px); }
+.theme-marginalia .suggestion small { font: 600 11px -apple-system, system-ui, sans-serif; letter-spacing: .08em; }
+.theme-marginalia .suggestion small.event { color: var(--calm); }
+.theme-marginalia .suggestion small.task { color: var(--accent); }
+.theme-marginalia .suggestion h3 { font-size: 20px; font-weight: 500; }
+.theme-marginalia .confirm { background: var(--accent); border-color: var(--accent); color: #fff; border-radius: 10px; font-size: 14px; font-weight: 600; padding: 10px 16px; }
+.theme-marginalia .confirm.event { background: var(--calm); border-color: var(--calm); }
+.theme-marginalia .confirm:hover { filter: brightness(1.08); background: var(--accent); }
+.theme-marginalia .confirm.event:hover { background: var(--calm); }
+.theme-marginalia .suggestion button:disabled { background: transparent; color: var(--sage); border-color: var(--sage); filter: none; }
+.theme-marginalia #reset-demo { border-color: var(--card-back); border-radius: 10px; }
+.theme-marginalia .tags span { background: var(--card); border: 0; border-radius: 8px; padding: 6px 12px; }
+.theme-marginalia .asset-note { border-top-color: var(--card-back); }
+/* the launch note: an index card */
+.launch { display: inline-flex; align-items: center; gap: 12px; margin: 0; padding: 12px 22px; border-radius: 999px; font-size: 15px; font-weight: 600; }
+.theme-marginalia .launch { font: italic 500 18px var(--serif); padding: 14px 22px; text-decoration: underline 2px var(--accent); text-underline-offset: 6px; }   /* the app's annotation underline, not a side bar */
+.theme-marginalia .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* Reading order instead of numbered sections */
+.theme-marginalia .project-story { max-width: 760px; margin: 0 auto; }
+.theme-marginalia .story-section { display: block; padding: 72px 0; border-bottom: 1px solid var(--line); }
+.theme-marginalia .project-hero .launch { margin-top: 8px; }
+/* the dictation example */
+.mic { display: inline-flex; align-items: center; gap: 12px; padding: 12px 20px 12px 14px; border-radius: 999px; border: 1px solid var(--card-back); background: #fff; color: var(--ink); font-size: 14px; font-weight: 600; }
+.mic:disabled { cursor: default; opacity: 1; }
+.mic-dot { width: 26px; height: 26px; border-radius: 50%; background: var(--accent); position: relative; }
+.mic-dot::after { content: ""; position: absolute; left: 50%; top: 50%; width: 8px; height: 12px; margin: -7px 0 0 -4px; border-radius: 4px; background: #fff; }
+.mic.on .mic-dot { animation: mic-pulse 1.1s ease-in-out infinite; }
+@keyframes mic-pulse { 50% { box-shadow: 0 0 0 9px rgba(188, 90, 52, .18); } }
+.theme-marginalia #transcript { min-height: 3.2em; margin: 24px 0 18px; }
+.theme-marginalia #transcript:empty::before { content: "…"; color: var(--muted); }
+.theme-marginalia #transcript mark { text-decoration-color: transparent; transition: text-decoration-color .5s; }
+.theme-marginalia #transcript.read mark.event { text-decoration-color: var(--calm); }
+.theme-marginalia #transcript.read mark.task { text-decoration-color: var(--accent); }
+.theme-marginalia .suggestion { opacity: 0; transform: translateY(8px); transition: opacity .4s, transform .4s; }
+.theme-marginalia .suggestion.in { opacity: 1; transform: none; }
+.theme-marginalia .suggestion small { font-size: 12px; }
+.theme-marginalia .demo-heading { font-size: 12px; color: var(--muted); }
+.theme-marginalia .suggestion[hidden] { display: none; }
+
+/* audit fixes: roman accents (the app's serif isn't italic), the app's darker terracotta for small text (5.4:1),
+   the on-device facts as one line, and each suggestion's type as a tag after its title */
+.theme-marginalia h1 em, .theme-marginalia h2 em { font-style: normal; }
+.theme-marginalia { --on-accent: #fff; }
+.facts-line { max-width: 560px; margin: 28px 0 0; padding-top: 18px; border-top: 1px solid var(--line); font: 500 17px/1.5 var(--serif); color: var(--ink); }
+.theme-marginalia .suggestion h3 small { margin-left: 8px; padding: 2px 8px; border-radius: 999px; font: 600 12px/1.6 -apple-system, system-ui, sans-serif; letter-spacing: .02em; vertical-align: 3px; background: #fbf6ec; }
+.theme-marginalia .suggestion small.task { color: #9c4726; }

@@ -1,0 +1,15 @@
+/* The two public-data studies (KlimaTicket, Barcelona rent cap): the site's own neutral look, laid out like the app pages,
+   as one reading column instead of numbered sections, with the charts allowed to sit a little wider than the text. */
+.theme-study { --paper: #f3f3f1; --line: #e4e4e7; }   /* the site's neutral page, not cream */
+.theme-study .project-hero { padding-bottom: 56px; border-bottom: 1px solid var(--line); }
+.theme-study .metrics { margin-top: 48px; }
+.theme-study .project-story { max-width: 760px; margin: 0 auto; }
+.theme-study .story-section { display: block; padding: 72px 0; border-bottom: 1px solid var(--line); }
+.theme-study .story-section:last-child { border-bottom: 0; }
+.theme-study h2 { font-size: clamp(28px, 3.2vw, 40px); }
+.theme-study h2 i, .theme-study h2 em { color: var(--accent); }
+.theme-study .story-section > figure, .theme-study .study-block > figure, .theme-study .chart-card { margin-inline: calc(-1 * min(80px, (100vw - 760px) / 2)); }
+.theme-study .study-block { margin-top: 48px; }
+.theme-study .attr-result > div { margin: 28px 0 0; }
+.theme-study .result-h { font-size: 22px; font-weight: 500; letter-spacing: -.02em; margin: 0 0 12px; }
+@media (max-width: 920px) { .theme-study .story-section > figure, .theme-study .study-block > figure, .theme-study .chart-card { margin-inline: 0; } }
