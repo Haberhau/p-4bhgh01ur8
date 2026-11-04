@@ -1,7 +1,8 @@
 /* The drawn journey at the top of the page (journey/journey.js). Its own look: warm greys, Georgia headlines, mono labels,
    one orange. The scroll track (#journey) is tall; the stage inside it stays put while the camera travels. */
 #journey { position: relative; height: 1620vh; background: #ebe8de; color: #302e29; font: 15px/1.45 system-ui, sans-serif; }
-#journey .stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+/* dvh: the height actually visible, so on iPhone the caption sits above Safari's bottom bar, not under it */
+#journey .stage { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; }
 #film { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
 
 /* Caption, pinned to the bottom of the stage */
@@ -27,11 +28,7 @@
             -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid #c8c4b780; border-radius: 999px; white-space: nowrap; }
 #controls .hint { color: #6a665d; padding: 3px 10px; }
 #controls .hint[hidden] { display: none; }
-#destinations { display: flex; align-items: center; gap: 14px; padding: 0 8px; }
-#destinations[hidden] { display: none; }
-#destinations a { color: #302e29; font: 13px system-ui; }
-#destinations a:first-child { font-weight: 650; }
-html:not(.injourney) #controls { display: none; }
+html:not(.injourney) #controls, html.journey-end #controls { display: none; }   /* on the last screen the site nav takes over */
 html.injourney .topbar { background: linear-gradient(#f7f5efeb, #f7f5ef00); border-bottom-color: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
 html.injourney .topbar .btn { display: none; }
 
@@ -41,7 +38,7 @@ body.intro #controls, body.intro #journey article, body.gathering #journey artic
 body.closing #journey article { width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); padding: 0; }
 
 /* The pill sits between the brand and the site nav; where they would touch, the nav goes (the last scene links on). */
-@media (max-width: 1180px) { html.injourney:not(.text) .topbar nav { display: none; } }
+@media (max-width: 1180px) { html.injourney:not(.text):not(.journey-end) .topbar nav { display: none; } }
 @media (max-width: 640px) {
   #controls { position: static; transform: none; order: 3; width: 100%; justify-content: center; margin-bottom: 8px; }
   #journey article { padding: 30px 16px 20px; }

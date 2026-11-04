@@ -540,7 +540,7 @@ if(timed){
 const wanted=locked?0:driven??Math.min(stops.at(-1),Math.max(0,scrollY/range()*stops.at(-1)));
 shown=driven!=null||Math.abs(wanted-shown)>1.5?wanted:shown+(wanted-shown)*(1-Math.exp(-(now-lastFrame)/110));lastFrame=now;
 const raw=shown;const i=cuts.findLastIndex(c=>raw>=c);const s=reduced.matches?stops[i]:raw;
-if(current!==i){current=i;const [label,title,voice,badge]=captions[i];const promoted=document.querySelector('#badge');promoted.hidden=!badge;promoted.textContent=badge||'';document.querySelector('#number').textContent=label;document.querySelector('#title').textContent=title;document.querySelector('#voice').textContent=voice;document.querySelector('#destinations').hidden=i!==captions.length-1;document.querySelector('.hint').hidden=i===captions.length-1}
+if(current!==i){current=i;const [label,title,voice,badge]=captions[i];const promoted=document.querySelector('#badge');promoted.hidden=!badge;promoted.textContent=badge||'';document.querySelector('#number').textContent=label;document.querySelector('#title').textContent=title;document.querySelector('#voice').textContent=voice;document.documentElement.classList.toggle('journey-end',i===captions.length-1);document.querySelector('.hint').hidden=i===captions.length-1}
 if(width!==stage.clientWidth||height!==stage.clientHeight){width=stage.clientWidth;height=stage.clientHeight;renderer.setSize(width,height,false);camera.aspect=width/height;camera.fov=width<620?46:33;camera.updateProjectionMatrix()}
 // On the way back each scene folds flat just as the helpers reach it; the net folds as they push the court in.
 const back=lineBack(s),hu=helperU(s),keep=u=>back>0?smooth((hu-u)/.05+1-smooth(back/.08)):1;   // eases in, so the home desk doesn't snap
