@@ -16,12 +16,24 @@
 @keyframes promote { from { transform: scale(.3); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { #badge { animation: none; } }
 
-/* Intro buttons, placed on the monitor by journey.js */
-#screenPlay { position: absolute; z-index: 3; transform: translate(-50%, -50%); display: flex; gap: 8px; white-space: nowrap; }
+/* Opening intro: a role line and two actions under the headline on the monitor. journey.js places it: on the screen when it
+   fits, otherwise on a card just under the monitor (phones). */
+#screenPlay { position: absolute; z-index: 3; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; animation: arrive .5s ease-out; }
 #screenPlay[hidden] { display: none; }
-#screenPlay button { padding: 12px 18px; border-radius: 7px; font: 500 14px system-ui; cursor: pointer; }
-#start { background: #292c28; color: #fff; border: 0; }
-#journey button:focus-visible { outline: 3px solid #ae421f; outline-offset: 2px; }
+#screenPlay.below { padding: 18px 16px; border-radius: 10px; background: #f5f1e7f5; box-shadow: 0 10px 30px #3a332424; }
+#screenPlay p { margin: 0; max-width: 46ch; font: 400 clamp(16px, 1.3vw, 19px)/1.45 system-ui, sans-serif; color: #4b4840; text-wrap: balance; }
+#screenPlay p b { color: #282b27; font-weight: 600; }
+#screenPlay .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 0; }
+#screenPlay.below .actions { flex-direction: column; align-self: stretch; }
+#screenPlay .intro-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 20px; border: 1px solid #292c28; border-radius: 7px;
+                         background: #292c28; color: #fff; font: 500 15px/1 system-ui, sans-serif; text-decoration: none; cursor: pointer; transition: background .2s; }
+#screenPlay .intro-btn:hover { background: #3d403b; }
+#screenPlay #start { background: transparent; color: #292c28; }
+#screenPlay #start:hover { background: #292c280f; }
+#journey button:focus-visible, #screenPlay .intro-btn:focus-visible { outline: 3px solid #ae421f; outline-offset: 2px; }
+@keyframes arrive { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { #screenPlay { animation: none; } }
+html.still #screenPlay { animation: none; }
 
 /* Scroll hint, a small pill in the middle of the header while the journey is in view */
 #controls { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 2px; padding: 4px; background: #f7f5efd9;
@@ -44,7 +56,6 @@ body.closing #journey article { width: 1px; height: 1px; overflow: hidden; clip-
   #controls { position: static; transform: none; order: 3; width: 100%; justify-content: center; margin-bottom: 8px; }
   #journey article { padding: 30px 16px 20px; }
   #journey h1 { max-width: 18ch; }
-  #screenPlay button { padding: 10px 14px; font-size: 13px; }
 }
 
 /* Text version: ?nogl, no WebGL, or the 3D failing to load */

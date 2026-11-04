@@ -27,13 +27,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/site.css?v=4">
-<link rel="stylesheet" href="journey/journey.css?v=8">
+<link rel="stylesheet" href="journey/journey.css?v=9">
 <style>
   .topbar { position: fixed; left: 0; right: 0; }
 </style>
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }</script>
 <!-- Bump ?v= on the CSS and JS links whenever they change, so browsers don't keep running an old copy. -->
-<script type="module">if (!document.documentElement.classList.contains('text')) import('./journey/journey.js?v=5').catch(() => document.documentElement.classList.add('text'));</script>
+<script type="module">if (!document.documentElement.classList.contains('text')) import('./journey/journey.js?v=6').catch(() => document.documentElement.classList.add('text'));</script>
 <noscript><style>body.intro { overflow: auto; } #journey { height: auto; } #journey .stage { display: none; } #fallback { display: block; }</style></noscript>
 </head>
 <body class="intro">
@@ -53,11 +53,15 @@
 <div id="journey" role="region" aria-label="Florian Haberhauer: the journey">
   <div class="stage">
     <canvas id="film" aria-label="A model of my story: the volleyball court, the family dealership, Kufstein, Silhouette, Barcelona and my desk at home"></canvas>
-    <div id="screenPlay" hidden><button id="start" type="button">▶ &nbsp;Follow my journey</button></div>
+    <div id="screenPlay" hidden>
+      <p><b>Data analyst.</b> I turn messy data into decisions and working tools.</p>
+      <div class="actions"><a class="intro-btn" href="#projects">View projects</a><button class="intro-btn" id="start" type="button"><span aria-hidden="true">▶</span>Follow my journey</button></div>
+    </div>
     <article aria-live="polite"><span id="badge" hidden></span><span id="number">PROLOGUE</span><h1 id="title">Before the numbers.</h1><p id="voice">My story starts on a volleyball court.</p></article>
   </div>
   <section id="fallback">
     <h2>My journey</h2>
+    <p class="lede"><b>Data analyst.</b> I turn messy data into decisions and working tools.</p>
     <p>I played volleyball from age ten until a knee injury ended my career. I chose business school in Kufstein over taking on our family dealership.</p>
     <p>As a Digital Business Intern at Silhouette, I built dashboards and forecasting models, established the CRM data structure and helped test Salesforce. As Data Analyst, I owned B2C reporting, led the business side of the Salesforce rollouts and became technical system owner.</p>
     <p>In Barcelona I continued as a Data Analyst for 25 hours a week. One of my assignments was to act as Scrum Master while we brought B2C fulfilment in-house. In the evenings I studied Big Data &amp; Analytics at EAE.</p>

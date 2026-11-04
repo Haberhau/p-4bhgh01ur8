@@ -513,7 +513,7 @@ const play=document.querySelector('#screenPlay');
 let locked=true, openedAt=performance.now(), timed=null;
 history.scrollRestoration='manual';scrollTo(0,0);
 function begin(){
-  locked=false;play.hidden=true;document.body.classList.remove('intro');
+  if(!locked)return;unlock();
   // Slow enough to watch the court draw itself on the screen and roll out onto the floor; from there the reader scrolls.
   timed={from:0,to:stops[1],duration:reduced.matches?1:6000,at:performance.now()};
 }
@@ -522,8 +522,11 @@ document.querySelector('#start').onclick=begin;
 function interruptTravel(e){if(e.target?.closest?.('button'))return;timed=null}
 for(const event of ['wheel','touchstart','keydown','pointerdown'])addEventListener(event,interruptTravel,{passive:true});
 // A link to the projects, CV or contact (in the URL or the header) skips the intro instead of being locked behind it.
-function unlock(){locked=false;play.hidden=true;document.body.classList.remove('intro')}
-addEventListener('click',e=>{const a=e.target.closest?.('a[href^="#"]');if(a&&locked&&a.getAttribute('href')!=='#journey')unlock()});
+// The link scrolls on its own (scroll-padding clears the fixed header); focus then goes to the section's heading, a stop only while it has it.
+function unlock(){locked=false;timed=null;play.hidden=true;document.body.classList.remove('intro')}
+addEventListener('click',e=>{const a=e.target.closest?.('a[href^="#"]');if(!a||!locked||a.getAttribute('href')==='#journey')return;unlock();
+  const heading=document.querySelector(a.getAttribute('href')+' h2');if(!heading)return;
+  heading.tabIndex=-1;requestAnimationFrame(()=>heading.focus({preventScroll:true}));heading.addEventListener('blur',()=>heading.removeAttribute('tabindex'),{once:true})});
 const deep=window.startHash&&window.startHash!=='#journey'&&document.getElementById(window.startHash.slice(1));
 if(deep){unlock();requestAnimationFrame(()=>deep.scrollIntoView())}
 let width=0,height=0,previousSheet=-1,previousSketch=-1,shown=0,lastFrame=0;
@@ -610,12 +613,17 @@ if(!locked&&s<.42){
 }
 if(invitation.visible&&camera.aspect<1)camera.position.set(0,2.39,-4.46+screenDistance);
 camera.lookAt(target);
-const offset=locked?0:height*.058*progress(s,0,.4)*(1-progress(s,14.5,14.9));
+const offset=locked?(play.classList.contains('below')?play.offsetHeight/2:0):height*.058*progress(s,0,.4)*(1-progress(s,14.5,14.9));
 camera.setViewOffset(width,height,0,offset,width,height);
 camera.updateMatrixWorld();
+// The intro sits on the screen under the headline when it fits, otherwise on a card under the monitor; never past the bottom edge.
 if(locked&&!play.hidden){
-  const point=V(0,2.09,-4.464).project(camera);
-  play.style.left=(point.x+1)*width/2+'px';play.style.top=(1-point.y)*height/2+'px';
+  const at=(x,f)=>{const p=V(x,2.39+1.73*(.5-f),-4.464).project(camera);return [(p.x+1)*width/2,(1-p.y)*height/2]};   // f: down the screen, 0 to 1
+  const [left,under]=at(0,.52),[edge,floor]=at(1.54,.93),base=at(0,1.04)[1];
+  play.classList.remove('below');play.style.width=Math.min(600,(edge-left)*1.7)+'px';
+  let h=play.offsetHeight,top=under;
+  if(h>floor-under){play.classList.add('below');play.style.width=Math.min(420,width-32)+'px';h=play.offsetHeight;top=base+12}
+  play.style.left=left+'px';play.style.top=Math.max(0,Math.min(top,height-h-12))+'px';
 }
 renderer.render(scene,camera)
 });
