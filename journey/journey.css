@@ -8,7 +8,7 @@
 #journey article { position: absolute; z-index: 1; left: 0; bottom: 0; width: 100%; padding: 42px 5% 28px; background: linear-gradient(transparent, #f3f0e9eb 48%); pointer-events: none; }
 #journey h1 { font: 400 clamp(29px, 4.5vw, 62px)/1 Georgia, serif; letter-spacing: -.045em; margin: .2em 0 .15em; }
 #journey p { margin: 0; max-width: 65ch; }
-#number, #controls button, #controls .hint { font: 11px/1.4 ui-monospace, monospace; letter-spacing: .08em; }
+#number, #controls .hint { font: 11px/1.4 ui-monospace, monospace; letter-spacing: .08em; }
 #number { color: #934122; }
 #badge { display: table; margin: 0 0 8px; padding: 3px 10px; border-radius: 999px; background: #b4471f; color: #fff; font: 600 10px/1.5 ui-monospace, monospace; letter-spacing: .08em; animation: promote .7s cubic-bezier(.3, 1.5, .5, 1); }
 #badge[hidden] { display: none; }
@@ -20,18 +20,13 @@
 #screenPlay[hidden] { display: none; }
 #screenPlay button { padding: 12px 18px; border-radius: 7px; font: 500 14px system-ui; cursor: pointer; }
 #start { background: #292c28; color: #fff; border: 0; }
-#autoStart { background: #f5f1e7; color: #292c28; border: 1px solid #9d998f; }
-#journey button:focus-visible, #controls button:focus-visible { outline: 3px solid #ae421f; outline-offset: 2px; }
+#journey button:focus-visible { outline: 3px solid #ae421f; outline-offset: 2px; }
 
-/* Journey controls, a small pill in the middle of the header while the journey is in view */
+/* Scroll hint, a small pill in the middle of the header while the journey is in view */
 #controls { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 2px; padding: 4px; background: #f7f5efd9;
             -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid #c8c4b780; border-radius: 999px; white-space: nowrap; }
-#controls button { background: transparent; color: #5d5a52; border: 0; border-radius: 20px; padding: 7px 12px; cursor: pointer; }
-#controls button:hover:not(:disabled) { background: #e6e2d6; }
-#controls button:disabled { opacity: .4; cursor: default; }
-#controls #advance { color: #302e29; }
-#auto[hidden] { display: none; }
-#controls .hint { color: #6a665d; padding: 0 6px; }
+#controls .hint { color: #6a665d; padding: 3px 10px; }
+#controls .hint[hidden] { display: none; }
 #destinations { display: flex; align-items: center; gap: 14px; padding: 0 8px; }
 #destinations[hidden] { display: none; }
 #destinations a { color: #302e29; font: 13px system-ui; }
@@ -40,18 +35,15 @@ html:not(.injourney) #controls { display: none; }
 html.injourney .topbar { background: linear-gradient(#f7f5efeb, #f7f5ef00); border-bottom-color: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
 html.injourney .topbar .btn { display: none; }
 
-/* Intro: the page waits on the monitor until Start or Autoplay */
+/* Intro: the page waits on the monitor until Start */
 html:not(.text) body.intro { overflow: hidden; }
 body.intro #controls, body.intro #journey article, body.gathering #journey article { visibility: hidden; }
 body.closing #journey article { width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); padding: 0; }
 
-/* The pill sits between the brand and the site nav; where they would touch, the hint goes first, then the nav (the last scene links on). */
-@media (max-width: 1600px) { #controls .hint { display: none; } }
+/* The pill sits between the brand and the site nav; where they would touch, the nav goes (the last scene links on). */
 @media (max-width: 1180px) { html.injourney:not(.text) .topbar nav { display: none; } }
 @media (max-width: 640px) {
-  #controls { position: static; transform: none; order: 3; width: 100%; justify-content: space-between; margin-bottom: 8px; }
-  #controls button { padding: 7px 9px; flex: none; }
-  #controls #advance { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  #controls { position: static; transform: none; order: 3; width: 100%; justify-content: center; margin-bottom: 8px; }
   #journey article { padding: 30px 16px 20px; }
   #journey h1 { max-width: 18ch; }
   #screenPlay button { padding: 10px 14px; font-size: 13px; }

@@ -458,21 +458,21 @@ function updateCareer(s,time){
 }
 
 const captions=[
-['PROLOGUE','Before the numbers.','My story starts on a volleyball court.','Enter the court'],
-['2010–2018  /  VOLLEYBALL','I started at ten.','From age ten to the junior national team, volleyball gave my days their rhythm.','The last rally'],
-['AGE 18  /  THE SIDELINE','Then the court went quiet.','At eighteen, my knee gave out. For the first time in eight years, I had to choose what came next.','The family business'],
-['AMSTETTEN  /  THE DEALERSHIP','The keys could have been mine.','My family had run this dealership for sixty years. Taking it over was a future I could already picture.','My decision'],
-['2020  /  KUFSTEIN','I left the keys.','I chose business school in Kufstein. There, I led my first two project teams.','Into Silhouette'],
-['2023  /  DIGITAL BUSINESS INTERN','They trusted me with the numbers.','As an intern, I built the sales dashboards and forecasting models. I also set up the CRM data structure the team would use.','My first rollout'],
-['2023–24  /  DIGITAL BUSINESS INTERN','I helped test what we were building.','On the Salesforce rollout, I helped gather requirements and test whether the system did what the business needed.','Becoming a data analyst'],
-['2024  /  CONSUMER & DIGITAL BUSINESS DATA ANALYST','The reporting became mine.','I owned B2C sales and marketing reporting across markets. Senior stakeholders relied on the figures I delivered.','Automate the refresh','PROMOTED  ·  INTERN → DATA ANALYST'],
-['2024  /  DATA ANALYST','I learned to automate the work.','With Python and Power Automate, I took the reports from weekly to daily and cut manual work by 90%.','Leading the rollout'],
-['SILHOUETTE  /  SYSTEM OWNERSHIP','Now I was leading the rollout.','I led the business side of Service Cloud and Marketing Cloud, from requirements to adoption. I became technical owner of Service Cloud and B2C reporting.','Go to Barcelona'],
-['2025–26  /  BARCELONA','A new city. Still a data analyst.','I continued as a Data Analyst at Silhouette, 25 hours a week. One assignment was to act as Scrum Master as we brought B2C fulfilment in-house.','Stay until evening'],
-['2025–26  /  EAE BUSINESS SCHOOL','Each evening, I was a student again.','After work I studied Big Data & Analytics at EAE. A year later, I finished with a 9.23 out of 10 and a top grade for our thesis.','Back to my desk'],
-['AFTER HOURS  /  APPS AND PLUGINS','Back at my desk, I build for myself.','I use AI coding tools to build iOS apps like Porchlight and Marginalia, and plugins like sprintkit.','My independent analysis'],
-['AFTER HOURS  /  INDEPENDENT ANALYSIS','Some evenings start with a question.','Did Austria’s KlimaTicket change how people travelled? What happened to rents under Barcelona’s cap? I use public data to practise answering questions outside work.','Bring it all home'],
-['YOUR MOVE','Are you ready to be part of my journey?','','Replay']
+['PROLOGUE','Before the numbers.','My story starts on a volleyball court.'],
+['2010–2018  /  VOLLEYBALL','I started at ten.','From age ten to the junior national team, volleyball gave my days their rhythm.'],
+['AGE 18  /  THE SIDELINE','Then the court went quiet.','At eighteen, my knee gave out. For the first time in eight years, I had to choose what came next.'],
+['AMSTETTEN  /  THE DEALERSHIP','The keys could have been mine.','My family had run this dealership for sixty years. Taking it over was a future I could already picture.'],
+['2020  /  KUFSTEIN','I left the keys.','I chose business school in Kufstein. There, I led my first two project teams.'],
+['2023  /  DIGITAL BUSINESS INTERN','They trusted me with the numbers.','As an intern, I built the sales dashboards and forecasting models. I also set up the CRM data structure the team would use.'],
+['2023–24  /  DIGITAL BUSINESS INTERN','I helped test what we were building.','On the Salesforce rollout, I helped gather requirements and test whether the system did what the business needed.'],
+['2024  /  CONSUMER & DIGITAL BUSINESS DATA ANALYST','The reporting became mine.','I owned B2C sales and marketing reporting across markets. Senior stakeholders relied on the figures I delivered.','PROMOTED  ·  INTERN → DATA ANALYST'],
+['2024  /  DATA ANALYST','I learned to automate the work.','With Python and Power Automate, I took the reports from weekly to daily and cut manual work by 90%.'],
+['SILHOUETTE  /  SYSTEM OWNERSHIP','Now I was leading the rollout.','I led the business side of Service Cloud and Marketing Cloud, from requirements to adoption. I became technical owner of Service Cloud and B2C reporting.'],
+['2025–26  /  BARCELONA','A new city. Still a data analyst.','I continued as a Data Analyst at Silhouette, 25 hours a week. One assignment was to act as Scrum Master as we brought B2C fulfilment in-house.'],
+['2025–26  /  EAE BUSINESS SCHOOL','Each evening, I was a student again.','After work I studied Big Data & Analytics at EAE. A year later, I finished with a 9.23 out of 10 and a top grade for our thesis.'],
+['AFTER HOURS  /  APPS AND PLUGINS','Back at my desk, I build for myself.','I use AI coding tools to build iOS apps like Porchlight and Marginalia, and plugins like sprintkit.'],
+['AFTER HOURS  /  INDEPENDENT ANALYSIS','Some evenings start with a question.','Did Austria’s KlimaTicket change how people travelled? What happened to rents under Barcelona’s cap? I use public data to practise answering questions outside work.'],
+['YOUR MOVE','Are you ready to be part of my journey?','']
 ];
 const stops=[0,1.45,2.65,3.7,4.95,5.57,5.99,6.55,7.36,7.78,8.44,9.31,10.49,11.45,15.0];
 const cuts=[0,1.15,2.14,3.31,4.38,5.33,5.84,6.16,6.98,7.57,8.04,8.91,9.96,10.92,14.6];
@@ -483,7 +483,10 @@ const shots=[
 [1.6,[4.5,2.15,6.3],[0,1.2,-.22]],
 [2.4,[3.75,1.53,7.35],[2.16,.63,2.66]],
 [2.92,[3.75,1.53,7.35],[2.16,.63,2.66]],
-[3.37,[11.63,1.50,3.95],[11.10,1.0,1.48]],
+// Follow the walk from the bench to the dealership door.
+[3.12,[6.0,2.6,9.6],[5.6,.85,2.9]],
+[3.3,[8.6,2.3,8.0],[9.6,.9,2.2]],
+[3.47,[11.63,1.50,3.95],[11.10,1.0,1.48]],
 [3.68,[11.47,1.15,2.52],[11.17,.869,1.73]],
 [4.25,[11.47,1.15,2.52],[11.17,.869,1.73]],
 [4.95,[11.3,1.8,4.4],[13.4,.92,-.6]],
@@ -509,60 +512,35 @@ const range=()=>Math.max(1,track.offsetHeight-innerHeight);
 const play=document.querySelector('#screenPlay');
 let locked=true, openedAt=performance.now(), timed=null;
 history.scrollRestoration='manual';scrollTo(0,0);
-const autoButton=document.querySelector('#auto');
-let auto=false, captionAt=0;
-function setAuto(on){auto=on;autoButton.textContent=on?'❚❚ Pause':'▶ Autoplay';autoButton.setAttribute('aria-pressed',on)}
-function resetIntro(){
-  timed=null;locked=true;openedAt=performance.now();setAuto(false);
-  document.body.classList.add('intro');scrollTo(0,0);
-}
-function travel(from,to,duration,linear=false){
-  timed={from,to,duration,linear,at:performance.now()};
-}
 function begin(){
   locked=false;play.hidden=true;document.body.classList.remove('intro');
-  // Slow enough to watch the court draw itself on the screen and roll out onto the floor.
-  travel(0,stops[1],reduced.matches?1:6000);
-  document.querySelector('#advance').focus({preventScroll:true});
+  // Slow enough to watch the court draw itself on the screen and roll out onto the floor; from there the reader scrolls.
+  timed={from:0,to:stops[1],duration:reduced.matches?1:6000,at:performance.now()};
 }
 document.querySelector('#start').onclick=begin;
-document.querySelector('#autoStart').onclick=()=>{setAuto(true);begin()};
-autoButton.onclick=()=>setAuto(!auto);
-// Scrolling, keys or a click on the scene take over from the camera; the control buttons do not.
-function interruptTravel(e){if(e.target?.closest?.('button'))return;timed=null;setAuto(false)}
+// Scrolling, keys or a click on the scene take over from that opening move.
+function interruptTravel(e){if(e.target?.closest?.('button'))return;timed=null}
 for(const event of ['wheel','touchstart','keydown','pointerdown'])addEventListener(event,interruptTravel,{passive:true});
-// Autoplay moves take 1.3 s longer than a click on Next, since they carry the reading time.
-function go(i,autoplay=false){
-  if(i===0){resetIntro();return}
-  const from=scrollY/range()*stops.at(-1);
-  if(reduced.matches){scrollTo({top:range()*stops[i]/stops.at(-1),behavior:'instant'});return}
-  if(i===stops.length-1){travel(from,stops[i],16000,true);return}   // the helpers' ending runs at an even pace
-  travel(from,stops[i],(autoplay?2200:900)+Math.abs(stops[i]-from)*1000)}
 // A link to the projects, CV or contact (in the URL or the header) skips the intro instead of being locked behind it.
 function unlock(){locked=false;play.hidden=true;document.body.classList.remove('intro')}
 addEventListener('click',e=>{const a=e.target.closest?.('a[href^="#"]');if(a&&locked&&a.getAttribute('href')!=='#journey')unlock()});
 const deep=window.startHash&&window.startHash!=='#journey'&&document.getElementById(window.startHash.slice(1));
 if(deep){unlock();requestAnimationFrame(()=>deep.scrollIntoView())}
-document.querySelector('#advance').onclick=()=>go((current+1)%stops.length);
-document.querySelector('#back').onclick=()=>go(Math.max(0,current-1));
-let width=0,height=0,previousSheet=-1,previousSketch=-1;
+let width=0,height=0,previousSheet=-1,previousSketch=-1,shown=0,lastFrame=0;
 renderer.setAnimationLoop(now=>{
 if(!timed&&track.getBoundingClientRect().bottom<0)return;   // below the journey: nothing to draw
 let driven=null;
 if(timed){
   const elapsed=Math.min(1,Math.max(0,(now-timed.at)/timed.duration));
-  driven=THREE.MathUtils.lerp(timed.from,timed.to,timed.linear?elapsed:smooth(elapsed));
+  driven=THREE.MathUtils.lerp(timed.from,timed.to,smooth(elapsed));
   scrollTo(0,range()*driven/stops.at(-1));
   if(elapsed===1)timed=null;
 }
-const raw=locked?0:driven??Math.min(stops.at(-1),Math.max(0,scrollY/range()*stops.at(-1)));const i=cuts.findLastIndex(c=>raw>=c);const s=reduced.matches?stops[i]:raw;
-if(current!==i){current=i;const [label,title,voice,next,badge]=captions[i];const promoted=document.querySelector('#badge');promoted.hidden=!badge;promoted.textContent=badge||'';autoButton.hidden=i===captions.length-1;document.querySelector('#number').textContent=label;document.querySelector('#title').textContent=title;document.querySelector('#voice').textContent=voice;document.querySelector('#advance').textContent=next+' →';document.querySelector('#back').disabled=i===0;document.querySelector('#destinations').hidden=i!==captions.length-1;document.querySelector('.hint').hidden=i===captions.length-1;captionAt=now}
-// Autoplay never pauses: the next camera move starts the moment one ends, and the moves are long enough to read the
-// caption on the way. With reduced motion the steps jump instead of moving, so each one holds for 4 s.
-if(auto&&!timed&&!locked){
-  if(current===stops.length-1)setAuto(false);
-  else if(!reduced.matches||now-captionAt>4000)go(current+1,true);
-}
+// The model eases after the scroll position, so a mouse wheel's steps glide instead of jumping; a long jump (a header link) cuts.
+const wanted=locked?0:driven??Math.min(stops.at(-1),Math.max(0,scrollY/range()*stops.at(-1)));
+shown=driven!=null||Math.abs(wanted-shown)>1.5?wanted:shown+(wanted-shown)*(1-Math.exp(-(now-lastFrame)/110));lastFrame=now;
+const raw=shown;const i=cuts.findLastIndex(c=>raw>=c);const s=reduced.matches?stops[i]:raw;
+if(current!==i){current=i;const [label,title,voice,badge]=captions[i];const promoted=document.querySelector('#badge');promoted.hidden=!badge;promoted.textContent=badge||'';document.querySelector('#number').textContent=label;document.querySelector('#title').textContent=title;document.querySelector('#voice').textContent=voice;document.querySelector('#destinations').hidden=i!==captions.length-1;document.querySelector('.hint').hidden=i===captions.length-1}
 if(width!==stage.clientWidth||height!==stage.clientHeight){width=stage.clientWidth;height=stage.clientHeight;renderer.setSize(width,height,false);camera.aspect=width/height;camera.fov=width<620?46:33;camera.updateProjectionMatrix()}
 // On the way back each scene folds flat just as the helpers reach it; the net folds as they push the court in.
 const back=lineBack(s),hu=helperU(s),keep=u=>back>0?smooth((hu-u)/.05+1-smooth(back/.08)):1;   // eases in, so the home desk doesn't snap
@@ -587,7 +565,12 @@ ball.visible=s>1.1&&keepBench>0;ball.scale.setScalar(Math.max(.001,keepBench));b
 for(const {f,x,z,side,hero,jumper} of players){f.root.visible=build>.01&&(hero||hush<.99);f.root.scale.setScalar(hero?build:build*(1-hush));f.root.rotation.y=-side*Math.PI/2;
 const hit=jumper?Math.max(0,side*Math.cos(phase))**8:0;f.root.position.set(x,.04+hit*.36,z);pose(f,{...P.ready,lax:-.7-hit*1.9,rax:-.7-hit*1.9});
 if(hero&&hush>0){f.root.position.lerp(V(2.5,.035,3.01),hush);f.root.rotation.y=-(1-hush)*Math.PI/2;pose(f,{llx:-1.5*hush,rlx:-1.5*hush,spine:.2*hush,head:.25*hush,lax:-.48,rax:-.48})}}
-if(s>3.14){const u=progress(s,4.12,4.92);protagonist.root.position.copy(path.getPointAt(u));const tangent=path.getTangentAt(u);protagonist.root.rotation.y=Math.atan2(tangent.x,tangent.z);pose(protagonist,u>0&&u<1?P.walk(u*58):P.stand)}
+// He gets up from the bench and walks over to the dealership while the camera pans there.
+const benchSeat=V(2.5,.035,3.01),dealerDoor=path.getPointAt(0),getUp=progress(s,2.78,2.92),walkOver=progress(s,2.9,3.42);
+if(s>2.78&&walkOver<1){const heading=Math.atan2(dealerDoor.x-benchSeat.x,dealerDoor.z-benchSeat.z);
+  protagonist.root.position.lerpVectors(benchSeat,dealerDoor,walkOver);protagonist.root.rotation.y=heading*getUp;
+  pose(protagonist,walkOver>0?P.walk(walkOver*benchSeat.distanceTo(dealerDoor)*5):{llx:-1.5*(1-getUp),rlx:-1.5*(1-getUp),spine:.2*(1-getUp),head:.25*(1-getUp),lax:-.48*(1-getUp),rax:-.48*(1-getUp)})}
+else if(s>3.14){const u=progress(s,4.12,4.92);protagonist.root.position.copy(path.getPointAt(u));const tangent=path.getTangentAt(u);protagonist.root.rotation.y=Math.atan2(tangent.x,tangent.z);pose(protagonist,u>0&&u<1?P.walk(u*58):P.stand)}
 updateCareer(s,time);
 for(const [place,at] of [[studio,foldAt.studio],[city,foldAt.city],[workshop,foldAt.workshop]]){const k=keep(at);place.scale.y=Math.max(.001,place.scale.y*k);place.visible&&=k>0}
 const keepHome=keep(foldAt.workshop);protagonist.root.scale.multiplyScalar(Math.max(.001,keepHome));protagonist.root.visible&&=keepHome>0;
