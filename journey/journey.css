@@ -34,11 +34,12 @@ html.injourney .topbar .btn { display: none; }
 
 /* Intro: the page waits on the monitor until Start */
 html:not(.text) body.intro { overflow: hidden; }
-body.intro #controls, body.intro #journey article, body.gathering #journey article { visibility: hidden; }
+body.intro #journey article, body.gathering #journey article { visibility: hidden; }
+body.intro #controls { display: none; }   /* on the start screen the site nav shows instead */
 body.closing #journey article { width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); padding: 0; }
 
 /* The pill sits between the brand and the site nav; where they would touch, the nav goes (the last scene links on). */
-@media (max-width: 1180px) { html.injourney:not(.text):not(.journey-end) .topbar nav { display: none; } }
+@media (max-width: 1180px) { html.injourney:not(.text):not(.journey-end) body:not(.intro) .topbar nav { display: none; } }
 @media (max-width: 640px) {
   #controls { position: static; transform: none; order: 3; width: 100%; justify-content: center; margin-bottom: 8px; }
   #journey article { padding: 30px 16px 20px; }
