@@ -355,14 +355,16 @@ function frame(now) {
   queued = false;
   const m = main.getBoundingClientRect();
   const target = lengthAt(innerHeight * .62 - m.top);
-  // On load the line first runs out of the screen, after the court has drawn itself
-  const intro = reduced ? Infinity : Math.max(0, now - introStart - 1300) * 1.1;
+  // On load the line first runs out of the screen, after the court has drawn itself; once it has caught up, it follows the scroll directly
+  const intro = reduced || introDone ? Infinity : Math.max(0, now - introStart - 1300) * 1.1;
+  if (intro >= target) introDone = true;
   const len = Math.min(target, intro);
   drawn.style.strokeDashoffset = total - len;
   nodes.forEach(n => n.c.classList.toggle('lit', len >= n.len));
   words.forEach(w => w.classList.toggle('on', reduced || w.getBoundingClientRect().top < innerHeight * .6));
   if (intro < target) queue();
 }
+let introDone = false;
 const queue = () => { if (!queued) { queued = true; requestAnimationFrame(frame); } };
 addEventListener('scroll', queue, { passive: true });
 addEventListener('resize', () => { layout(); queue(); });

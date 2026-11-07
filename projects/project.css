@@ -26,3 +26,6 @@ main em, main i { font-style: normal; }
 .talk .actions { display: flex; flex-wrap: wrap; gap: var(--s-100); margin-top: var(--s-300); }
 .foot .wrap { max-width: 1240px; padding: 0 48px; }
 @media (max-width: 760px) { .foot .wrap { padding: 0 24px; } .talk h2 { font-size: 24px; line-height: 32px; } }
+/* Nothing under 12px: the phone-size figure captions, labels and chart text */
+@media (max-width: 760px) { .eyebrow, .metrics dd, .es-chart text, .rules li, .suggestion small { font-size: 12px; } }
+.es-chart text { font-size: 12px; }

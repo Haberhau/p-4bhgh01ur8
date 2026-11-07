@@ -66,3 +66,4 @@
 @media (max-width: 767px) { .nextp strong { font-size: 30px; line-height: 36px; } }
 .talk { padding: var(--s-800) 0; }
 .talk .actions { display: flex; flex-wrap: wrap; gap: var(--s-100); margin-top: var(--s-300); }
+.snag strong { color: var(--orange-text); }   /* text on the light snag fill: the darker text orange, not the graphics orange */
