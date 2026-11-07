@@ -1,55 +1,108 @@
 <!doctype html>
 <html lang="en">
+<head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reporting automation · Florian Haberhauer</title>
+<meta name="description" content="How a weekly stream of emailed sales reports, copied by hand, became an automated daily flow into the dashboards with Power Automate and Python.">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<meta name="description" content="How a weekly stream of emailed sales reports, pulled together by hand, became an automated flow into the sales dashboards with Power Automate and Python.">
-<link rel="stylesheet" href="case.css?v=3">
-<link rel="stylesheet" href="bridge.css?v=2">
-<link rel="stylesheet" href="process.css?v=7">
+<meta name="theme-color" content="#f4f1ea">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preload" href="../fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/site.css?v=7">
+<link rel="stylesheet" href="process.css?v=7"><!-- the drawn diagrams and the process list -->
+<link rel="stylesheet" href="work.css?v=1">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="reading" aria-hidden="true"></div>
 
-<main>
-<header class="journey-bar"><a href="../index.html#projects">← Back to the projects</a></header>
-<section class="chapter" id="reporting">
-  <div class="wrap attr-head">
-    <h1>From inbox to dashboard, <em>automated.</em></h1>
-    <div>
-      <p class="body">The sales numbers used to arrive as a stream of emailed spreadsheets and were pulled together by hand, once a week. I automated the path from the inbox to the dashboards: the numbers now arrive on their own, every day.</p>
-      <p class="internal">Company-internal project: this page shows how it works, not the numbers.</p>
-    </div>
-  </div>
+<header class="nav" aria-label="Site">
+  <a class="mark" href="../index.html"><i aria-hidden="true"></i>Florian Haberhauer</a>
+  <nav class="links" aria-label="Main"><a href="../index.html#work" aria-current="page">Work</a><a href="../story.html">Story</a><a href="../index.html#cv">CV</a><a href="../index.html#contact">Contact</a></nav>
+  <a class="btn small" href="../Florian-Haberhauer-CV.pdf" download>Download CV</a>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="panel" aria-label="Menu"><span></span><span></span></button>
+</header>
+<nav class="panel" id="panel" aria-label="Menu">
+  <a href="../index.html#work">Work</a><a href="../story.html">My story</a><a href="../index.html#cv">CV</a><a href="../index.html#contact">Contact</a><a href="../Florian-Haberhauer-CV.pdf" download>Download CV</a>
+</nav>
+
+<main id="main">
+  <div class="wrap crumbs"><a href="../index.html#work"><span aria-hidden="true">←</span> All work</a><span>Project 01 of 09</span></div>
+
+  <header class="wrap head">
+    <h1 class="heading-1 grad">From inbox to dashboard, automated</h1>
+    <p class="meta">At work · Silhouette · Data analyst since 2024</p>
+    <p class="sub body-7">The sales numbers used to arrive as a stream of emailed spreadsheets and were pulled together by hand, once a week. I automated the path from the inbox to the dashboards: the numbers now arrive on their own, every day.</p>
+    <dl class="proof">
+      <div><dt>−90%</dt><dd>manual work on the sales reporting</dd></div>
+      <div><dt>Daily</dt><dd>dashboard refresh, was once a week</dd></div>
+      <div><dt>2</dt><dd>tools: Power Automate and Python</dd></div>
+    </dl>
+    <p class="note"><b>Company-internal.</b> This page shows how it works; the internal figures stay inside.</p>
+  </header>
+
   <div class="wrap">
-    <figure class="flow" aria-labelledby="flow-title">
-      <figcaption>
-        <h2 id="flow-title">How the numbers flow now</h2>
-        <p class="sub">Many emails in, one automated step, the dashboards out</p>
-      </figcaption>
-      <div data-diagram="mailflow" role="img" aria-label="The ERP sends many emails, each with one spreadsheet. An automation built with Power Automate and Python reads every attachment and passes the numbers on to the dashboards, which update every day."></div>
-      <dl class="facts">
-        <div><dt>Before</dt><dd>Copied by hand, once a week</dd></div>
-        <div><dt>Now</dt><dd>Automated, every day</dd></div>
-        <div><dt>My part</dt><dd>Designed and built the flow</dd></div>
-      </dl>
-    </figure>
-    <figure class="flow" aria-labelledby="solve-title">
-      <figcaption><h2 id="solve-title">What the automation does</h2></figcaption>
-      <ol class="checks plain">
+    <section class="part" data-reveal aria-labelledby="p1">
+      <h2 id="p1">The problem</h2>
+      <div>
+        <p class="lead heading-5">Every week, someone copied the figures from a pile of emailed spreadsheets into the sales reporting. For months, that someone was me.</p>
+        <p class="body body-3">The ERP sends one spreadsheet per email. Pulled together by hand, the dashboards were only as fresh as the last copy session.</p>
+      </div>
+    </section>
+
+    <section class="part" data-reveal aria-labelledby="p2">
+      <h2 id="p2">How it flows now</h2>
+      <div>
+        <p class="lead heading-5">Many emails in, one automated step, the dashboards out.</p>
+        <figure class="diagram">
+          <div data-diagram="mailflow" role="img" aria-label="The ERP sends many emails, each with one spreadsheet. An automation built with Power Automate and Python reads every attachment and passes the numbers on to the dashboards, which update every day."></div>
+          <dl class="facts">
+            <div><dt>Before</dt><dd>Copied by hand, once a week</dd></div>
+            <div><dt>Now</dt><dd>Automated, every day</dd></div>
+            <div><dt>My part</dt><dd>Designed and built the flow</dd></div>
+          </dl>
+        </figure>
+      </div>
+    </section>
+
+    <section class="part" data-reveal aria-labelledby="p3">
+      <h2 id="p3">What it does</h2>
+      <ol class="steps">
         <li><b>Catches every email</b><span>Each email carries one spreadsheet. Power Automate picks up every attachment as it arrives.</span></li>
         <li><b>Reads what matters</b><span>Where a spreadsheet needs more careful handling, Python extracts just the relevant figures.</span></li>
         <li><b>Feeds the dashboards</b><span>The numbers land where the dashboards read them, so they refresh without anyone touching them.</span></li>
         <li><b>Runs every day</b><span>With no one in the loop, the update no longer waits for a weekly slot.</span></li>
       </ol>
-    </figure>
-    <figure class="flow" aria-labelledby="tools-title">
-      <figcaption><h2 id="tools-title">Tools</h2></figcaption>
-      <div class="tags"><span>Power Automate</span><span>Python</span></div>
-    </figure>
+    </section>
+
+    <section class="part" data-reveal aria-labelledby="p4">
+      <h2 id="p4">What changed</h2>
+      <div>
+        <ul class="changed">
+          <li><b>−90%</b><span>manual work on the sales reporting.</span></li>
+          <li><b>Daily</b><span>dashboards refresh every day instead of once a week.</span></li>
+          <li><b><span class="todo">{{…}}</span></b><span>What the team now does with the time, or a decision the daily numbers made possible. <span class="todo">{{Florian}}</span></span></li>
+        </ul>
+        <div class="chips" aria-label="Tools"><span>Power Automate</span><span>Python</span><span>Excel</span></div>
+      </div>
+    </section>
+
+
+    <a class="nextp" href="case-attribution.html"><small>Next · Project 02 of 09</small><strong>Click &amp; collect glazing</strong><span class="arrow" aria-hidden="true">→</span></a>
+
+    <section class="talk" aria-labelledby="talk-h">
+      <h2 class="heading-3" id="talk-h">Hiring for a data role? Let's talk.</h2>
+      <div class="actions"><a class="btn" href="mailto:haberhauer34@gmail.com?subject=Hello%20Florian">Email me</a><a class="btn ghost" href="../Florian-Haberhauer-CV.pdf" download>Download CV</a></div>
+    </section>
   </div>
-</section>
 </main>
 
-<footer class="journey-foot"><a href="../index.html#projects">← Back to the projects</a><a href="../Florian-Haberhauer-CV.pdf" download>Download the CV</a><a href="mailto:haberhauer34@gmail.com?subject=Hello%20Florian">Get in touch →</a></footer>
+<footer class="foot">
+  <div class="wrap"><span>© 2026 Florian Haberhauer</span><nav aria-label="Footer"><a href="../index.html#work">All work</a><a href="../story.html">My story</a></nav></div>
+</footer>
+
 <script src="diagrams.js?v=9" defer></script>
+<script src="../js/site.js?v=2" defer></script>
+</body>
+</html>

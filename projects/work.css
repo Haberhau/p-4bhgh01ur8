@@ -1,0 +1,68 @@
+/* projects/work.css · the work case template (reporting, click & collect glazing, rebuy), on top of css/site.css.
+   process.css still draws the diagrams and the process list; its variables are mapped to the site tokens here. */
+:root { --rule: var(--line); --sky: #e6e1d4; --sky-soft: #efebe2; --mark: var(--orange); --paper: var(--surface); --f: var(--font); }
+
+/* The reading line: the site's orange line at the left edge, growing as you read (js/site.js) */
+.reading { position: fixed; left: 0; top: 0; bottom: 0; width: 3px; background: var(--orange); transform-origin: top; transform: scaleY(0); z-index: 40; }
+
+.crumbs { display: flex; justify-content: space-between; gap: var(--s-200); padding-top: calc(var(--s-900) + var(--s-200)); color: var(--muted); font: 400 14px/20px var(--mono); }
+.crumbs a { text-decoration: none; } .crumbs a:hover { color: var(--ink); }
+.head { padding-top: var(--s-700); }   /* top only: .wrap keeps the side gutters */
+.head::after { content: ""; display: block; margin-top: var(--s-800); border-bottom: 1px solid var(--line); }
+.head h1, .head .sub { max-width: 680px; }
+.head .meta { margin-top: var(--s-200); font: 400 14px/20px var(--mono); color: var(--muted); }
+.head .sub { margin-top: var(--s-300); color: var(--muted); }
+.proof { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-300); margin: var(--s-600) 0 0; max-width: 820px; }
+.proof div { padding-top: var(--s-200); border-top: 2px solid var(--ink); }
+.proof div:first-child { border-top-color: var(--orange); }
+.proof dt { font: 500 30px/36px var(--mono); letter-spacing: -.02em; }
+.proof dd { margin: var(--s-75) 0 0; color: var(--muted); font-size: 14px; line-height: 20px; }
+@media (max-width: 640px) { .proof { grid-template-columns: minmax(0, 1fr); } }
+.note { display: inline-flex; gap: var(--s-75); align-items: center; margin-top: var(--s-400); padding: var(--s-75) var(--s-100); border-radius: var(--r-lg); background: var(--sunk); font-size: 14px; line-height: 20px; color: var(--muted); }
+.note b { color: var(--ink); font-weight: 500; }
+
+/* Sections: a sticky label on the left, the content on the right */
+.part { display: grid; gap: var(--s-200) var(--s-600); padding: var(--s-800) 0; border-bottom: 1px solid var(--line); }
+@media (min-width: 1024px) { .part { grid-template-columns: 14rem minmax(0, 1fr); } .part > h2 { position: sticky; top: var(--s-900); align-self: start; } }
+.part > h2 { font: 500 12px/16px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: var(--s-75); }
+.part > div { min-width: 0; }
+.part .lead { max-width: 680px; }
+.part p + p, .part .lead + .body { margin-top: var(--s-200); }
+.part .body { max-width: 65ch; color: var(--muted); }
+
+.diagram { margin: var(--s-400) 0 0; padding: var(--s-300); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); }
+.diagram [data-diagram] { margin-top: 0; }
+.diagram .legend { margin: 0 0 var(--s-100); }
+.diagram .process { margin-top: var(--s-100); }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-300); margin: var(--s-300) 0 0; padding-top: var(--s-300); border-top: 1px solid var(--line); }
+.facts dt { font: 500 12px/16px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--faint); }
+.facts dd { margin: var(--s-50) 0 0; }
+@media (max-width: 640px) { .facts { grid-template-columns: minmax(0, 1fr); } }
+
+/* Steps on the line */
+.steps { list-style: none; margin: var(--s-300) 0 0; padding: 0; counter-reset: s; max-width: 680px; }
+.steps li { counter-increment: s; position: relative; padding: 0 0 var(--s-400) var(--s-600); }
+.steps li::before { content: counter(s, decimal-leading-zero); position: absolute; left: 0; top: 0; width: 32px; height: 32px; display: grid; place-items: center; border-radius: var(--r-full);
+                    background: var(--surface); border: 2px solid var(--orange); font: 500 12px/16px var(--mono); color: var(--orange-text); }
+.steps li::after { content: ""; position: absolute; left: 15px; top: 36px; bottom: var(--s-50); width: 2px; background: var(--line); }
+.steps li:last-child::after { display: none; }
+.steps b { display: block; font-size: 18px; line-height: 28px; font-weight: 500; padding-top: var(--s-25); }
+.steps span { display: block; margin-top: var(--s-50); color: var(--muted); }
+
+.changed { list-style: none; margin: var(--s-300) 0 0; padding: 0; display: grid; gap: var(--s-200); max-width: 680px; }
+.changed li { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: var(--s-300); align-items: baseline; padding-bottom: var(--s-200); border-bottom: 1px solid var(--line); }
+.changed b { font: 500 24px/32px var(--mono); letter-spacing: -.02em; }
+.changed span { color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: var(--s-75); }
+.chips span { padding: var(--s-50) var(--s-100); border: 1px solid var(--line); border-radius: var(--r-full); font-size: 14px; line-height: 20px; background: var(--surface); }
+.part .questions { max-width: 680px; }
+
+/* Next project and contact */
+.nextp { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s-75) var(--s-300); align-items: end; padding: var(--s-800) 0; text-decoration: none; border-bottom: 1px solid var(--line); }
+.nextp small { grid-column: 1 / -1; font: 400 14px/20px var(--mono); color: var(--muted); }
+.nextp strong { font-size: 48px; line-height: 48px; font-weight: 600; letter-spacing: -.03em; }
+.nextp .arrow { font-size: 36px; line-height: 40px; color: var(--orange-text); }
+.nextp:hover strong { color: var(--orange-text); }
+@media (max-width: 767px) { .nextp strong { font-size: 30px; line-height: 36px; } }
+.talk { padding: var(--s-800) 0; }
+.talk .actions { display: flex; flex-wrap: wrap; gap: var(--s-100); margin-top: var(--s-300); }

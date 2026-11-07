@@ -1,63 +1,91 @@
 <!doctype html>
 <html lang="en">
+<head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<title>Rebuy & retention · Florian Haberhauer</title>
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rebuy &amp; retention · Florian Haberhauer</title>
 <meta name="description" content="How Salesforce customer and sales data was cleaned into reusable SQL views to study rebuy timing, next purchases and lapsed customers.">
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="case.css?v=3">
-<link rel="stylesheet" href="bridge.css?v=2">
-<link rel="stylesheet" href="process.css?v=7">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#f4f1ea">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preload" href="../fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/site.css?v=7">
+<link rel="stylesheet" href="process.css?v=7"><!-- the drawn diagrams and the process list -->
+<link rel="stylesheet" href="work.css?v=1">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="reading" aria-hidden="true"></div>
 
-<main>
-<header class="journey-bar" style="--sky1:#7fb0d8;--sky2:#eef2f4"><a href="../index.html#projects">← Back to the projects</a></header>
-<section class="chapter" id="rebuy">
-  <div class="wrap grid flip">
-    <div>
-      <h1>Do customers come <em>back?</em></h1>
-      <p class="body">Customer records and sales from Salesforce, across two brands, one row per product. I built the analysis as reusable SQL views in SQLite, split every result by brand and sales channel, and wrote up the findings for the business. Most of the work was deciding which rows to trust.</p>
-      <p class="internal">Company-internal project: this page shows how I worked, not the results.</p>
-    </div>
-    <figure class="chart-card" style="margin:0">
-      <h2>Three questions</h2>
-      <p class="sub">Each answered per brand and per sales channel</p>
-      <ul class="questions">
+<header class="nav" aria-label="Site">
+  <a class="mark" href="../index.html"><i aria-hidden="true"></i>Florian Haberhauer</a>
+  <nav class="links" aria-label="Main"><a href="../index.html#work" aria-current="page">Work</a><a href="../story.html">Story</a><a href="../index.html#cv">CV</a><a href="../index.html#contact">Contact</a></nav>
+  <a class="btn small" href="../Florian-Haberhauer-CV.pdf" download>Download CV</a>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="panel" aria-label="Menu"><span></span><span></span></button>
+</header>
+<nav class="panel" id="panel" aria-label="Menu">
+  <a href="../index.html#work">Work</a><a href="../story.html">My story</a><a href="../index.html#cv">CV</a><a href="../index.html#contact">Contact</a><a href="../Florian-Haberhauer-CV.pdf" download>Download CV</a>
+</nav>
+
+<main id="main">
+  <div class="wrap crumbs"><a href="../index.html#work"><span aria-hidden="true">←</span> All work</a><span>Project 03 of 09</span></div>
+
+  <header class="wrap head">
+    <h1 class="heading-1 grad">Do customers come back?</h1>
+    <p class="meta">At work · Silhouette · Analysis · SQL views in SQLite</p>
+    <p class="sub body-7">Customer records and sales from Salesforce, across two brands, one row per product. I built the analysis as reusable SQL views in SQLite, split every result by brand and sales channel, and wrote up the findings for the business. Most of the work was deciding which rows to trust.</p><!-- TODO(Florian): outcome number for the proof strip -->
+    <p class="note"><b>Company-internal.</b> This page shows how I worked; the results stay inside.</p>
+  </header>
+
+  <div class="wrap">
+    <section class="part" data-reveal aria-labelledby="p1">
+      <h2 id="p1">Three questions</h2>
+      <div>
+        <p class="lead heading-5">Each answered per brand and per sales channel.</p>
+        <ul class="questions">
         <li>How long until a customer buys again?<span>Time from one real purchase to the next.</span></li>
         <li>What do they buy next?<span>Frames again, or spare parts.</span></li>
         <li>Who has quietly stopped?<span>Customers grouped by time since their last order.</span></li>
       </ul>
-    </figure>
+      </div>
+    </section>
+    <section class="part" data-reveal aria-labelledby="p2">
+      <h2 id="p2">Cleaning</h2>
+      <div>
+        <p class="lead heading-5">From raw rows to rebuys you can trust.</p>
+        <p class="body body-3">Each rule came from questioning a result that looked too good, or simply odd. Schematic: no real proportions.</p>
+        <figure class="diagram"><div data-diagram="sieve" role="img" aria-label="Customer and sales data from Salesforce, joined on the account, flow through four rules: product lines are collapsed into orders and revenue is dropped; accounts with more than a set number of orders are removed as opticians; the rest is split by brand and sales channel; second orders within 30 days are removed as corrections. What is left are real rebuys."></div></figure>
+      </div>
+    </section>
+    <section class="part" data-reveal aria-labelledby="p3">
+      <h2 id="p3">The rules</h2>
+      <div>
+        <p class="lead heading-5">What counts as a rebuy, and when a customer counts as lapsed.</p>
+        <figure class="diagram"><div data-diagram="customer" role="img" aria-label="Timeline after a first purchase. An order within the first 30 days is a correction, not a rebuy. Any later order is a rebuy. Twelve months without an order means the customer has lapsed. Customers are grouped by time since their last order: under 12 months, 12 to 24, 24 to 36, and over 36."></div></figure>
+        <p class="body body-3">All views are plain SQL in SQLite, so every number can be traced back to the rows behind it.</p>
+      </div>
+    </section>
+    <section class="part" data-reveal aria-labelledby="p4">
+      <h2 id="p4">Tools</h2>
+      <div>
+        <div class="chips" aria-label="Tools"><span>Salesforce</span><span>SQL</span><span>SQLite</span></div>
+      </div>
+    </section>
+
+    <a class="nextp" href="thesis.html"><small>Next · Project 04 of 09</small><strong>Spain’s fashion split</strong><span class="arrow" aria-hidden="true">→</span></a>
+
+    <section class="talk" aria-labelledby="talk-h">
+      <h2 class="heading-3" id="talk-h">Hiring for a data role? Let's talk.</h2>
+      <div class="actions"><a class="btn" href="mailto:haberhauer34@gmail.com?subject=Hello%20Florian">Email me</a><a class="btn ghost" href="../Florian-Haberhauer-CV.pdf" download>Download CV</a></div>
+    </section>
   </div>
-  <div class="wrap">
-    <figure class="flow" aria-labelledby="clean-title">
-      <figcaption>
-        <h2 id="clean-title">From raw rows to rebuys you can trust</h2>
-        <p class="sub">Each rule came from questioning a result that looked too good, or simply odd. Schematic: no real proportions.</p>
-      </figcaption>
-      <div data-diagram="sieve" role="img" aria-label="Customer and sales data from Salesforce, joined on the account, flow through four rules: product lines are collapsed into orders and revenue is dropped; accounts with more than a set number of orders are removed as opticians; the rest is split by brand and sales channel; second orders within 30 days are removed as corrections. What is left are real rebuys."></div>
-    </figure>
-    <figure class="flow" aria-labelledby="time-title">
-      <figcaption>
-        <h2 id="time-title">The rules on one customer</h2>
-        <p class="sub">What counts as a rebuy, and when a customer counts as lapsed</p>
-      </figcaption>
-      <div data-diagram="customer" role="img" aria-label="Timeline after a first purchase. An order within the first 30 days is a correction, not a rebuy. Any later order is a rebuy. Twelve months without an order means the customer has lapsed. Customers are grouped by time since their last order: under 12 months, 12 to 24, 24 to 36, and over 36."></div>
-      <p class="flow-out">All views are plain SQL in SQLite, so every number can be traced back to the rows behind it.</p>
-    </figure>
-    <figure class="flow" aria-labelledby="tools-title">
-      <figcaption><h2 id="tools-title">Tools</h2></figcaption>
-      <div class="tags"><span>Salesforce</span><span>SQL</span><span>SQLite</span></div>
-    </figure>
-  </div>
-</section>
 </main>
 
-<!-- p. 13 back cover -->
-<footer class="journey-foot"><a href="../index.html#projects">← Back to the projects</a><a href="../Florian-Haberhauer-CV.pdf" download>Download the CV</a><a href="mailto:haberhauer34@gmail.com?subject=Hello%20Florian">Get in touch →</a></footer>
-<script src="case.js?v=2" defer></script>
+<footer class="foot">
+  <div class="wrap"><span>© 2026 Florian Haberhauer</span><nav aria-label="Footer"><a href="../index.html#work">All work</a><a href="../story.html">My story</a></nav></div>
+</footer>
+
 <script src="diagrams.js?v=9" defer></script>
+<script src="../js/site.js?v=2" defer></script>
+</body>
+</html>

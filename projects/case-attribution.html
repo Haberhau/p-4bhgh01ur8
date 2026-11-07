@@ -1,52 +1,64 @@
 <!doctype html>
 <html lang="en">
+<head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Click &amp; collect glazing · Florian Haberhauer</title>
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <meta name="description" content="How CRM appointments, click &amp; collect orders, lab orders and net sales were linked into one attribution model, and what each system made difficult.">
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="case.css?v=3">
-<link rel="stylesheet" href="bridge.css?v=2">
-<link rel="stylesheet" href="process.css?v=7">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#f4f1ea">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preload" href="../fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/site.css?v=7">
+<link rel="stylesheet" href="process.css?v=7"><!-- the drawn diagrams and the process list -->
+<link rel="stylesheet" href="work.css?v=1">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="reading" aria-hidden="true"></div>
 
-<main>
-<header class="journey-bar" style="--sky1:#7fb0d8;--sky2:#eef2f4"><a href="../index.html#projects">← Back to the projects</a></header>
-<section class="chapter" id="attribution">
-  <div class="wrap attr-head">
-    <h1>How many click &amp; collect frames get <em>our</em> lenses?</h1>
-    <div>
-      <p class="body">At Silhouette, customers can reserve up to three frames online and try them on at a local optician. Nobody tracked whether the frame they kept was then glazed with our own lenses. The answer sat in three systems that were never built to talk to each other. I linked CRM appointments, order items, lab orders and actual net sales into one attribution model, and built in checks for how much of any match was just noise.</p>
-      <p class="internal">Company-internal project: this page shows how I worked, not the results.</p>
-    </div>
-  </div>
+<header class="nav" aria-label="Site">
+  <a class="mark" href="../index.html"><i aria-hidden="true"></i>Florian Haberhauer</a>
+  <nav class="links" aria-label="Main"><a href="../index.html#work" aria-current="page">Work</a><a href="../story.html">Story</a><a href="../index.html#cv">CV</a><a href="../index.html#contact">Contact</a></nav>
+  <a class="btn small" href="../Florian-Haberhauer-CV.pdf" download>Download CV</a>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="panel" aria-label="Menu"><span></span><span></span></button>
+</header>
+<nav class="panel" id="panel" aria-label="Menu">
+  <a href="../index.html#work">Work</a><a href="../story.html">My story</a><a href="../index.html#cv">CV</a><a href="../index.html#contact">Contact</a><a href="../Florian-Haberhauer-CV.pdf" download>Download CV</a>
+</nav>
+
+<main id="main">
+  <div class="wrap crumbs"><a href="../index.html#work"><span aria-hidden="true">←</span> All work</a><span>Project 02 of 09</span></div>
+
+  <header class="wrap head">
+    <h1 class="heading-1 grad">How many click &amp; collect frames get our lenses?</h1>
+    <p class="meta">At work · Silhouette · Analysis · CRM, orders, lab data</p>
+    <p class="sub body-7">At Silhouette, customers can reserve up to three frames online and try them on at a local optician. Nobody tracked whether the frame they kept was then glazed with our own lenses. The answer sat in three systems that were never built to talk to each other. I linked CRM appointments, order items, lab orders and actual net sales into one attribution model, and built in checks for how much of any match was just noise.</p><!-- TODO(Florian): outcome number for the proof strip -->
+    <p class="note"><b>Company-internal.</b> This page shows how I worked; the results stay inside.</p>
+  </header>
+
   <div class="wrap">
-    <figure class="flow" aria-labelledby="flow-title">
-      <figcaption>
-        <h2 id="flow-title">Three systems, one row per frame</h2>
-        <p class="sub">Exports from three systems that were never built to talk to each other</p>
-      </figcaption>
-      <div data-diagram="sources" role="img" aria-label="Appointments and orders from the CRM, lens orders from the lab system and net sales from the sales report all feed one row per ordered frame, which feeds a dashboard with one filter per market."></div>
-    </figure>
-    <figure class="flow" aria-labelledby="window-title">
-      <figcaption>
-        <h2 id="window-title">When could a lens order belong to a click &amp; collect?</h2>
-        <p class="sub">The matching window around the appointment date</p>
-      </figcaption>
-      <div data-diagram="window" role="img" aria-label="A timeline of days around the appointment date. Lens orders from two days before to five days after the appointment, for the same optician and the same frame, could belong to the click and collect order. Earlier or later ones cannot."></div>
-    </figure>
-  </div>
-  <div class="wrap">
-    <figure class="flow" aria-labelledby="process-title">
-      <figcaption>
-        <h2 id="process-title">The process, step by step</h2>
-        <p class="sub">What the team did, what I did, and where each system made it hard</p>
-        <div class="legend"><span><i></i>Team</span><span><i class="me"></i>Me</span><span><i class="snag-key"></i>Snag in the data</span></div>
-      </figcaption>
+    <section class="part" data-reveal aria-labelledby="p1">
+      <h2 id="p1">The data</h2>
+      <div>
+        <p class="lead heading-5">Three systems, one row per frame.</p>
+        <p class="body body-3">Exports from three systems that were never built to talk to each other.</p>
+        <figure class="diagram"><div data-diagram="sources" role="img" aria-label="Appointments and orders from the CRM, lens orders from the lab system and net sales from the sales report all feed one row per ordered frame, which feeds a dashboard with one filter per market."></div></figure>
+      </div>
+    </section>
+    <section class="part" data-reveal aria-labelledby="p2">
+      <h2 id="p2">The matching window</h2>
+      <div>
+        <p class="lead heading-5">When could a lens order belong to a click &amp; collect?</p>
+        <p class="body body-3">The matching window around the appointment date.</p>
+        <figure class="diagram"><div data-diagram="window" role="img" aria-label="A timeline of days around the appointment date. Lens orders from two days before to five days after the appointment, for the same optician and the same frame, could belong to the click and collect order. Earlier or later ones cannot."></div></figure>
+      </div>
+    </section>
+    <section class="part" data-reveal aria-labelledby="p3">
+      <h2 id="p3">The process</h2>
+      <div>
+        <p class="lead heading-5">What the team did, what I did, and where each system made it hard.</p>
+        <figure class="diagram"><div class="legend"><span><i></i>Team</span><span><i class="me"></i>Me</span><span><i class="snag-key"></i>Snag in the data</span></div>
       <ol class="process">
         <li><span class="who">Team</span><div class="step"><b>The question</b><span>Of the click &amp; collect frames customers keep, how many are glazed with our lenses? Click &amp; collect was meant to bring lens sales too, but nobody could see whether it did.</span></div><div></div></li>
         <li><span class="who me">Me</span><div class="step"><b>Pull four exports from three systems</b><span>Appointments and click &amp; collect orders from the CRM, lens orders from the lab system, net sales from the sales report.</span></div><p class="snag"><strong>CRM</strong>The appointment and the order are separate records, linked only by the order ID, and one order holds up to three frames.</p></li>
@@ -58,17 +70,30 @@
         <li><span class="who me">Me</span><div class="step"><b>Count kept frames from real net sales</b><span>Kept versus returned comes from the sales report, not from an assumed return rate.</span></div><p class="snag"><strong>Sales report</strong>Returns don't show on the order; they only appear in net sales per optician and frame.</p></li>
         <li><span class="who me">Me</span><div class="step"><b>Build the pipeline and dashboard</b><span>A Python pipeline that rebuilds the model from fresh exports, and a Streamlit dashboard with one filter per market.</span></div><div></div></li>
         <li><span class="who">Team</span><div class="step"><b>Review and fix the sources</b><span>We went through the findings together; the data gaps were named and the exports fixed.</span></div><div></div></li>
-      </ol>
-    </figure>
-    <figure class="flow" aria-labelledby="tools-title">
-      <figcaption><h2 id="tools-title">Tools</h2></figcaption>
-      <div class="tags"><span>Python</span><span>Streamlit</span><span>CRM exports</span><span>Lab system exports</span><span>Sales report</span></div>
-    </figure>
+      </ol></figure>
+      </div>
+    </section>
+    <section class="part" data-reveal aria-labelledby="p4">
+      <h2 id="p4">Tools</h2>
+      <div>
+        <div class="chips" aria-label="Tools"><span>Python</span><span>Streamlit</span><span>CRM exports</span><span>Lab system exports</span><span>Sales report</span></div>
+      </div>
+    </section>
+
+    <a class="nextp" href="case-rebuy.html"><small>Next · Project 03 of 09</small><strong>Rebuy &amp; retention</strong><span class="arrow" aria-hidden="true">→</span></a>
+
+    <section class="talk" aria-labelledby="talk-h">
+      <h2 class="heading-3" id="talk-h">Hiring for a data role? Let's talk.</h2>
+      <div class="actions"><a class="btn" href="mailto:haberhauer34@gmail.com?subject=Hello%20Florian">Email me</a><a class="btn ghost" href="../Florian-Haberhauer-CV.pdf" download>Download CV</a></div>
+    </section>
   </div>
-</section>
 </main>
 
-<!-- p. 13 back cover -->
-<footer class="journey-foot"><a href="../index.html#projects">← Back to the projects</a><a href="../Florian-Haberhauer-CV.pdf" download>Download the CV</a><a href="mailto:haberhauer34@gmail.com?subject=Hello%20Florian">Get in touch →</a></footer>
-<script src="case.js?v=2" defer></script>
+<footer class="foot">
+  <div class="wrap"><span>© 2026 Florian Haberhauer</span><nav aria-label="Footer"><a href="../index.html#work">All work</a><a href="../story.html">My story</a></nav></div>
+</footer>
+
 <script src="diagrams.js?v=9" defer></script>
+<script src="../js/site.js?v=2" defer></script>
+</body>
+</html>
