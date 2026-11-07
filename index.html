@@ -4,71 +4,56 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Florian Haberhauer · Data Analyst</title>
-<meta name="description" content="Florian Haberhauer, data analyst in B2C reporting and CRM analytics who builds his own tools with AI. Journey, projects, CV and contact.">
+<meta name="description" content="Florian Haberhauer, data analyst in B2C reporting and CRM analytics who builds his own tools with AI. Projects, CV and contact.">
 <link rel="canonical" href="https://haberhau.github.io/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#f3f3f1">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://haberhau.github.io/">
 <meta property="og:title" content="Florian Haberhauer · Data Analyst">
-<meta property="og:description" content="I read the numbers, then build the tool. Data analyst in B2C reporting and CRM analytics who builds his own tools with AI. Scroll through the journey, then the projects.">
+<meta property="og:description" content="I read the numbers, then build the tool. Data analyst in B2C reporting and CRM analytics who builds his own tools with AI. Projects, CV and contact.">
 <meta property="og:image" content="https://haberhau.github.io/img/share.jpg?v=2">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Florian Haberhauer, in light type, with the line: I read the numbers. Then I build the tool. Beside it a small white model of his hometown with Florian as the one orange figure.">
 <meta name="twitter:card" content="summary_large_image">
 <script>
-  history.scrollRestoration = 'manual';   // the URL hash decides where we start, not the browser
-  window.startHash = location.hash;       // kept before the header starts rewriting the hash; a link to #projects etc. skips the journey's intro
-  if (!/^#(projects|cv|contact)$/.test(location.hash)) document.documentElement.classList.add('injourney');
-  // The text version: ?nogl, or no WebGL, or the 3D engine failing to load. The same page, with the full sentences and no animation.
-  if (/[?&]nogl\b/.test(location.search)) document.documentElement.classList.add('text');
-  if (/[?&]still\b/.test(location.search)) document.documentElement.classList.add('still');   // ?still previews reduced motion
+  // The journey moved to story.html; old links to it (#journey, ?nogl, ?still) go there.
+  if (location.hash === '#journey' || /[?&](nogl|still)\b/.test(location.search)) location.replace('story.html' + location.search);
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/site.css?v=4">
-<link rel="stylesheet" href="journey/journey.css?v=9">
-<style>
-  .topbar { position: fixed; left: 0; right: 0; }
-</style>
-<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }</script>
 <!-- Bump ?v= on the CSS and JS links whenever they change, so browsers don't keep running an old copy. -->
-<script type="module">if (!document.documentElement.classList.contains('text')) import('./journey/journey.js?v=6').catch(() => document.documentElement.classList.add('text'));</script>
-<noscript><style>body.intro { overflow: auto; } #journey { height: auto; } #journey .stage { display: none; } #fallback { display: block; }</style></noscript>
+<link rel="stylesheet" href="css/site.css?v=5">
+<style>
+  .hello { padding: clamp(40px, 7vh, 72px) 0 clamp(32px, 5vh, 48px); }
+  .hello h1 { font-size: clamp(28px, 3.6vw, 40px); margin-bottom: 12px; }
+  .hello .lede b { color: var(--ink); font-weight: 600; }
+  .hello .actions { margin: 20px 0 16px; }
+  .hello + .band { padding-top: clamp(40px, 6vh, 64px); }
+  .story-link { margin: 0; font-size: 15px; }
+</style>
 </head>
-<body class="intro">
-<a class="skip" href="?nogl">Skip to the text version</a>
+<body>
 <a class="skip" href="#projects">Skip to the projects</a>
 <header class="topbar">
   <div class="wrap bar">
-    <a class="brand" href="#journey">Florian Haberhauer</a>
-    <div id="controls"><span class="hint">Scroll to explore</span></div>
-    <nav aria-label="Main"><a href="#journey" data-nav="journey">Journey</a><a href="#projects" data-nav="projects">Projects</a><a href="#cv" data-nav="cv">CV</a><a href="#contact" data-nav="contact">Contact</a></nav>
+    <a class="brand" href="#top">Florian Haberhauer</a>
+    <nav aria-label="Main"><a href="#projects" data-nav="projects">Projects</a><a href="#cv" data-nav="cv">CV</a><a href="#contact" data-nav="contact">Contact</a><a href="story.html">My story</a></nav>
     <a class="btn small" href="Florian-Haberhauer-CV.pdf" download>Download CV</a>
   </div>
 </header>
 
 
 <main>
-<div id="journey" role="region" aria-label="Florian Haberhauer: the journey">
-  <div class="stage">
-    <canvas id="film" aria-label="A model of my story: the volleyball court, the family dealership, Kufstein, Silhouette, Barcelona and my desk at home"></canvas>
-    <div id="screenPlay" hidden>
-      <p><b>Data analyst.</b> I turn messy data into decisions and working tools.</p>
-      <div class="actions"><a class="intro-btn" href="#projects">View projects</a><button class="intro-btn" id="start" type="button"><span aria-hidden="true">▶</span>Follow my journey</button></div>
-    </div>
-    <article aria-live="polite"><span id="badge" hidden></span><span id="number">PROLOGUE</span><h1 id="title">Before the numbers.</h1><p id="voice">My story starts on a volleyball court.</p></article>
-  </div>
-  <section id="fallback">
-    <h2>My journey</h2>
+<section class="hello" id="top" aria-labelledby="top-h">
+  <div class="wrap">
+    <h1 id="top-h">Florian Haberhauer</h1>
     <p class="lede"><b>Data analyst.</b> I turn messy data into decisions and working tools.</p>
-    <p>I played volleyball from age ten until a knee injury ended my career. I chose business school in Kufstein over taking on our family dealership.</p>
-    <p>As a Digital Business Intern at Silhouette, I built dashboards and forecasting models, established the CRM data structure and helped test Salesforce. As Data Analyst, I owned B2C reporting, led the business side of the Salesforce rollouts and became technical system owner.</p>
-    <p>In Barcelona I continued as a Data Analyst for 25 hours a week. One of my assignments was to act as Scrum Master while we brought B2C fulfilment in-house. In the evenings I studied Big Data &amp; Analytics at EAE.</p>
-    <p>At my desk I build apps and plugins with AI and practise independent analysis on public data. Are you ready to be part of my journey?</p>
-    <div class="actions"><a class="btn" href="#projects">See the projects</a><a class="btn ghost" href="Florian-Haberhauer-CV.pdf" download>CV</a><a class="btn ghost" href="#contact">Get in touch</a></div>
-  </section>
-</div>
+    <p>Based in Amstetten, Austria, open to relocation.</p>
+    <div class="actions"><a class="btn" href="Florian-Haberhauer-CV.pdf" download>Download CV</a><a class="btn ghost" href="mailto:haberhauer34@gmail.com?subject=Hello%20Florian">Email me</a></div>
+    <p class="story-link"><a href="story.html">The longer story: from volleyball to data, as a 3D walk-through →</a></p>
+  </div>
+</section>
 
 <section class="band" id="projects" aria-labelledby="projects-h">
   <div class="wrap">
@@ -78,8 +63,11 @@
       <section class="group" aria-labelledby="g-work">
         <h3 id="g-work">At work · Silhouette</h3>
         <ul class="rows">
+          <!-- TODO(Florian): outcome number -->
           <li><a href="projects/reporting.html"><b>Reporting automation<small>Data analyst · since 2024</small></b><span>A weekly stream of emailed sales reports, pulled together by hand, now flows into the dashboards on its own every day, with Power Automate and Python.</span></a></li>
+          <!-- TODO(Florian): outcome number -->
           <li><a href="projects/case-attribution.html"><b>Click &amp; collect glazing<small>Analysis · CRM, orders, lab data</small></b><span>CRM appointments, orders, lab orders and net sales linked into one attribution model, with a baseline to tell signal from noise.</span></a></li>
+          <!-- TODO(Florian): outcome number -->
           <li><a href="projects/case-rebuy.html"><b>Rebuy &amp; retention<small>Analysis · SQL views in SQLite</small></b><span>Salesforce customer and sales data cleaned rule by rule into reusable SQL views: rebuy timing, next purchase and lapsed customers.</span></a></li>
         </ul>
       </section>
@@ -150,18 +138,21 @@
 
 
 <footer class="foot">
-  <div class="wrap bar"><span>© 2026 Florian Haberhauer</span><a href="?nogl">Text version of the journey</a></div>
+  <div class="wrap bar"><span>© 2026 Florian Haberhauer</span><span><a href="story.html">My story</a> · <a href="story.html?nogl">Text version</a></span></div>
 </footer>
 
 <script>
-  // Header: underline the section in view. Below the journey the URL follows too, so a reload lands where the reader was (the journey sets its own step).
+  // Header: underline the section in view, and let the URL follow so a reload lands where the reader was.
   const navLinks = [...document.querySelectorAll('[data-nav]')];
-  ['journey', 'projects', 'cv', 'contact'].forEach(id => new IntersectionObserver(es => es.forEach(e => {
+  const spy = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
+    const id = e.target.id;
     navLinks.forEach(a => a.setAttribute('aria-current', a.dataset.nav === id));
-    document.documentElement.classList.toggle('injourney', id === 'journey');   // the header carries the journey controls only there
-    if (id !== 'journey') history.replaceState(null, '', '#' + id);
-  }), { rootMargin: '-45% 0px -50% 0px' }).observe(document.getElementById(id)));
+    if (scrolled) history.replaceState(null, '', id === 'top' ? location.pathname : '#' + id);
+  }), { rootMargin: '-45% 0px -50% 0px' });
+  let scrolled = false;   // not before the first scroll, or it would overwrite the #cv a visitor arrived with before the browser jumps there
+  addEventListener('scroll', () => scrolled = true, { once: true, passive: true });
+  ['top', 'projects', 'cv', 'contact'].forEach(id => spy.observe(document.getElementById(id)));
 </script>
 </body>
 </html>
