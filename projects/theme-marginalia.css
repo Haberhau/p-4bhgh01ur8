@@ -4,13 +4,13 @@
 body.theme-marginalia {
   --ink: #362b20; --muted: #6e624f; --paper: #f5eee0; --line: #e2d5b9; --accent: #bc5a34;
   --card: #ece2cc; --card-back: #e2d5b9; --calm: #46647a; --sage: #6e8566;
-  --serif: ui-serif, "New York", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --serif: var(--font);
 }
 .theme-marginalia h1, .theme-marginalia h2, .theme-marginalia .project-name, .theme-marginalia .next-project strong, .theme-marginalia .metrics dt, .theme-marginalia blockquote, .theme-marginalia .suggestion h3 { font-family: var(--serif); }
 .theme-marginalia h1 { font-weight: 500; letter-spacing: -.025em; }
 .theme-marginalia h2 { font-weight: 500; letter-spacing: -.02em; }
-.theme-marginalia h1 em, .theme-marginalia h2 em { font-style: italic; color: var(--accent); }
-.theme-marginalia .project-name { font-size: 22px; font-style: italic; }
+.theme-marginalia h1 em, .theme-marginalia h2 em { font-style: normal; color: var(--accent); }
+.theme-marginalia .project-name { font-size: 22px; font-style: normal; }
 /* masthead: title left, a terracotta flourish, meta right */
 .theme-marginalia .site-header { border-bottom: 2px solid var(--ink); }
 .theme-marginalia .wordmark { font-family: var(--serif); font-size: 15px; }
@@ -28,7 +28,7 @@ body.theme-marginalia {
 .theme-marginalia mark.task { text-decoration-color: var(--accent); }
 .theme-marginalia .suggestion { padding: 18px 20px; margin: 0 0 16px; border-top: 0; }
 .theme-marginalia .suggestion:nth-of-type(even)::before { transform: rotate(1.2deg) translate(-3px, 4px); }
-.theme-marginalia .suggestion small { font: 600 11px -apple-system, system-ui, sans-serif; letter-spacing: .08em; }
+.theme-marginalia .suggestion small { font: 600 11px var(--font); letter-spacing: .08em; }
 .theme-marginalia .suggestion small.event { color: var(--calm); }
 .theme-marginalia .suggestion small.task { color: var(--accent); }
 .theme-marginalia .suggestion h3 { font-size: 20px; font-weight: 500; }
@@ -42,7 +42,7 @@ body.theme-marginalia {
 .theme-marginalia .asset-note { border-top-color: var(--card-back); }
 /* the launch note: an index card */
 .launch { display: inline-flex; align-items: center; gap: 12px; margin: 0; padding: 12px 22px; border-radius: 999px; font-size: 15px; font-weight: 600; }
-.theme-marginalia .launch { font: italic 500 18px var(--serif); padding: 14px 22px; text-decoration: underline 2px var(--accent); text-underline-offset: 6px; }   /* the app's annotation underline, not a side bar */
+.theme-marginalia .launch { font: 500 18px var(--serif); padding: 14px 22px; text-decoration: underline 2px var(--accent); text-underline-offset: 6px; }   /* the app's annotation underline, not a side bar */
 .theme-marginalia .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
 /* Reading order instead of numbered sections */
@@ -72,5 +72,5 @@ body.theme-marginalia {
 .theme-marginalia h1 em, .theme-marginalia h2 em { font-style: normal; }
 .theme-marginalia { --on-accent: #fff; }
 .facts-line { max-width: 560px; margin: 28px 0 0; padding-top: 18px; border-top: 1px solid var(--line); font: 500 17px/1.5 var(--serif); color: var(--ink); }
-.theme-marginalia .suggestion h3 small { margin-left: 8px; padding: 2px 8px; border-radius: 999px; font: 600 12px/1.6 -apple-system, system-ui, sans-serif; letter-spacing: .02em; vertical-align: 3px; background: #fbf6ec; }
+.theme-marginalia .suggestion h3 small { margin-left: 8px; padding: 2px 8px; border-radius: 999px; font: 600 12px/1.6 var(--font); letter-spacing: .02em; vertical-align: 3px; background: #fbf6ec; }
 .theme-marginalia .suggestion small.task { color: #9c4726; }
