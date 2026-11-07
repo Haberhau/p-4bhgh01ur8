@@ -1,12 +1,16 @@
-// journey/journey.js · the drawn journey at the top of the page (from mockups/7-drawn-opening-fixes.html).
+// journey/journey.js · the drawn journey on story.html (from mockups/7-drawn-opening-fixes.html, reworked in mock-up 13 "One line").
 // A desk, the court drawn on its screen, then one model the camera travels along as the reader scrolls #journey.
-// The page around it (header, projects, CV, contact) is plain HTML in index.html; ?nogl or a failure here shows the text version.
-// The ending: two helpers with the Claude and Codex marks as faces sweep the scenes back into the monitor (built from mockups/8-ai-helpers.js).
+// No scroll lock: the camera arrives on the monitor and scrolling takes over at once. A chapter rail (#rail) jumps to any caption;
+// each chapter gets about the same scroll (weights below); frames are drawn only while something moves.
+// ?nogl or a failure here shows the text version. The ending: two helpers with the Claude and Codex marks as faces sweep the
+// scenes back into the monitor (built from mockups/8-ai-helpers.js).
 async function start(){
+// The prints are canvas text: wait for Geist so they don't fall back to a system font.
+await Promise.all(['600 46px Geist','500 25px "Geist Mono"','400 34px Geist'].map(f=>document.fonts.load(f))).catch(()=>{});
 const THREE=await import('three');
 const {RoundedBoxGeometry}=await import('three/addons/geometries/RoundedBoxGeometry.js');
 const renderer=new THREE.WebGLRenderer({canvas:document.querySelector('#film'),antialias:true});
-renderer.setPixelRatio(Math.min(devicePixelRatio,1.7)); renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.5)); renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;
 const scene=new THREE.Scene(); scene.background=new THREE.Color(0xebe8de);scene.fog=new THREE.FogExp2(0xebe8de,.031);
 const camera=new THREE.PerspectiveCamera(33,1,.025,120);
@@ -49,10 +53,11 @@ mesh(monitor,new THREE.PlaneGeometry(3.08,1.73),screenMat,0,1.32,.051);
 function screenCard(lines,ending=false){
   const card=printSurface(monitor,3.08,1.73,0,1.32,.055,(ctx,w,h)=>{
     ctx.fillStyle='#f5f1e7';ctx.fillRect(0,0,w,h);ctx.textAlign='center';
-    ctx.fillStyle='#924426';ctx.font='25px monospace';ctx.fillText('FLORIAN HABERHAUER',w/2,h*.20);
-    ctx.fillStyle='#282b27';ctx.font='44px Georgia';
+    ctx.fillStyle='#924426';ctx.font='25px \"Geist Mono\"';ctx.fillText('FLORIAN HABERHAUER',w/2,h*.20);
+    ctx.fillStyle='#282b27';ctx.font='600 44px Geist';
     lines.forEach((line,i)=>ctx.fillText(line,w/2,h*(.39+i*.14)));
     if(ending){ctx.fillStyle='#c45c32';ctx.fillRect(w*.45,h*.75,w*.1,3)}
+    else{ctx.fillStyle='#6e6a60';ctx.font='500 18px "Geist Mono"';ctx.fillText('SCROLL, AND IT DRAWS ITSELF  ↓',w/2,h*.66)}
   },3);
   card.material.toneMapped=false;return card;
 }
@@ -145,7 +150,7 @@ function worktable(parent,x,z,width=2.4){
 }
 function reportPrint(ctx,w,h){
   ctx.fillStyle='#f6f3e8';ctx.fillRect(0,0,w,h);
-  ctx.fillStyle='#3e443f';ctx.font='bold 57px Arial';ctx.fillText('Sales reporting',42,91);
+  ctx.fillStyle='#3e443f';ctx.font='bold 57px Geist';ctx.fillText('Sales reporting',42,91);
   ctx.fillStyle='#b64d2b';ctx.fillRect(44,124,70,7);
   for(let i=0;i<6;i++){ctx.fillStyle='#d7d4c9';ctx.fillRect(44,164+i*36,w-94,3);ctx.fillStyle='#858c82';ctx.fillRect(44,176+i*36,85+(i*37)%160,5);}
 }
@@ -155,7 +160,7 @@ const board=group(studio,-2.5,0,-1.05);board.rotation.y=.15;
 box(board,.07,1.96,.10,color.wood,0,.98,0);
 box(board,1.48,1.81,.09,color.paper,0,1.65,0);
 printSurface(board,1.4,1.73,0,1.65,.05,(ctx,w,h)=>{
-  ctx.fillStyle='#d2ccc0';ctx.fillRect(0,0,w,h);ctx.fillStyle='#42443e';ctx.font='38px Georgia';ctx.fillText('Silhouette',55,90);
+  ctx.fillStyle='#d2ccc0';ctx.fillRect(0,0,w,h);ctx.fillStyle='#42443e';ctx.font='38px Geist';ctx.fillText('Silhouette',55,90);
   ctx.strokeStyle='#55584e';ctx.lineWidth=12;
   for(const x of [w*.29,w*.71]){ctx.beginPath();ctx.ellipse(x,h*.5,w*.17,h*.092,-.12,0,Math.PI*2);ctx.stroke()}
   ctx.beginPath();ctx.moveTo(w*.46,h*.49);ctx.quadraticCurveTo(w*.5,h*.46,w*.54,h*.49);ctx.stroke();
@@ -168,8 +173,8 @@ box(table,.075,.36,.06,color.steel,.69,1.08,-.24);
 box(table,1.18,.75,.06,color.ink,.69,1.52,-.23,.025);
 printSurface(table,1.1,.68,.69,1.52,-.195,reportPrint);
 const daily=printSurface(table,1.1,.68,.69,1.52,-.19,(ctx,w,h)=>{
-  ctx.fillStyle='#e9eee5';ctx.fillRect(0,0,w,h);ctx.fillStyle='#414a40';ctx.font='30px monospace';ctx.fillText('SALES REPORT',44,73);
-  ctx.font='94px Georgia';ctx.fillText('Updated',42,214);ctx.fillStyle='#a64725';ctx.font='34px Arial';ctx.fillText('Daily refresh',44,305);
+  ctx.fillStyle='#e9eee5';ctx.fillRect(0,0,w,h);ctx.fillStyle='#414a40';ctx.font='30px \"Geist Mono\"';ctx.fillText('SALES REPORT',44,73);
+  ctx.font='94px Geist';ctx.fillText('Updated',42,214);ctx.fillStyle='#a64725';ctx.font='34px Geist';ctx.fillText('Daily refresh',44,305);
 });
 box(table,.64,.035,.22,color.grey,.69,.91,.2,.015);
 const rollout=group(studio,2.55,0,-1.3);
@@ -177,9 +182,9 @@ box(rollout,.085,1.65,.08,color.wood,0,.825,-.08);
 box(rollout,2.14,1.16,.065,color.paper,0,1.6,0,.018);
 function rolloutFace(title,lines,z){
   return printSurface(rollout,2.06,1.08,0,1.6,z,(ctx,w,h)=>{
-    ctx.fillStyle='#f3eee1';ctx.fillRect(0,0,w,h);ctx.fillStyle='#915033';ctx.font='30px monospace';ctx.fillText('SALESFORCE',34,58);
-    ctx.fillStyle='#313830';ctx.font='50px Georgia';ctx.fillText(title,32,140);
-    ctx.font='34px Arial';lines.forEach((line,i)=>ctx.fillText(line,37,228+i*63));
+    ctx.fillStyle='#f3eee1';ctx.fillRect(0,0,w,h);ctx.fillStyle='#915033';ctx.font='30px \"Geist Mono\"';ctx.fillText('SALESFORCE',34,58);
+    ctx.fillStyle='#313830';ctx.font='50px Geist';ctx.fillText(title,32,140);
+    ctx.font='34px Geist';lines.forEach((line,i)=>ctx.fillText(line,37,228+i*63));
   });
 }
 rolloutFace('Testing the rollout',['Requirements','User acceptance testing'],.036);
@@ -191,13 +196,13 @@ const promoCard=group(promo,0,.105,0);
 box(promoCard,.62,.16,.012,color.paper,0,0,0);
 printSurface(promoCard,.6,.15,0,0,.007,(ctx,w,h)=>{
   ctx.fillStyle='#f6f3e8';ctx.fillRect(0,0,w,h);ctx.textAlign='center';
-  ctx.fillStyle='#7b7a71';ctx.font='22px monospace';ctx.fillText('DIGITAL BUSINESS',w/2,52);
-  ctx.fillStyle='#3e443f';ctx.font='64px Georgia';ctx.fillText('Intern',w/2,140);
+  ctx.fillStyle='#7b7a71';ctx.font='22px \"Geist Mono\"';ctx.fillText('DIGITAL BUSINESS',w/2,52);
+  ctx.fillStyle='#3e443f';ctx.font='64px Geist';ctx.fillText('Intern',w/2,140);
 });
 printSurface(promoCard,.6,.15,0,0,-.007,(ctx,w,h)=>{
   ctx.fillStyle='#c95b2d';ctx.fillRect(0,0,w,h);ctx.textAlign='center';
-  ctx.fillStyle='#fbe9dc';ctx.font='22px monospace';ctx.fillText('CONSUMER & DIGITAL BUSINESS',w/2,52);
-  ctx.fillStyle='#fff';ctx.font='64px Georgia';ctx.fillText('Data Analyst',w/2,140);
+  ctx.fillStyle='#fbe9dc';ctx.font='22px \"Geist Mono\"';ctx.fillText('CONSUMER & DIGITAL BUSINESS',w/2,52);
+  ctx.fillStyle='#fff';ctx.font='64px Geist';ctx.fillText('Data Analyst',w/2,140);
 }).rotation.y=Math.PI;
 // One Barcelona street in a locked shot: the day desk and the evening classroom face the same pavement.
 const city=group(scene,26,0,-12);
@@ -216,7 +221,7 @@ box(campus,3.45,.14,1.53,color.paper,0,2.24,0);
 for(const x of [-1.56,1.56])box(campus,.09,2.2,1.46,color.grey,x,1.1,0);
 const windowLight=material(0xeee7d4);windowLight.emissive.setHex(0xffbf79);
 box(campus,2.92,1.62,.04,windowLight,0,1.17,-.60);
-printSurface(campus,2.38,.31,0,2.13,.78,(ctx,w,h)=>{ctx.fillStyle='#f3ecde';ctx.fillRect(0,0,w,h);ctx.fillStyle='#3f423b';ctx.font='44px Arial';ctx.fillText('EAE BUSINESS SCHOOL',65,65)});
+printSurface(campus,2.38,.31,0,2.13,.78,(ctx,w,h)=>{ctx.fillStyle='#f3ecde';ctx.fillRect(0,0,w,h);ctx.fillStyle='#3f423b';ctx.font='44px Geist';ctx.fillText('EAE BUSINESS SCHOOL',65,65)});
 const classDesk=worktable(campus,0,.05,2);const cafe=worktable(city,-2.1,.55,1.45);
 function laptop(table,x=0){
   box(table,.6,.025,.39,color.steel,x,.90,.03,.01);
@@ -240,13 +245,13 @@ box(lastTable,.69,.032,.32,color.grey,0,.907,.19,.013);
 box(lastTable,1.78,.87,.055,color.ink,0,1.40,-.24,.025);
 projectPrints.forEach(([label,items,tint],i)=>{
   printSurface(lastTable,.552,.78,(i-1)*.57,1.40,-.208,(ctx,w,h)=>{
-    ctx.fillStyle='#eee9dd';ctx.fillRect(0,0,w,h);ctx.fillStyle='#313830';ctx.font='bold 85px monospace';ctx.fillText(label,36,144);
+    ctx.fillStyle='#eee9dd';ctx.fillRect(0,0,w,h);ctx.fillStyle='#313830';ctx.font='bold 85px \"Geist Mono\"';ctx.fillText(label,36,144);
     ctx.fillStyle='#'+tint.toString(16);ctx.fillRect(40,210,w-80,14);
     ctx.lineWidth=13;ctx.strokeStyle=ctx.fillStyle;
     if(i===0){ctx.strokeRect(270,325,205,330);ctx.fillRect(320,560,100,16)}
-    if(i===1){ctx.font='140px monospace';ctx.fillText('>_',230,545)}
+    if(i===1){ctx.font='140px \"Geist Mono\"';ctx.fillText('>_',230,545)}
     if(i===2){ctx.beginPath();ctx.moveTo(112,597);ctx.lineTo(271,497);ctx.lineTo(424,549);ctx.lineTo(625,336);ctx.stroke()}
-    ctx.fillStyle='#363831';ctx.font='53px Arial';items.forEach((item,n)=>ctx.fillText(item,36,817+n*75,w-72));
+    ctx.fillStyle='#363831';ctx.font='53px Geist';items.forEach((item,n)=>ctx.fillText(item,36,817+n*75,w-72));
   });
 });
 // Each sheet takes the same journey from a manual report to its place in the daily screen.
@@ -323,7 +328,7 @@ const claudeFace=faceTexture(g=>{
     g.beginPath();g.moveTo(128,128);g.lineTo(128+Math.cos(a)*r,128+Math.sin(a)*r);g.stroke()}
 });
 const codexFace=faceTexture(g=>{
-  g.fillStyle='#16181a';g.fillRect(0,0,256,256);g.fillStyle='#f4f4f2';g.font='bold 104px monospace';
+  g.fillStyle='#16181a';g.fillRect(0,0,256,256);g.fillStyle='#f4f4f2';g.font='bold 104px \"Geist Mono\"';
   g.textAlign='center';g.textBaseline='middle';g.fillText('>_',128,134);
 });
 function helper(face,rim){
@@ -343,7 +348,7 @@ const cards=[['workshop','HOME DESK'],['city','BARCELONA'],['studio','SILHOUETTE
   const card=group(stack,0,.035+j*.062,0);card.rotation.y=.12*Math.sin(j*2.1);
   box(card,.78,.05,.54,color.paper,0,0,0,.012);
   printSurface(card,.74,.5,0,.027,0,(ctx,w,h)=>{ctx.fillStyle='#f6f3e8';ctx.fillRect(0,0,w,h);ctx.fillStyle='#c95b2d';ctx.fillRect(40,h-70,w-80,10);
-    ctx.fillStyle='#3e443f';ctx.font='bold 54px monospace';ctx.textAlign='center';ctx.fillText(label,w/2,h/2,w-60)}).rotation.x=-Math.PI/2;
+    ctx.fillStyle='#3e443f';ctx.font='bold 54px \"Geist Mono\"';ctx.textAlign='center';ctx.fillText(label,w/2,h/2,w-60)}).rotation.x=-Math.PI/2;
   return {card,key};
 });
 const helperMid=V(0,0,0);
@@ -458,7 +463,7 @@ function updateCareer(s,time){
 }
 
 const captions=[
-['PROLOGUE','Before the numbers.','My story starts on a volleyball court.'],
+['PROLOGUE','Before the numbers.','My story starts on a volleyball court. Scroll, and it draws itself.'],
 ['2010–2018  /  VOLLEYBALL','I started at ten.','From age ten to the junior national team, volleyball gave my days their rhythm.'],
 ['AGE 18  /  THE SIDELINE','Then the court went quiet.','At eighteen, my knee gave out. For the first time in eight years, I had to choose what came next.'],
 ['AMSTETTEN  /  THE DEALERSHIP','The keys could have been mine.','My family had run this dealership for sixty years. Taking it over was a future I could already picture.'],
@@ -472,10 +477,17 @@ const captions=[
 ['2025–26  /  EAE BUSINESS SCHOOL','Each evening, I was a student again.','After work I studied Big Data & Analytics at EAE. A year later, I finished with a 9.23 out of 10 and a top grade for our thesis.'],
 ['AFTER HOURS  /  APPS AND PLUGINS','Back at my desk, I build for myself.','I use AI coding tools to build iOS apps like Porchlight and Marginalia, and plugins like sprintkit.'],
 ['AFTER HOURS  /  INDEPENDENT ANALYSIS','Some evenings start with a question.','Did Austria’s KlimaTicket change how people travelled? What happened to rents under Barcelona’s cap? I use public data to practise answering questions outside work.'],
+['NOW  /  AI AT WORK','The tools changed. The questions didn’t.','Claude and Codex help me build faster. Deciding what is worth building is still my job.'],
 ['YOUR MOVE','Are you ready to be part of my journey?','']
 ];
-const stops=[0,1.45,2.65,3.7,4.95,5.57,5.99,6.55,7.36,7.78,8.44,9.31,10.49,11.45,15.0];
-const cuts=[0,1.15,2.14,3.31,4.38,5.33,5.84,6.16,6.98,7.57,8.04,8.91,9.96,10.92,14.6];
+const stops=[0,1.45,2.65,3.7,4.95,5.57,5.99,6.55,7.36,7.78,8.44,9.31,10.49,11.45,13.3,15.0];
+const railLabels=['Start','Court','Bench','Keys','Kufstein','Intern','Testing','Analyst','Automation','Rollout','Barcelona','Evenings','Desk','Questions','AI','End'];
+// Scroll weight of each stretch between stops: every chapter gets about the same scroll, the long animations a little more.
+const weights=[1.3,1,1,1,1,1,1,1,1,1,1,1,1,1.7,1.7];
+const knots=weights.reduce((a,w)=>(a.push(a.at(-1)+w),a),[0]).map((k,_,a)=>k/a.at(-1));
+const toTime=f=>{f=Math.min(1,Math.max(0,f));const k=Math.max(0,knots.findLastIndex(x=>x<=f&&x<1));return stops[k]+(stops[k+1]-stops[k])*(f-knots[k])/(knots[k+1]-knots[k])};
+const toScroll=t=>{const k=Math.max(0,stops.findLastIndex(x=>x<=t&&x<stops.at(-1)));return knots[k]+(knots[k+1]-knots[k])*(t-stops[k])/(stops[k+1]-stops[k])};
+const cuts=[0,1.15,2.14,3.31,4.38,5.33,5.84,6.16,6.98,7.57,8.04,8.91,9.96,10.92,11.85,14.6];
 const shots=[
 [0,[0,2.39,.09],[0,2.39,-4.46]],
 [.42,[0,2.50,.74],[0,2.39,-4.46]],
@@ -506,18 +518,20 @@ const shots=[
 [14.85,[0,2.39,.09],[0,2.39,-4.46]],
 [15.0,[0,2.39,.09],[0,2.39,-4.46]]
 ];
-let reduced=matchMedia('(prefers-reduced-motion: reduce)'), current=-1;
+// Reduced motion, or ?still to preview it (story.html sets html.still).
+const motionQuery=matchMedia('(prefers-reduced-motion: reduce)'),still=document.documentElement.classList.contains('still');
+let reduced={get matches(){return still||motionQuery.matches}}, current=-1;
 const track=document.querySelector('#journey'),stage=track.querySelector('.stage');
 const range=()=>Math.max(1,track.offsetHeight-innerHeight);
 const play=document.querySelector('#screenPlay');
-let locked=true, openedAt=performance.now(), timed=null;
+let locked=false, openedAt=performance.now(), timed=null;
 history.scrollRestoration='manual';scrollTo(0,0);
 function begin(){
   if(!locked)return;unlock();
   // Slow enough to watch the court draw itself on the screen and roll out onto the floor; from there the reader scrolls.
   timed={from:0,to:stops[1],duration:reduced.matches?1:6000,at:performance.now()};
 }
-document.querySelector('#start').onclick=begin;
+document.querySelector('#start')?.addEventListener('click',begin);
 // Scrolling, keys or a click on the scene take over from that opening move.
 function interruptTravel(e){if(e.target?.closest?.('button'))return;timed=null}
 for(const event of ['wheel','touchstart','keydown','pointerdown'])addEventListener(event,interruptTravel,{passive:true});
@@ -527,24 +541,34 @@ function unlock(){locked=false;timed=null;play.hidden=true;document.body.classLi
 addEventListener('click',e=>{const a=e.target.closest?.('a[href^="#"]');if(!a||!locked||a.getAttribute('href')==='#journey')return;unlock();
   const heading=document.querySelector(a.getAttribute('href')+' h2');if(!heading)return;
   heading.tabIndex=-1;requestAnimationFrame(()=>heading.focus({preventScroll:true}));heading.addEventListener('blur',()=>heading.removeAttribute('tabindex'),{once:true})});
+// The chapter rail: one tick per caption; a click travels there.
+const rail=document.querySelector('#rail ol');
+const railButtons=railLabels.map((label,k)=>{const li=document.createElement('li'),b=document.createElement('button');b.type='button';b.innerHTML='<span>'+label+'</span>';b.setAttribute('aria-label','Chapter '+(k+1)+': '+label);
+  b.onclick=()=>{timed={from:shown,to:stops[k],duration:reduced.matches?1:Math.min(2600,900+Math.abs(stops[k]-shown)*260),at:performance.now()}};li.append(b);rail.append(li);return b});
 const deep=window.startHash&&window.startHash!=='#journey'&&document.getElementById(window.startHash.slice(1));
 if(deep){unlock();requestAnimationFrame(()=>deep.scrollIntoView())}
-let width=0,height=0,previousSheet=-1,previousSketch=-1,shown=0,lastFrame=0;
+let width=0,height=0,previousSheet=-1,previousSketch=-1,shown=0,lastFrame=0,lastS=-1,band=0;const article=document.querySelector('#journey article');
 renderer.setAnimationLoop(now=>{
 if(!timed&&track.getBoundingClientRect().bottom<0)return;   // below the journey: nothing to draw
 let driven=null;
 if(timed){
   const elapsed=Math.min(1,Math.max(0,(now-timed.at)/timed.duration));
   driven=THREE.MathUtils.lerp(timed.from,timed.to,smooth(elapsed));
-  scrollTo(0,range()*driven/stops.at(-1));
+  scrollTo(0,range()*toScroll(driven));
   if(elapsed===1)timed=null;
 }
 // The model eases after the scroll position, so a mouse wheel's steps glide instead of jumping; a long jump (a header link) cuts.
-const wanted=locked?0:driven??Math.min(stops.at(-1),Math.max(0,scrollY/range()*stops.at(-1)));
-shown=driven!=null||Math.abs(wanted-shown)>1.5?wanted:shown+(wanted-shown)*(1-Math.exp(-(now-lastFrame)/110));lastFrame=now;
+const wanted=locked?0:driven??toTime(scrollY/range());
+shown=driven!=null||Math.abs(wanted-shown)>1.5?wanted:shown+(wanted-shown)*(1-Math.exp(-(now-lastFrame)/70));lastFrame=now;
+if(Math.abs(wanted-shown)<.0005)shown=wanted;
 const raw=shown;const i=cuts.findLastIndex(c=>raw>=c);const s=reduced.matches?stops[i]:raw;
-if(current!==i){current=i;const [label,title,voice,badge]=captions[i];const promoted=document.querySelector('#badge');promoted.hidden=!badge;promoted.textContent=badge||'';document.querySelector('#number').textContent=label;document.querySelector('#title').textContent=title;document.querySelector('#voice').textContent=voice;document.documentElement.classList.toggle('journey-end',i===captions.length-1);document.querySelector('.hint').hidden=i===captions.length-1}
-if(width!==stage.clientWidth||height!==stage.clientHeight){width=stage.clientWidth;height=stage.clientHeight;renderer.setSize(width,height,false);camera.aspect=width/height;camera.fov=width<620?46:33;camera.updateProjectionMatrix()}
+// Draw only when something moves: the scroll, the arrival, the rally, the typing, the helpers.
+const arrive=reduced.matches?1:progress(Math.max(0,now-openedAt)/1000,.15,2.4);
+const resized=width!==stage.clientWidth||height!==stage.clientHeight;
+const alive=!reduced.matches&&(s<2.2||(s>10&&s<11.9)||(s>ENTER[0]-.05&&s<EXIT[1]+.05));
+if(s===lastS&&arrive>=1&&!alive&&!resized&&current===i)return;lastS=s;
+if(current!==i){current=i;const [label,title,voice,badge]=captions[i];const promoted=document.querySelector('#badge');promoted.hidden=!badge;promoted.textContent=badge||'';document.querySelector('#number').textContent=label;document.querySelector('#title').textContent=title;document.querySelector('#voice').textContent=voice;document.documentElement.classList.toggle('journey-end',i===captions.length-1);railButtons.forEach((b,k)=>{b.classList.toggle('passed',k<=i);b.toggleAttribute('aria-current',k===i)})}
+if(width!==stage.clientWidth||height!==stage.clientHeight){width=stage.clientWidth;height=stage.clientHeight;renderer.setSize(width,height,false);camera.aspect=width/height;camera.fov=width<620?46:33;camera.updateProjectionMatrix();band=article.offsetHeight}
 // On the way back each scene folds flat just as the helpers reach it; the net folds as they push the court in.
 const back=lineBack(s),hu=helperU(s),keep=u=>back>0?smooth((hu-u)/.05+1-smooth(back/.08)):1;   // eases in, so the home desk doesn't snap
 const keepCourt=1-progress(s,PUSH[0]+.12,PUSH[0]+.22),keepBench=keep(foldAt.bench),keepDealer=keep(foldAt.dealer);
@@ -581,7 +605,7 @@ trail.children.forEach((section,n)=>{const k=keep(foldAt.trail[n]);section.scale
 placeHelpers(s,time,keep);
 const flip=progress(s,6.28,6.52);promoCard.rotation.y=Math.PI*flip;promoCard.position.y=.105+.12*Math.sin(Math.PI*flip);
 // The sheet rolls back into the monitor, then the question fades in over the court.
-welcome.visible=locked;invitation.visible=s>=ASK[0];invitation.material.opacity=progress(s,...ASK);
+welcome.visible=s<.03;invitation.visible=s>=ASK[0];invitation.material.opacity=progress(s,...ASK);
 document.body.classList.toggle('closing',invitation.visible);
 document.body.classList.toggle('gathering',s>11.78&&!invitation.visible);
 const end=shots.findIndex(k=>k[0]>s);const a=shots[end<0?shots.length-1:Math.max(0,end-1)],b=shots[end<0?shots.length-1:end];const u=a===b?0:progress(s,a[0],b[0]);
@@ -612,8 +636,9 @@ if(!locked&&s<.42){
   camera.position.lerp(V(0,2.39,-4.46+screenDistance),align);
 }
 if(invitation.visible&&camera.aspect<1)camera.position.set(0,2.39,-4.46+screenDistance);
+if(arrive<1){const eased=smooth(arrive);camera.position.lerpVectors(V(4.5,3.4,5.1),camera.position.clone(),eased);target.lerpVectors(V(0,1.52,-4.4),target.clone(),eased)}
 camera.lookAt(target);
-const offset=locked?(play.classList.contains('below')?play.offsetHeight/2:0):height*.058*progress(s,0,.4)*(1-progress(s,14.5,14.9));
+const offset=locked?(play.classList.contains('below')?play.offsetHeight/2:0):band*.5*progress(s,0,.4)*(1-progress(s,14.5,14.9));
 camera.setViewOffset(width,height,0,offset,width,height);
 camera.updateMatrixWorld();
 // The intro sits on the screen under the headline when it fits, otherwise on a card under the monitor; never past the bottom edge.

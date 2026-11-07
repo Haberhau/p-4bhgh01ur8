@@ -1,68 +1,51 @@
-/* The drawn journey at the top of the page (journey/journey.js). Its own look: warm greys, Georgia headlines, mono labels,
-   one orange. The scroll track (#journey) is tall; the stage inside it stays put while the camera travels. */
-#journey { position: relative; height: 1620vh; background: #ebe8de; color: #302e29; font: 15px/1.45 system-ui, sans-serif; }
-/* dvh: the height actually visible, so on iPhone the caption sits above Safari's bottom bar, not under it */
+/* The drawn journey on story.html (journey/journey.js). Paper greys, Geist, one orange.
+   The scroll track (#journey) is tall; the stage inside it stays put while the camera travels.
+   The caption is a flat paper band under the model, with the chapter rail along its top edge. */
+body { background: #ebe8de; }
+#journey { position: relative; height: 1000vh; }
 #journey .stage { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; }
 #film { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+#screenPlay { display: none; }
 
-/* Caption, pinned to the bottom of the stage */
-#journey article { position: absolute; z-index: 1; left: 0; bottom: 0; width: 100%; padding: 42px 5% 28px; background: linear-gradient(transparent, #f3f0e9eb 48%); pointer-events: none; }
-#journey h1 { font: 400 clamp(29px, 4.5vw, 62px)/1 Georgia, serif; letter-spacing: -.045em; margin: .2em 0 .15em; }
-#journey p { margin: 0; max-width: 65ch; }
-#number, #controls .hint { font: 11px/1.4 ui-monospace, monospace; letter-spacing: .08em; }
-#number { color: #934122; }
-#badge { display: table; margin: 0 0 8px; padding: 3px 10px; border-radius: 999px; background: #b4471f; color: #fff; font: 600 10px/1.5 ui-monospace, monospace; letter-spacing: .08em; animation: promote .7s cubic-bezier(.3, 1.5, .5, 1); }
+/* The caption: a flat paper band under the model, like the label under a photo. No veil over the scene. */
+#journey article { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; background: #ebe8de; border-top: 1px solid var(--line);
+                   padding: var(--s-100) var(--gutter) var(--s-300); pointer-events: none; }
+.cap { display: grid; gap: var(--s-75) var(--s-600); align-items: end; max-width: var(--wrap); margin: 0 auto; }
+@media (min-width: 1024px) { .cap { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); } }
+#number { display: block; font: 500 12px/16px var(--mono); letter-spacing: .06em; color: var(--orange-text); margin-bottom: var(--s-75); }
+#title { font-size: 36px; line-height: 40px; font-weight: 600; letter-spacing: -.025em; }
+#voice { color: var(--muted); max-width: 60ch; }
+@media (max-width: 767px) { #title { font-size: 24px; line-height: 32px; } #voice { font-size: 14px; line-height: 20px; } }
+#badge { display: table; margin: 0 0 var(--s-75); padding: var(--s-25) var(--s-75); border-radius: var(--r-full); background: #b4471f; color: #fff; font: 500 12px/16px var(--mono); letter-spacing: .04em;
+         animation: pop .5s var(--ease); }
 #badge[hidden] { display: none; }
-@keyframes promote { from { transform: scale(.3); opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { #badge { animation: none; } }
+@keyframes pop { from { transform: scale(.6); opacity: 0; } }
 
-/* Opening intro: a role line and two actions under the headline on the monitor. journey.js places it: on the screen when it
-   fits, otherwise on a card just under the monitor (phones). */
-#screenPlay { position: absolute; z-index: 3; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; animation: arrive .5s ease-out; }
-#screenPlay[hidden] { display: none; }
-#screenPlay.below { padding: 18px 16px; border-radius: 10px; background: #f5f1e7f5; box-shadow: 0 10px 30px #3a332424; }
-#screenPlay p { margin: 0; max-width: 46ch; font: 400 clamp(16px, 1.3vw, 19px)/1.45 system-ui, sans-serif; color: #4b4840; text-wrap: balance; }
-#screenPlay p b { color: #282b27; font-weight: 600; }
-#screenPlay .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 0; }
-#screenPlay.below .actions { flex-direction: column; align-self: stretch; }
-#screenPlay .intro-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 20px; border: 1px solid #292c28; border-radius: 7px;
-                         background: #292c28; color: #fff; font: 500 15px/1 system-ui, sans-serif; text-decoration: none; cursor: pointer; transition: background .2s; }
-#screenPlay .intro-btn:hover { background: #3d403b; }
-#screenPlay #start { background: transparent; color: #292c28; }
-#screenPlay #start:hover { background: #292c280f; }
-#journey button:focus-visible, #screenPlay .intro-btn:focus-visible { outline: 3px solid #ae421f; outline-offset: 2px; }
-@keyframes arrive { from { opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { #screenPlay { animation: none; } }
-html.still #screenPlay { animation: none; }
+/* Chapter rail: one tick per chapter along the top of the band; passed chapters in orange, a click travels there */
+#rail { max-width: var(--wrap); margin: 0 auto var(--s-200); pointer-events: auto; }
+#rail ol { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-50); }
+#rail li { flex: 1; min-width: 0; }
+#rail button { display: block; width: 100%; padding: var(--s-75) 0 0; border: 0; background: none; cursor: pointer; text-align: left; position: relative; color: var(--faint); }
+#rail button::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; border-radius: var(--r-full); background: var(--line); transition: background-color .3s var(--ease); }
+#rail button:hover::before { background: #bdb7a8; }
+#rail button.passed::before { background: var(--orange); }
+#rail button span { display: block; padding-right: var(--s-50); font: 400 12px/16px var(--mono); white-space: nowrap; overflow: hidden; text-overflow: clip; }
+#rail button[aria-current] span { color: var(--ink); }
+@media (max-width: 1279px) { #rail button span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); } #rail button { padding-top: var(--s-200); } #rail button::before { top: var(--s-75); } }
 
-/* Scroll hint, a small pill in the middle of the header while the journey is in view */
-#controls { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; gap: 2px; padding: 4px; background: #f7f5efd9;
-            -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid #c8c4b780; border-radius: 999px; white-space: nowrap; }
-#controls .hint { color: #6a665d; padding: 3px 10px; }
-#controls .hint[hidden] { display: none; }
-html:not(.injourney) #controls, html.journey-end #controls { display: none; }   /* on the last screen the site nav takes over */
-html.injourney .topbar { background: linear-gradient(#f7f5efeb, #f7f5ef00); border-bottom-color: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
-html.injourney .topbar .btn { display: none; }
-
-/* Intro: the page waits on the monitor until Start */
-html:not(.text) body.intro { overflow: hidden; }
-body.intro #journey article, body.gathering #journey article { visibility: hidden; }
-body.intro #controls { display: none; }   /* on the start screen the site nav shows instead */
-body.closing #journey article { width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); padding: 0; }
-
-/* The pill sits between the brand and the site nav; where they would touch, the nav goes (the last scene links on). */
-@media (max-width: 1180px) { html.injourney:not(.text):not(.journey-end) body:not(.intro) .topbar nav { display: none; } }
-@media (max-width: 640px) {
-  #controls { position: static; transform: none; order: 3; width: 100%; justify-content: center; margin-bottom: 8px; }
-  #journey article { padding: 30px 16px 20px; }
-  #journey h1 { max-width: 18ch; }
-}
+/* The last screen: the question is on the monitor; the band offers the next step instead */
+#endActions { display: none; flex-wrap: wrap; gap: var(--s-100); align-items: center; justify-content: center; max-width: var(--wrap); margin: 0 auto; pointer-events: auto; }
+body.closing .cap { display: none; }
+body.closing #endActions { display: flex; }
 
 /* Text version: ?nogl, no WebGL, or the 3D failing to load */
-#fallback { display: none; max-width: 720px; margin: 0 auto; padding: calc(var(--bar-h) + 48px) max(16px, 4vw) 64px; }
-#fallback h2 { font-size: clamp(28px, 3.6vw, 40px); margin-bottom: 24px; }
-html.text #journey { height: auto; background: none; }
+#fallback { display: none; max-width: 720px; margin: 0 auto; padding: calc(var(--s-900) + var(--s-400)) var(--gutter) var(--s-700); }
+#fallback p { margin-top: var(--s-200); }
+#fallback .actions { display: flex; flex-wrap: wrap; gap: var(--s-100); margin-top: var(--s-400); }
+html.text #journey { height: auto; }
 html.text #journey .stage { display: none; }
 html.text #fallback { display: block; }
-html.text #controls { display: none; }
-#fallback p { margin: 0 0 14px; }
+.next { padding: var(--s-700) 0; border-top: 1px solid var(--line); background: var(--bg); }
+.next .wrap { display: flex; flex-wrap: wrap; gap: var(--s-100); align-items: center; }
+.next h2 { width: 100%; margin-bottom: var(--s-200); }
+html.text .next { display: none; }

@@ -5,83 +5,80 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>My story · Florian Haberhauer</title>
 <meta name="description" content="Florian Haberhauer's story as a 3D walk-through: from volleyball and the family dealership to data analyst in Linz and Barcelona, and building his own tools with AI.">
-<link rel="canonical" href="https://haberhau.github.io/story.html">
+<link rel="canonical" href="https://haberhau.github.io/p-4bhgh01ur8/story.html">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#f3f3f1">
+<meta name="theme-color" content="#ebe8de">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://haberhau.github.io/story.html">
+<meta property="og:url" content="https://haberhau.github.io/p-4bhgh01ur8/story.html">
 <meta property="og:title" content="My story · Florian Haberhauer">
 <meta property="og:description" content="From volleyball to data, as a 3D walk-through.">
-<meta property="og:image" content="https://haberhau.github.io/img/share.jpg?v=2">
+<meta property="og:image" content="https://haberhau.github.io/p-4bhgh01ur8/img/share.jpg?v=2">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Florian Haberhauer, in light type, with the line: I read the numbers. Then I build the tool. Beside it a small white model of his hometown with Florian as the one orange figure.">
 <meta name="twitter:card" content="summary_large_image">
 <script>
   history.scrollRestoration = 'manual';   // the journey always starts at the top
   window.startHash = location.hash;
-  document.documentElement.classList.add('injourney');
+  document.documentElement.classList.add('js');
   // The text version: ?nogl, or no WebGL, or the 3D engine failing to load. The same page, with the full sentences and no animation.
   if (/[?&]nogl\b/.test(location.search)) document.documentElement.classList.add('text');
   if (/[?&]still\b/.test(location.search)) document.documentElement.classList.add('still');   // ?still previews reduced motion
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/site.css?v=5">
-<link rel="stylesheet" href="journey/journey.css?v=9">
-<style>
-  .topbar { position: fixed; left: 0; right: 0; }
-  .band.next .actions { margin-top: 0; }
-  html.text .band.next { display: none; }   /* the text version has the same three actions */
-</style>
-<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }</script>
+<link rel="preload" href="fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <!-- Bump ?v= on the CSS and JS links whenever they change, so browsers don't keep running an old copy. -->
-<script type="module">if (!document.documentElement.classList.contains('text')) import('./journey/journey.js?v=6').catch(() => document.documentElement.classList.add('text'));</script>
-<noscript><style>body.intro { overflow: auto; } #journey { height: auto; } #journey .stage { display: none; } #fallback { display: block; }</style></noscript>
+<link rel="stylesheet" href="css/site.css?v=6">
+<link rel="stylesheet" href="journey/journey.css?v=10">
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }</script>
+<script type="module">if (!document.documentElement.classList.contains('text')) import('./journey/journey.js?v=7').catch(() => document.documentElement.classList.add('text'));</script>
+<noscript><style>#journey { height: auto; } #journey .stage { display: none; } #fallback { display: block; }</style></noscript>
 </head>
-<body class="intro">
+<body>
 <a class="skip" href="?nogl">Skip to the text version</a>
-<a class="skip" href="index.html#projects">Skip to the projects</a>
-<header class="topbar">
-  <div class="wrap bar">
-    <a class="brand" href="index.html">Florian Haberhauer</a>
-    <div id="controls"><span class="hint">Scroll to explore</span></div>
-    <nav aria-label="Main"><a href="index.html#projects">Projects</a><a href="index.html#cv">CV</a><a href="index.html#contact">Contact</a><a href="story.html" aria-current="page">My story</a></nav>
-    <a class="btn small" href="Florian-Haberhauer-CV.pdf" download>Download CV</a>
-  </div>
-</header>
 
+<header class="nav" aria-label="Site">
+  <a class="mark" href="index.html"><i aria-hidden="true"></i>Florian Haberhauer</a>
+  <nav class="links" aria-label="Main"><a href="index.html#work">Work</a><a href="story.html" aria-current="page">Story</a><a href="index.html#cv">CV</a><a href="index.html#contact">Contact</a></nav>
+  <a class="btn small" href="Florian-Haberhauer-CV.pdf" download>Download CV</a>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="panel" aria-label="Menu"><span></span><span></span></button>
+</header>
+<nav class="panel" id="panel" aria-label="Menu">
+  <a href="index.html#work">Work</a><a href="story.html">My story</a><a href="index.html#cv">CV</a><a href="index.html#contact">Contact</a><a href="Florian-Haberhauer-CV.pdf" download>Download CV</a>
+</nav>
 
 <main>
 <div id="journey" role="region" aria-label="Florian Haberhauer: the journey">
   <div class="stage">
     <canvas id="film" aria-label="A model of my story: the volleyball court, the family dealership, Kufstein, Silhouette, Barcelona and my desk at home"></canvas>
-    <div id="screenPlay" hidden>
-      <p><b>Data analyst.</b> I turn messy data into decisions and working tools.</p>
-      <div class="actions"><a class="intro-btn" href="index.html#projects">View projects</a><button class="intro-btn" id="start" type="button"><span aria-hidden="true">▶</span>Follow my journey</button></div>
-    </div>
-    <article aria-live="polite"><span id="badge" hidden></span><span id="number">PROLOGUE</span><h1 id="title">Before the numbers.</h1><p id="voice">My story starts on a volleyball court.</p></article>
+    <div id="screenPlay" hidden></div>
+    <article>
+      <nav id="rail" aria-label="Chapters"><ol></ol></nav>
+      <div class="cap" aria-live="polite">
+        <div><span id="badge" hidden></span><span id="number">PROLOGUE</span><h1 id="title">Before the numbers.</h1></div>
+        <p id="voice">My story starts on a volleyball court. Scroll, and it draws itself.</p>
+      </div>
+      <div id="endActions"><a class="btn" href="index.html#work">See the work</a><a class="btn ghost" href="Florian-Haberhauer-CV.pdf" download>Download CV</a><a class="btn ghost" href="index.html#contact">Get in touch</a></div>
+    </article>
   </div>
   <section id="fallback">
-    <h2>My journey</h2>
-    <p class="lede"><b>Data analyst.</b> I turn messy data into decisions and working tools.</p>
+    <h2 class="heading-2">My story</h2>
+    <p class="body-7"><b>Data analyst.</b> I read the numbers, then I build the tool.</p>
     <p>I played volleyball from age ten until a knee injury ended my career. I chose business school in Kufstein over taking on our family dealership.</p>
     <p>As a Digital Business Intern at Silhouette, I built dashboards and forecasting models, established the CRM data structure and helped test Salesforce. As Data Analyst, I owned B2C reporting, led the business side of the Salesforce rollouts and became technical system owner.</p>
     <p>In Barcelona I continued as a Data Analyst for 25 hours a week. One of my assignments was to act as Scrum Master while we brought B2C fulfilment in-house. In the evenings I studied Big Data &amp; Analytics at EAE.</p>
     <p>At my desk I build apps and plugins with AI and practise independent analysis on public data. Are you ready to be part of my journey?</p>
-    <div class="actions"><a class="btn" href="index.html#projects">See the projects</a><a class="btn ghost" href="Florian-Haberhauer-CV.pdf" download>CV</a><a class="btn ghost" href="index.html#contact">Get in touch</a></div>
+    <div class="actions"><a class="btn" href="index.html#work">See the work</a><a class="btn ghost" href="Florian-Haberhauer-CV.pdf" download>Download CV</a><a class="btn ghost" href="index.html#contact">Get in touch</a></div>
   </section>
 </div>
 
-<section class="band next" aria-label="Where to next">
-  <div class="wrap">
-    <div class="actions"><a class="btn" href="index.html#projects">See the projects</a><a class="btn ghost" href="Florian-Haberhauer-CV.pdf" download>CV (PDF)</a><a class="btn ghost" href="index.html#contact">Get in touch</a></div>
-  </div>
+<section class="next" aria-labelledby="next-h">
+  <div class="wrap"><h2 class="heading-4" id="next-h">That's the story. Here's the work.</h2>
+    <a class="btn" href="index.html#work">See the work</a><a class="btn ghost" href="Florian-Haberhauer-CV.pdf" download>Download CV</a><a class="btn ghost" href="index.html#contact">Get in touch</a></div>
 </section>
 </main>
 
-
 <footer class="foot">
-  <div class="wrap bar"><span>© 2026 Florian Haberhauer</span><a href="?nogl">Text version of the journey</a></div>
+  <div class="wrap"><span>© 2026 Florian Haberhauer</span><nav aria-label="Footer"><a href="index.html">Home</a><a href="?nogl">Text version</a></nav></div>
 </footer>
+<script src="js/site.js?v=1" defer></script>
 </body>
 </html>
